@@ -1,0 +1,5 @@
+# No public access
+<Files *.php>
+	Order Deny,Allow
+	Deny from all
+</Files>

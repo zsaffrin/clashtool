@@ -1,0 +1,18 @@
+# Avoid issues with classes/functions called 'index'
+Options -MultiViews
+
+# Enable Rewrite Engine
+RewriteEngine on
+
+# Disallow direct folder browsing
+Options -Indexes
+
+# Rewrite base path
+RewriteBase /clashtool/
+
+# Rewrite rules
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
