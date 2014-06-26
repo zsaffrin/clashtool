@@ -11,7 +11,7 @@
 	 * 	Default root path
 	 * 	Set to localhost path while in Development mode
 	 */
-	define('URL', 'http://10.0.0.2/~zach/clashtool/');
+	define('URL', 'http://localhost:8888/clashtool/');
 
 	/**
 	 * 	Database credentials
