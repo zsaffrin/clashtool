@@ -1,7 +1,7 @@
 <?php
 
 class Home extends Controller {
-	
+
 	// Home page - Default landing page
 	public function index() {
 		session_start();
