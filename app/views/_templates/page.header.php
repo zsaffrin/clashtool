@@ -39,7 +39,7 @@
 						<ul class="nav-right">
 							<?php
 							if ($user->level>1) { ?>
-								<li><b><?php echo $user->firstname.' '.$user->lastname; ?></b>
+								<li><span class="button label"><?php echo $user->firstname.' '.$user->lastname; ?></span>
 								<li><a href="<?php echo URL.'home/logout'; ?>" class="button">Log Out</a>
 							<?php } else { ?>
 								<li><a href="#" class="button inactive">Sign Up</a>
