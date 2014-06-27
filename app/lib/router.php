@@ -33,7 +33,6 @@ class Router {
 				// If method not found, call index() method
 				$this->url_controller->index();
 			}
-
 		} else {
 			// If controller not found, call Home/index
 			require './app/controllers/home-controller.php';
