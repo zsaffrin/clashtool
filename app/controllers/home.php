@@ -6,9 +6,9 @@ class Home extends Controller {
 	public function index() {
 		session_start();
 		$userModel = $this->loadModel('userModel');
-		require 'app/views/_templates/page.header.php';
+		require 'app/views/_templates/header.php';
 		require 'app/views/home/index.php';
-		require 'app/views/_templates/page.footer.php';
+		require 'app/views/_templates/footer.php';
 	}
 
 	// Log In
@@ -30,9 +30,9 @@ class Home extends Controller {
 			}
 			
 		} else {
-			require 'app/views/_templates/page.header.php';
+			require 'app/views/_templates/header.php';
 			require 'app/views/home/login.php';
-			require 'app/views/_templates/page.footer.php';
+			require 'app/views/_templates/footer.php';
 		}
 	}
 
