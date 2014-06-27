@@ -38,6 +38,20 @@ class Controller {
 		// Return model object with common database connection
 		return new $model_name($this->db);
 	}
+
+	/**
+	 * 	System message display handler
+	 */
+	public function showMessage() {
+		if (isset($_SESSION['msg'])) {
+			echo '
+				<div class=\'size-1-1\'>
+					<p>'.$_SESSION['msg'].' 
+				</div>
+			';
+			unset($_SESSION['msg']);
+		}
+	}
 }
 
 ?>
