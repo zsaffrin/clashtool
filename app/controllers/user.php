@@ -41,6 +41,36 @@ class User extends Controller {
 		$userModel->saveUserData();
 		header('Location: '.URL.'user/myAccount');
 	}
+
+	// User password self-service view
+	public function changePassword() {
+		// Set up Form and inputs
+		$this->view->form_inputs = array(
+			array(
+				'id' => 'password', 
+				'type' => 'password',
+				'title' => 'Current Password'),
+			array(
+				'id' => 'new_password', 
+				'type' => 'password',
+				'title' => 'New Password'),
+			array(
+				'id' => 'new_password_confirm', 
+				'type' => 'password',
+				'title' => 'Confirm New Password'));
+		$this->view->form_action = 'login';
+		$this->view->form_submit_label = 'Change Password';
+
+		// Render view
+		$this->view->render('user/changepassword');
+	}
+
+	// Save new user password
+	public function saveUserPassword() {
+		$userModel = $this->loadModel('userModel');
+		$userModel->saveUserPassword();
+		header('Location: '.URL.'user/myAccount');
+	}
 }
 
 ?>

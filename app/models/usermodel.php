@@ -53,14 +53,58 @@ class userModel {
 				':lname' => $_POST['lastname'],
 				':email' => $_POST['email'],
 				':userid' => Session::get('user_id')));
-		$count = $query->rowCount();
 		if ($query->rowCount()==1) {
 			Session::set('user_firstname', $_POST['firstname']);
 			Session::set('user_lastname', $_POST['lastname']);
 			Session::set('user_email', $_POST['email']);
+			$_SESSION["msg_success"][] = SUCCESS_USER_INFO_UPDATED;
 			return true;
 		} else {
 			$_SESSION["msg_errors"][] = ERROR_USER_UPDATE_FAILED; 
+		}
+	}
+
+	/**
+	 * 	Change user password
+	 */
+	public function saveUserPassword() {
+		
+		// Check the form fields
+		if (empty($_POST['password'])) { 
+			$_SESSION["msg_errors"][] = ERROR_PASSWORD_FIELD_EMPTY;
+		} elseif (empty($_POST['new_password'])) {
+			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_FIELD_EMPTY;
+		} elseif (empty($_POST['new_password_confirm'])) {
+			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY;
+		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
+			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
+		} elseif (strlen($_POST['new_password']) <= 6) {
+			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
+		} elseif (empty($_POST['password']) 
+			AND !empty($_POST['new_password']) 
+			AND !empty($_POST['new_password_confirm']) 
+			AND ($_POST['new_password'] === $_POST['new_password_confirm']) 
+			AND (strlen($_POST['new_password']) >= 6)) {
+
+			// Validate current password
+			$user = $this->getUser(Session::get('user_id'));
+			$hpass = hash_hmac('sha512', $_POST['password'], $user->user_code);
+			if ($hpass !== $user->user_password) {
+				$_SESSION["msg_errors"][] = ERROR_CURRENT_PASSWORD_WRONG;
+				return false;
+			}
+
+			// Set new password
+			$sql = 'UPDATE users SET user_password = :pass WHERE user_id = :userid';
+			$query = $this->db->prepare($sql);
+			$query->execute(array(':userid' => $user->user_id, ':pass' => $hpass));
+			if ($query->rowCount()==1) {
+				$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
+				return true;
+			} else {
+				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED; 
+			}
+
 		}
 	}
 }
