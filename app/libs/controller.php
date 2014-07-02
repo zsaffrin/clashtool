@@ -12,7 +12,9 @@ class Controller {
 	 * 	One DB connection will be passed between all models
 	 */
 	function __construct() {
+		Session::start();
 		$this->openDatabaseConnection();
+		$this->view = new View();
 	}
 
 	/**
@@ -34,7 +36,7 @@ class Controller {
 	 */
 	public function loadModel($model_name) {
 		// Convert model name to lowercase and load model
-		require 'app/models/'.strtolower($model_name).'.php';
+		require MODELS_PATH.strtolower($model_name).'.php';
 		// Return model object with common database connection
 		return new $model_name($this->db);
 	}
@@ -44,12 +46,7 @@ class Controller {
 	 */
 	public function showMessage() {
 		if (isset($_SESSION['msg'])) {
-			echo '
-				<div class=\'size-1-1\'>
-					<p>'.$_SESSION['msg'].' 
-				</div>
-			';
-			unset($_SESSION['msg']);
+			require 'app/views/_templates/sys_message.php';
 		}
 	}
 }

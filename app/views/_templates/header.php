@@ -1,11 +1,3 @@
-<?php
-	// Check for user object, create one if none
-	if (!isset($_SESSION['activeUser'])) {
-		$user = $userModel->newUser();
-	} else {
-		$user = $_SESSION['activeUser'];
-	}
-?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -22,35 +14,4 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/clashtool-style.css">
 	</head>
 	<body>
-
-		<!-- Banner and Primary Navigation -->
-		<div class="section">
-			<div class="container">
-				<div class="size-1-1">
-					<header class="align-c">
-						<h1>Clash of Clans Toolkit</h1>
-					</header>
-				</div>
-				<div class="size-1-1">
-					<nav>
-						<ul class="nav-left">
-							<li><a href="<?php echo URL ?>" class="button">Home</a>
-						</ul>
-						<ul class="nav-right">
-							<?php
-							if ($user->level>1) { ?>
-								<li><span class="button label"><?php echo $user->firstname.' '.$user->lastname; ?></span>
-								<li><a href="<?php echo URL.'user/myaccount'; ?>" class="button">My Account</a>
-								<li><a href="<?php echo URL.'user/logout'; ?>" class="button">Log Out</a>
-							<?php } else { ?>
-								<li><a href="#" class="button inactive">Sign Up</a>
-								<li><a href="<?php echo URL.'user/login'; ?>" class="button">Log In</a>
-							<?php }
-							?>
-							
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</div>
 		

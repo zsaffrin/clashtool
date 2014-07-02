@@ -2,7 +2,9 @@
 	<div class="container">
 		<div class="size-1-3 grid-drop">&nbsp;</div>
 		<div class="size-1-3 grid-fill align-c">
-			<?php User::showMessage(); ?>
+			
+			<!-- SHOW MESSAGE HERE -->
+
 			<form name="login" method="post" action="login">
 				<input type="text" name="username" placeholder="Username" class="text"><br>
 				<input type="password" name="password" placeholder="Password" class="text"><br>
