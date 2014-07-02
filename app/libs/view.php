@@ -8,6 +8,10 @@ class View {
 		require VIEWS_PATH.$view_path.'.php';
 		require VIEWS_PATH.'_templates/footer.php';
 	}
+
+	public function form() {
+		require VIEWS_PATH.'_templates/form.php';
+	}
 }
 
 ?>

@@ -40,5 +40,6 @@
 	 **/
 	define('ERROR_LOGIN_FIELDS_EMPTY', 'Missing Username or Password');
 	define('ERROR_INVALID_LOGIN', 'Login failed - Username or Password incorrect');
+	define('ERROR_USER_NOT_FOUND', 'User record not found');
 
 ?>

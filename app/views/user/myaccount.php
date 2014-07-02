@@ -1,5 +1,16 @@
 <div class="section">
 	<div class="container">
-		<h2>My Account</h2>
+
+		<div class="size-1-1">
+			<h2>My Account</h2>
+		</div>
+
+		<div class="size-1-2">
+			<?php $this->form(); ?>
+		</div>
+		<div class="size-1-2">
+			&nbsp;
+		</div>
+
 	</div>
 </div>

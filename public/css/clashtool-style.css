@@ -44,8 +44,13 @@ h1, h2, h3, h4, h5, h6 {
 /* 	TABLES
 ======================================== */
 
-.input-list th {
-	padding: 0 1em;
+.vert th {
+	text-align: left;
+	padding: 0 0.5em;
+	white-space: nowrap;
+}
+.vert td {
+	width: 100%;
 }
 
 /* 	INPUTS
@@ -60,7 +65,14 @@ input {
 	padding: 0.15em 0.2em;
 	margin: 0.25em;
 	text-indent: 0.25em;
-	width: 25em;
+	width: 100%;
+}
+.submit {
+	padding: 0.5em;
+	text-align: center;
+}
+.submit input {
+	width: auto;
 }
 
 /* 	BANNER AND NAVIGATION

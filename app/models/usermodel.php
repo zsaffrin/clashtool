@@ -14,6 +14,29 @@ class userModel {
 		}
 	}
 
+	/**
+	 * 	Get User - Fetch user data from DB
+	 */
+	public function getUser($userid=null) {
+		if ($userid) {
+			$sql = 'SELECT 	*
+					FROM 	users 
+					WHERE 	user_id = :userid';
+			$query = $this->db->prepare($sql);
+			$query->execute(array(':userid' => $userid));
+			if ($query->rowCount() != 1) { 
+				$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND; 
+				exit(ERROR_USER_NOT_FOUND);
+			}
+			$user = $query->fetch();
+			return $user;
+
+		} else {
+			$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND;
+			exit(ERROR_USER_NOT_FOUND);
+		}
+	}
+
 }
 
 ?>

@@ -22,7 +22,6 @@ class loginModel {
 		$query = $this->db->prepare($sql);
 		$query->execute(array(':user' => $_POST['username']));
 		if ($query->rowCount() != 1) {
-			Session::set('msg', ERROR_INVALID_LOGIN);
 			return false;
 		}
 

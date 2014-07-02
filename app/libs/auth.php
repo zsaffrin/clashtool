@@ -13,7 +13,7 @@ class Auth {
 		// If user not logged in, redirect to login page
 		if (!isset($_SESSION['user_logged_in'])) {
 			Session::destroy();
-			header('location: '.URL.'user/login');
+			header('location: '.URL.'login');
 		}
 	}
 }
