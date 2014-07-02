@@ -37,6 +37,32 @@ class userModel {
 		}
 	}
 
+	/**
+	 * 	Save user information to DB
+	 */
+	public function saveUserData() {
+		$sql = 'UPDATE 	users
+				SET 	user_firstname = :fname,
+						user_lastname = :lname,
+						user_email = :email 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(
+			array(
+				':fname' => $_POST['firstname'],
+				':lname' => $_POST['lastname'],
+				':email' => $_POST['email'],
+				':userid' => Session::get('user_id')));
+		$count = $query->rowCount();
+		if ($query->rowCount()==1) {
+			Session::set('user_firstname', $_POST['firstname']);
+			Session::set('user_lastname', $_POST['lastname']);
+			Session::set('user_email', $_POST['email']);
+			return true;
+		} else {
+			$_SESSION["msg_errors"][] = ERROR_USER_UPDATE_FAILED; 
+		}
+	}
 }
 
 ?>

@@ -7,7 +7,7 @@ class User extends Controller {
 		Auth::checkLogin();
 	}
 
-	// User account self-service
+	// User account self-service view
 	public function myAccount() {
 		$userModel = $this->loadModel('userModel');
 		$this->view->user = $userModel->getUser(Session::get('user_id'));
@@ -29,10 +29,17 @@ class User extends Controller {
 				'type' => 'text',
 				'title' => 'Email',
 				'value' => $this->view->user->user_email));
-		$this->view->form_action = 'myaccount';
+		$this->view->form_action = 'saveUserData';
 		$this->view->form_submit_label = 'Save Changes';
 
 		$this->view->render('user/myaccount');
+	}
+
+	// Save user info updates
+	public function saveUserData() {
+		$userModel = $this->loadModel('userModel');
+		$userModel->saveUserData();
+		header('Location: '.URL.'user/myAccount');
 	}
 }
 
