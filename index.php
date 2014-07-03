@@ -1,13 +1,12 @@
 <?php
 
 	// Load primary config settings
-	require './app/lib/config.php';
+	require './app/config/config.php';
 
-	// Load base Controller class
-	require './app/controllers/controller.php';
+	// Load primary config settings
+	require './app/config/autoload.php';
 
 	// Load and initialize controller Router
-	require './app/lib/router.php';
-	$router = new Router();
+	$app = new Application();
 
 ?>
