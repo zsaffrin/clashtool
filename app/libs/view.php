@@ -12,6 +12,13 @@ class View {
 	public function form() {
 		require VIEWS_PATH.'_templates/form.php';
 	}
+
+	public function showMessage() {
+		require VIEWS_PATH.'_templates/message.php';
+		
+		Session::set('msg_errors', null);
+		Session::set('msg_success', null);
+	}
 }
 
 ?>

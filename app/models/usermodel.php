@@ -80,7 +80,7 @@ class userModel {
 			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
 		} elseif (strlen($_POST['new_password']) <= 6) {
 			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
-		} elseif (empty($_POST['password']) 
+		} elseif (!empty($_POST['password']) 
 			AND !empty($_POST['new_password']) 
 			AND !empty($_POST['new_password_confirm']) 
 			AND ($_POST['new_password'] === $_POST['new_password_confirm']) 
@@ -90,7 +90,7 @@ class userModel {
 			$user = $this->getUser(Session::get('user_id'));
 			$hpass = hash_hmac('sha512', $_POST['password'], $user->user_code);
 			if ($hpass !== $user->user_password) {
-				$_SESSION["msg_errors"][] = ERROR_CURRENT_PASSWORD_WRONG;
+				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;
 				return false;
 			}
 

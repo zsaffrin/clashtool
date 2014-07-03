@@ -40,14 +40,15 @@
 	 **/
 	define('ERROR_LOGIN_FIELDS_EMPTY', 'Missing Username or Password');
 	define('ERROR_INVALID_LOGIN', 'Login failed - Username or Password incorrect');
-	define('ERROR_USER_NOT_FOUND', 'User record not found');
+	define('ERROR_USER_NOT_FOUND', 'User not found');
 	define('ERROR_USER_UPDATE_FAILED', 'User record update failed');
-	define('ERROR_PASSWORD_FIELD_EMPTY', 'Please enter your current Password');
-	define('ERROR_NEW_PASSWORD_FIELD_EMPTY', 'Please enter your new Password');
+	define('ERROR_USERNAME_FIELD_EMPTY', 'Username field was empty');
+	define('ERROR_PASSWORD_FIELD_EMPTY', 'Password field was empty');
+	define('ERROR_NEW_PASSWORD_FIELD_EMPTY', 'New Password field was empty');
 	define('ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY', 'Please confirm your new Password');
 	define('ERROR_PASSWORD_CONFIRM_WRONG', 'New Password and Confirmation do not match. Please try again.');
 	define('ERROR_NEW_PASSWORD_TOO_SHORT', 'New Password too short. Please use at least 6 characters.');
-	define('ERROR_CURRENT_PASSWORD_WRONG', 'Current Password incorrect. Please try again.');
+	define('ERROR_PASSWORD_WRONG', 'Incorrect Password');
 	define('ERROR_PASSWORD_UPDATE_FAILED', 'Password update failed');
 
 	/**

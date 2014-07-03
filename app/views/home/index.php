@@ -1,7 +1,7 @@
 <div class="section">
 	<div class="container">
 		
-		<!-- Message display goes here -->
+		<?php $this->showMessage(); ?>
 
 		<div class="size-1-1">
 			<p>This is the Home/index View 

@@ -2,34 +2,25 @@
 
 class Login extends Controller {
 
+	public function __construct() {
+		parent::__construct();
+	}
+
 	/**
 	* 	Default login page
 	**/
-	function index() {
-		// If form is submitted
-		if (isset($_POST['submitted'])) {
-			if (!empty($_POST['username'])&&!empty($_POST['password'])) {
-				$loginModel = $this->loadModel('loginModel');
-				$loginSuccess = $loginModel->login();
-				if ($loginSuccess) { 
-					header('Location: '.URL);
-				}
-			} else {
-				Session::set('msg', ERROR_LOGIN_FIELDS_EMPTY);
-			}
-		}
-		
+	public function index() {
 		// Set up Form and inputs
 		$this->view->form_inputs = array(
 			array(
 				'id' => 'username', 
 				'type' => 'text',
-				'title' => 'Username'),
+				'title' => 'Username'), 
 			array(
 				'id' => 'password', 
 				'type' => 'password',
 				'title' => 'Password'));
-		$this->view->form_action = 'login';
+		$this->view->form_action = 'login/login';
 		$this->view->form_submit_label = 'Log In';
 
 		// Render view
@@ -37,9 +28,22 @@ class Login extends Controller {
 	}
 
 	/**
+	* 	Log in
+	**/
+	public function login() {
+		$loginModel = $this->loadModel('loginModel');
+		$loginSuccess = $loginModel->login();
+		if ($loginSuccess) {
+			header('Location: '.URL);
+		} else {
+			header('Location: '.URL.'login');
+		}
+	}
+
+	/**
 	* 	Log out
 	**/
-	function logout() {
+	public function logout() {
 		$loginModel = $this->loadModel('loginModel');
 		$loginModel->logout();
 		header('location: '.URL);
