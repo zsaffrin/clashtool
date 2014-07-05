@@ -5,6 +5,8 @@
 			<h2>Change My Password</h2>
 		</div>
 
+		<?php $this->showMessage(); ?>
+
 		<div class="size-1-2">
 			<?php $this->form(); ?>
 		</div>

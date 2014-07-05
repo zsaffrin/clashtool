@@ -7,6 +7,11 @@ class User extends Controller {
 		Auth::checkLogin();
 	}
 
+	// Default view behavior
+	public function index() {
+		$this->view->render('user/index');
+	}
+
 	// User account self-service view
 	public function myAccount() {
 		$userModel = $this->loadModel('userModel');
@@ -58,7 +63,7 @@ class User extends Controller {
 				'id' => 'new_password_confirm', 
 				'type' => 'password',
 				'title' => 'Confirm New Password'));
-		$this->view->form_action = 'login';
+		$this->view->form_action = 'saveUserPassword';
 		$this->view->form_submit_label = 'Change Password';
 
 		// Render view
@@ -68,8 +73,12 @@ class User extends Controller {
 	// Save new user password
 	public function saveUserPassword() {
 		$userModel = $this->loadModel('userModel');
-		$userModel->saveUserPassword();
-		header('Location: '.URL.'user/myAccount');
+		if ($userModel->saveUserPassword()) {
+			header('Location: '.URL.'user/myAccount');
+		} else {
+			header('Location: '.URL.'user/changePassword');
+		}
+		
 	}
 }
 

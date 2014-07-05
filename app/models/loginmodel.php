@@ -10,24 +10,24 @@ class loginModel {
 	 * 	Log user in based on authentication of POST variables
 	 */
 	public function login() {
-		if (empty($_POST['username'])) {
-			$_SESSION["msg_errors"][] = ERROR_USERNAME_FIELD_EMPTY;
+		if (empty($_POST['email'])) {
+			$_SESSION["msg_errors"][] = ERROR_EMAIL_FIELD_EMPTY;
 		} elseif (empty($_POST['password'])) {
 			$_SESSION["msg_errors"][] = ERROR_PASSWORD_FIELD_EMPTY;
-		} elseif (!empty($_POST['username']) 
+		} elseif (!empty($_POST['email']) 
 			AND !empty($_POST['password'])) {
-
 			$sql = 'SELECT 	user_id, 
-							user_username, 
-							user_password, 
-							user_code, 
+							user_email, 
 							user_firstname, 
 							user_lastname, 
-							user_email 
+							user_password, 
+							user_code, 
+							user_level, 
+							user_failed_logins 
 					FROM 	users 
-					WHERE 	user_username like :user';
+					WHERE 	user_email like :email';
 			$query = $this->db->prepare($sql);
-			$query->execute(array(':user' => $_POST['username']));
+			$query->execute(array(':email' => $_POST['email']));
 			if ($query->rowCount() != 1) {
 				$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND;
 				return false;
@@ -37,11 +37,10 @@ class loginModel {
 			if ($hpass==$dbUser->user_password) {
 				Session::set('user_logged_in', true);
 				Session::set('user_id', $dbUser->user_id);
-				Session::set('user_username', $dbUser->user_username);
 				Session::set('user_firstname', $dbUser->user_firstname);
 				Session::set('user_lastname', $dbUser->user_lastname);
 				Session::set('user_email', $dbUser->user_email);
-				Session::set('user_level', 4);
+				Session::set('user_level', $dbUser->user_level);
 				return true;
 			} else {
 				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;

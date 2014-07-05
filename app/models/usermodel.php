@@ -61,6 +61,7 @@ class userModel {
 			return true;
 		} else {
 			$_SESSION["msg_errors"][] = ERROR_USER_UPDATE_FAILED; 
+			return false;
 		}
 	}
 
@@ -95,14 +96,16 @@ class userModel {
 			}
 
 			// Set new password
+			$hashedNewPass = hash_hmac('sha512', $_POST['new_password'], $user->user_code);
 			$sql = 'UPDATE users SET user_password = :pass WHERE user_id = :userid';
 			$query = $this->db->prepare($sql);
-			$query->execute(array(':userid' => $user->user_id, ':pass' => $hpass));
+			$query->execute(array(':userid' => $user->user_id, ':pass' => $hashedNewPass));
 			if ($query->rowCount()==1) {
 				$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
 				return true;
 			} else {
 				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED; 
+				return false;
 			}
 
 		}

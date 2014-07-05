@@ -13,9 +13,9 @@ class Login extends Controller {
 		// Set up Form and inputs
 		$this->view->form_inputs = array(
 			array(
-				'id' => 'username', 
+				'id' => 'email', 
 				'type' => 'text',
-				'title' => 'Username'), 
+				'title' => 'Email'), 
 			array(
 				'id' => 'password', 
 				'type' => 'password',

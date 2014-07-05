@@ -30,19 +30,19 @@
 	 * 	Database credentials
 	 */
 	define('DB_TYPE', 'mysql');
-	define('DB_HOST', 'zsdb.zachsaffrin.com');
+	define('DB_HOST', 'localhost');
 	define('DB_NAME', 'clashtool');
-	define('DB_USER', 'doodadippity');
-	define('DB_PASS', 'NBS81okY9O91wg');
+	define('DB_USER', 'root');
+	define('DB_PASS', 'mysql');
 
 	/**
 	 * 	Error messages
 	 **/
-	define('ERROR_LOGIN_FIELDS_EMPTY', 'Missing Username or Password');
-	define('ERROR_INVALID_LOGIN', 'Login failed - Username or Password incorrect');
+	define('ERROR_LOGIN_FIELDS_EMPTY', 'Missing Email or Password');
+	define('ERROR_INVALID_LOGIN', 'Login failed - Email or Password incorrect');
 	define('ERROR_USER_NOT_FOUND', 'User not found');
 	define('ERROR_USER_UPDATE_FAILED', 'User record update failed');
-	define('ERROR_USERNAME_FIELD_EMPTY', 'Username field was empty');
+	define('ERROR_EMAIL_FIELD_EMPTY', 'Email field was empty');
 	define('ERROR_PASSWORD_FIELD_EMPTY', 'Password field was empty');
 	define('ERROR_NEW_PASSWORD_FIELD_EMPTY', 'New Password field was empty');
 	define('ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY', 'Please confirm your new Password');
