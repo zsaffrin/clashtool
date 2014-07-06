@@ -35,14 +35,51 @@ class loginModel {
 			$dbUser = $query->fetch();
 			$hpass = hash_hmac('sha512', $_POST['password'], $dbUser->user_code);
 			if ($hpass==$dbUser->user_password) {
+				
+				// Set session data
 				Session::set('user_logged_in', true);
 				Session::set('user_id', $dbUser->user_id);
 				Session::set('user_firstname', $dbUser->user_firstname);
 				Session::set('user_lastname', $dbUser->user_lastname);
 				Session::set('user_email', $dbUser->user_email);
 				Session::set('user_level', $dbUser->user_level);
+
+				// Reset Failed Login count and stamp Last Login time
+				$sql = 'UPDATE 	users 
+						SET 	user_failed_logins = 0, 
+								user_last_login = :now 
+						WHERE 	user_id = :userid';
+				$query = $this->db->prepare($sql);
+				$query->execute(
+						array(
+							':userid' => $dbUser->user_id, 
+							':now' => date('Y-m-d H:i:s')
+						)
+					);
+				if ($query->rowCount()!=1) {
+					$_SESSION["msg_errors"][] = ERROR_FAILED_LOGIN_RESET_FAILED;
+					return false;
+				}
+
+				// Return success
 				return true;
+
 			} else {
+				
+				// Increment Failed Login count
+				$sql = 'UPDATE 	users 
+						SET 	user_failed_logins = :failcount, 
+								user_last_failed_login = :lastfail 
+						WHERE 	user_id = :userid';
+				$query = $this->db->prepare($sql);
+				$query->execute(
+					array(
+						':userid' => $dbUser->user_id, 
+						':failcount' => abs($dbUser->user_failed_logins + 1), 
+						':lastfail' => date('Y-m-d H:i:s')
+						)
+					);
+
 				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;
 				return false;
 			}

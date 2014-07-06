@@ -50,6 +50,7 @@
 	define('ERROR_NEW_PASSWORD_TOO_SHORT', 'New Password too short. Please use at least 6 characters.');
 	define('ERROR_PASSWORD_WRONG', 'Incorrect Password');
 	define('ERROR_PASSWORD_UPDATE_FAILED', 'Password update failed');
+	define('ERROR_FAILED_LOGIN_RESET_FAILED', 'Failed Login count reset failed');
 
 	/**
 	 * 	Success messages
