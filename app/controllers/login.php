@@ -48,6 +48,62 @@ class Login extends Controller {
 		$loginModel->logout();
 		header('location: '.URL);
 	}
+
+	/**
+	* 	Reset password without validation
+	* 	Used for Forgot Password (via email) and Admin-initiated reset
+	**/
+	public function resetPassword($userid) {
+		// Admins only
+		if (!Auth::checkLevel(4)) {
+			header('location: '.URL);
+		}
+
+		// Fetch target user info
+		$loginModel = $this->loadModel('loginModel');
+		$userInfo = $loginModel->getUserInfo($userid);
+		if (!$userInfo) {
+			header('location: '.URL);
+		} else {
+			$this->view->user_firstname = $userInfo->user_firstname;
+			$this->view->user_lastname = $userInfo->user_lastname;
+		}
+
+		// Set up form and inputs
+		$this->view->form_inputs = array(
+			array(
+				'id' => 'new_password', 
+				'type' => 'password',
+				'title' => 'New Password'),
+			array(
+				'id' => 'new_password_confirm', 
+				'type' => 'password',
+				'title' => 'Confirm New Password'));
+		$this->view->form_hidden_fields = array(
+			array(
+				'id' => 'userid', 
+				'value' => $userid
+			)
+		);
+		$this->view->form_action = 'resetPassword_action';
+		$this->view->form_submit_label = 'Save New Password';
+
+		// Render view
+		$this->view->render('login/resetpassword');
+	}
+
+	/**
+	* 	Save new password
+	**/
+	public function resetPassword_action() {
+		$loginModel = $this->loadModel('loginModel');
+		if ($loginModel->resetPassword()) {
+			header('location: '.URL.'login/resetPassword');	
+		} else {
+			header('location: '.URL);
+		}
+		
+	}
 }
 
 ?>

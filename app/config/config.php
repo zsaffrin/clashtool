@@ -51,6 +51,12 @@
 	define('ERROR_PASSWORD_WRONG', 'Incorrect Password');
 	define('ERROR_PASSWORD_UPDATE_FAILED', 'Password update failed');
 	define('ERROR_FAILED_LOGIN_RESET_FAILED', 'Failed Login count reset failed');
+	define('ERROR_ARGUMENT_MISSING', 'Argument Missing - ');
+	define('ERROR_NO_USERS_FOUND', 'No users found');
+	define('ERROR_FIRST_NAME_FIELD_EMPTY', 'First Name field empty');
+	define('ERROR_LAST_NAME_FIELD_EMPTY', 'Last Name field empty');
+	define('ERROR_EMAIL_TAKEN', 'An account for this email address already exists');
+	define('ERROR_USER_CREATION_FAILED', 'User creation failed');
 
 	/**
 	 * 	Success messages

@@ -13,7 +13,11 @@
 				<ul class="nav-right">
 					<?php
 					// If user is logged in, display internal navigation
-					if (Session::get('user_logged_in')) { ?>
+					if (Session::get('user_logged_in')) { 
+						// Admin tools
+						if ($_SESSION['user_level']>=4) { ?>
+							<li><a href="<?php echo URL.'admin/users'; ?>" class="button">Users</a>
+						<?php } ?>
 						<li><span class="button label"><?php echo Session::get('user_firstname').' '.Session::get('user_lastname'); ?></span>
 						<li><a href="<?php echo URL.'user/myaccount'; ?>" class="button">My Account</a>
 						<li><a href="<?php echo URL.'login/logout'; ?>" class="button">Log Out</a>

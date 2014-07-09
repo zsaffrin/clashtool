@@ -89,17 +89,18 @@ class userModel {
 
 			// Validate current password
 			$user = $this->getUser(Session::get('user_id'));
-			$hpass = hash_hmac('sha512', $_POST['password'], $user->user_code);
-			if ($hpass !== $user->user_password) {
+			if (password_verify($_POST['password'], $user->user_password)) {
 				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;
 				return false;
 			}
 
+			// Hash new password
+			$hpass = password_hash($_POST['new_password'], PASSWORD_DEFAULT, ['cost' => HASH_COST_FACTOR]);
+
 			// Set new password
-			$hashedNewPass = hash_hmac('sha512', $_POST['new_password'], $user->user_code);
 			$sql = 'UPDATE users SET user_password = :pass WHERE user_id = :userid';
 			$query = $this->db->prepare($sql);
-			$query->execute(array(':userid' => $user->user_id, ':pass' => $hashedNewPass));
+			$query->execute(array(':userid' => $user->user_id, ':pass' => $hpass));
 			if ($query->rowCount()==1) {
 				$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
 				return true;
@@ -109,41 +110,11 @@ class userModel {
 			}
 
 		}
+
+		// Default return
+		return false;
 	}
 
-	/**
-	 * 	Reset user password
-	 */
-	public function resetUserPassword($userid) {
-		
-		// Check the form fields
-		if (empty($_POST['new_password'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_FIELD_EMPTY;
-		} elseif (empty($_POST['new_password_confirm'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY;
-		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
-			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
-		} elseif (strlen($_POST['new_password']) <= 6) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
-		} elseif (!empty($_POST['new_password'])
-			AND !empty($_POST['new_password_confirm']) 
-			AND $_POST['new_password'] !== $_POST['new_password_confirm'] 
-			AND strlen($_POST['new_password']) <= 6) {
-
-			// Set new password
-			$hashedNewPass = hash_hmac('sha512', $_POST['new_password'], $user->user_code);
-			$sql = 'UPDATE users SET user_password = :pass WHERE user_id = :userid';
-			$query = $this->db->prepare($sql);
-			$query->execute(array(':userid' => $userid, ':pass' => $hashedNewPass));
-			if ($query->rowCount()==1) {
-				$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
-				return true;
-			} else {
-				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED; 
-				return false;
-			}
-		}
-	}
 }
 
 ?>

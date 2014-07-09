@@ -81,24 +81,6 @@ class User extends Controller {
 		
 	}
 
-	// User password reset - when responding to password reset email
-	public function resetPassword() {
-		// Set up Form and inputs
-		$this->view->form_inputs = array(
-			array(
-				'id' => 'new_password', 
-				'type' => 'password',
-				'title' => 'New Password'),
-			array(
-				'id' => 'new_password_confirm', 
-				'type' => 'password',
-				'title' => 'Confirm New Password'));
-		$this->view->form_action = '';
-		$this->view->form_submit_label = 'Update Password';
-
-		// Render view
-		$this->view->render('user/resetpassword');
-	}
 }
 
 ?>
