@@ -1,6 +1,6 @@
 <?php
 
-class Router {
+class Application {
 
 	private $url_controller;
 	private $url_action;
@@ -12,9 +12,9 @@ class Router {
 		$this->splitURL();
 
 		// Check if controller exists
-		if (file_exists('./app/controllers/'.$this->url_controller.'-controller.php')) {
+		if (file_exists(CONTROLLERS_PATH.$this->url_controller.'.php')) {
 			// If yes, load and create the Controller
-			require './app/controllers/'.$this->url_controller.'-controller.php';
+			require CONTROLLERS_PATH.$this->url_controller.'.php';
 			$this->url_controller = new $this->url_controller();
 
 			// Check if method exists
@@ -35,7 +35,7 @@ class Router {
 			}
 		} else {
 			// If controller not found, call Home/index
-			require './app/controllers/home-controller.php';
+			require CONTROLLERS_PATH.'home.php';
 			$home = new Home();
 			$home->index();
 		}
