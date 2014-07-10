@@ -5,6 +5,8 @@
 			<h2>My Account</h2>
 		</div>
 
+		<?php $this->showMessage(); ?>
+
 		<div class="size-1-1">
 			<div class="size-1-1">
 				<h3>Profile</h3>

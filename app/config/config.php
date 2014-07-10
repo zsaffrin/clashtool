@@ -30,19 +30,19 @@
 	 * 	Database credentials
 	 */
 	define('DB_TYPE', 'mysql');
-	define('DB_HOST', 'zsdb.zachsaffrin.com');
+	define('DB_HOST', 'localhost');
 	define('DB_NAME', 'clashtool');
-	define('DB_USER', 'doodadippity');
-	define('DB_PASS', 'NBS81okY9O91wg');
+	define('DB_USER', 'root');
+	define('DB_PASS', 'mysql');
 
 	/**
 	 * 	Error messages
 	 **/
-	define('ERROR_LOGIN_FIELDS_EMPTY', 'Missing Username or Password');
-	define('ERROR_INVALID_LOGIN', 'Login failed - Username or Password incorrect');
+	define('ERROR_LOGIN_FIELDS_EMPTY', 'Missing Email or Password');
+	define('ERROR_INVALID_LOGIN', 'Login failed - Email or Password incorrect');
 	define('ERROR_USER_NOT_FOUND', 'User not found');
 	define('ERROR_USER_UPDATE_FAILED', 'User record update failed');
-	define('ERROR_USERNAME_FIELD_EMPTY', 'Username field was empty');
+	define('ERROR_EMAIL_FIELD_EMPTY', 'Email field was empty');
 	define('ERROR_PASSWORD_FIELD_EMPTY', 'Password field was empty');
 	define('ERROR_NEW_PASSWORD_FIELD_EMPTY', 'New Password field was empty');
 	define('ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY', 'Please confirm your new Password');
@@ -50,12 +50,20 @@
 	define('ERROR_NEW_PASSWORD_TOO_SHORT', 'New Password too short. Please use at least 6 characters.');
 	define('ERROR_PASSWORD_WRONG', 'Incorrect Password');
 	define('ERROR_PASSWORD_UPDATE_FAILED', 'Password update failed');
+	define('ERROR_FAILED_LOGIN_RESET_FAILED', 'Failed Login count reset failed');
+	define('ERROR_ARGUMENT_MISSING', 'Argument Missing - ');
+	define('ERROR_NO_USERS_FOUND', 'No users found');
+	define('ERROR_FIRST_NAME_FIELD_EMPTY', 'First Name field empty');
+	define('ERROR_LAST_NAME_FIELD_EMPTY', 'Last Name field empty');
+	define('ERROR_EMAIL_TAKEN', 'An account for this email address already exists');
+	define('ERROR_USER_CREATION_FAILED', 'User creation failed');
 
 	/**
 	 * 	Success messages
 	 **/
 	define('SUCCESS_USER_INFO_UPDATED', 'User profile updated');
 	define('SUCCESS_PASSWORD_UPDATED', 'Password updated');
+	define('SUCCESS_USER_CREATED', 'New user created successfully');
 
 
 ?>

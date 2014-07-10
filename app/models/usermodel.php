@@ -17,23 +17,21 @@ class userModel {
 	/**
 	 * 	Get User - Fetch user data from DB
 	 */
-	public function getUser($userid=null) {
-		if ($userid) {
-			$sql = 'SELECT 	*
-					FROM 	users 
-					WHERE 	user_id = :userid';
-			$query = $this->db->prepare($sql);
-			$query->execute(array(':userid' => $userid));
-			if ($query->rowCount() != 1) { 
-				$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND; 
-				exit(ERROR_USER_NOT_FOUND);
-			}
-			$user = $query->fetch();
-			return $user;
-
+	public function getUser($userid) {
+		$sql = 'SELECT 	user_id,
+						user_firstname,
+						user_lastname,
+						user_email,
+						user_password 
+				FROM 	users 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+		if ($query->rowCount()==1) {
+			return $query->fetch();
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND;
-			exit(ERROR_USER_NOT_FOUND);
+			$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND; 
+			return false;
 		}
 	}
 
@@ -61,52 +59,63 @@ class userModel {
 			return true;
 		} else {
 			$_SESSION["msg_errors"][] = ERROR_USER_UPDATE_FAILED; 
+			return false;
 		}
 	}
 
 	/**
 	 * 	Change user password
 	 */
-	public function saveUserPassword() {
-		
-		// Check the form fields
+	public function changePassword() {
+		// Check form fields
 		if (empty($_POST['password'])) { 
 			$_SESSION["msg_errors"][] = ERROR_PASSWORD_FIELD_EMPTY;
 		} elseif (empty($_POST['new_password'])) {
 			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_FIELD_EMPTY;
+		} elseif (strlen($_POST['new_password']) < 6) {
+			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
 		} elseif (empty($_POST['new_password_confirm'])) {
 			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY;
 		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
 			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
-		} elseif (strlen($_POST['new_password']) <= 6) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
 		} elseif (!empty($_POST['password']) 
 			AND !empty($_POST['new_password']) 
-			AND !empty($_POST['new_password_confirm']) 
-			AND ($_POST['new_password'] === $_POST['new_password_confirm']) 
-			AND (strlen($_POST['new_password']) >= 6)) {
+			AND (strlen($_POST['new_password']) >= 6) 
+			AND !empty($_POST['new_password_confirm'])
+			AND ($_POST['new_password'] == $_POST['new_password_confirm'])) {
 
 			// Validate current password
 			$user = $this->getUser(Session::get('user_id'));
-			$hpass = hash_hmac('sha512', $_POST['password'], $user->user_code);
-			if ($hpass !== $user->user_password) {
+			if (!password_verify($_POST['password'], $user->user_password)) {
 				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;
 				return false;
 			}
 
-			// Set new password
-			$sql = 'UPDATE users SET user_password = :pass WHERE user_id = :userid';
+			// Hash new password
+			$hpass = password_hash($_POST['new_password'], PASSWORD_DEFAULT, ['cost' => HASH_COST_FACTOR]);
+
+			// Store new password
+			$sql = 'UPDATE 	users
+					SET 	user_password = :hpass 
+					WHERE 	user_id = :userid';
 			$query = $this->db->prepare($sql);
-			$query->execute(array(':userid' => $user->user_id, ':pass' => $hpass));
-			if ($query->rowCount()==1) {
-				$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
-				return true;
-			} else {
-				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED; 
+			$query->execute(array(':hpass' => $hpass, ':userid' => $user->user_id));
+
+			// Check success
+			if ($query->rowCount()!=1) {
+				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED;
+				return false;
 			}
 
+			// Return success
+			$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
+			return true;
 		}
+
+		// Default return
+		return false;
 	}
+
 }
 
 ?>
