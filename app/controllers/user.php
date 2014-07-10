@@ -63,7 +63,7 @@ class User extends Controller {
 				'id' => 'new_password_confirm', 
 				'type' => 'password',
 				'title' => 'Confirm New Password'));
-		$this->view->form_action = 'saveUserPassword';
+		$this->view->form_action = 'changePassword_action';
 		$this->view->form_submit_label = 'Change Password';
 
 		// Render view
@@ -71,9 +71,9 @@ class User extends Controller {
 	}
 
 	// Save new user password
-	public function saveUserPassword() {
+	public function changePassword_action() {
 		$userModel = $this->loadModel('userModel');
-		if ($userModel->saveUserPassword()) {
+		if ($userModel->changePassword()) {
 			header('Location: '.URL.'user/myAccount');
 		} else {
 			header('Location: '.URL.'user/changePassword');

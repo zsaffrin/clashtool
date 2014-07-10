@@ -9,7 +9,7 @@
 							id="<?php echo $i['id']; ?>" 
 							name="<?php echo $i['id']; ?>" 
 							<?php if (isset($i['value'])) { ?> value="<?php echo $i['value']; ?>" <?php } 
-									elseif (isset($_POST[$i['id']])) { ?> value="<?php echo $_POST[$i['id']]; ?>" <?php } ?>
+									elseif ($i['type']!=='password' && isset($_POST[$i['id']])) { ?> value="<?php echo $_POST[$i['id']]; ?>" <?php } ?>
 							>
 			<?php } ?>	
 				<tr>

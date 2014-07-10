@@ -15,7 +15,7 @@ class Admin extends Controller {
 	// User admin home page
 	public function users() {
 		$adminModel = $this->loadModel('adminModel');
-		$userList = $adminModel->getUsers();
+		$userList = $adminModel->getAllUsers();
 		$this->view->user_list = $userList;
 		$this->view->render('admin/users');
 	}
@@ -57,9 +57,48 @@ class Admin extends Controller {
 		if ($adminModel->insertUser()) {
 			header('Location: '.URL.'admin/users');
 		} else {
-			header('Location: '.URL.'admin/addUser');
+			$this->addUser();
 		}
 		
+	}
+
+	// Change user password
+	public function resetPassword($userid) {
+		$adminModel = $this->loadModel('adminModel');
+
+		// Get and set personal user data
+		$userInfo = $adminModel->getUser($userid);
+		$this->view->user_id = $userInfo->user_id;
+		$this->view->user_firstname = $userInfo->user_firstname;
+		$this->view->user_lastname = $userInfo->user_lastname;
+		$this->view->user_email = $userInfo->user_email;
+
+		// Set up form and inputs
+		$this->view->form_inputs = array(
+			array(
+				'id' => 'new_password', 
+				'type' => 'password',
+				'title' => 'New Password'),
+			array(
+				'id' => 'new_password_confirm', 
+				'type' => 'password',
+				'title' => 'Confirm New Password')
+		);
+		$this->view->form_action = '../resetPassword_action/'.$userid;
+		$this->view->form_submit_label = 'Save New Password';
+
+		// Render the view
+		$this->view->render('admin/resetpassword');
+	}
+
+	// Change user password action
+	public function resetPassword_action($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		if ($adminModel->resetPassword($userid)) {
+			header('location: '.URL.'admin/users');
+		} else {
+			header('location: '.URL.'admin/resetPassword/'.$userid);
+		}
 	}
 
 }

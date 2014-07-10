@@ -63,6 +63,7 @@
 	 **/
 	define('SUCCESS_USER_INFO_UPDATED', 'User profile updated');
 	define('SUCCESS_PASSWORD_UPDATED', 'Password updated');
+	define('SUCCESS_USER_CREATED', 'New user created successfully');
 
 
 ?>
