@@ -57,6 +57,8 @@
 	define('ERROR_LAST_NAME_FIELD_EMPTY', 'Last Name field empty');
 	define('ERROR_EMAIL_TAKEN', 'An account for this email address already exists');
 	define('ERROR_USER_CREATION_FAILED', 'User creation failed');
+	define('ERROR_NO_BUILDINGS_FOUND', 'No buildings found');
+	define('ERROR_NO_TROOPS_FOUND', 'No troops found');
 
 	/**
 	 * 	Success messages

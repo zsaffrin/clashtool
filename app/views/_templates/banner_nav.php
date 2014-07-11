@@ -8,7 +8,8 @@
 		<div class="size-1-1">
 			<nav>
 				<ul class="nav-left">
-					<li><a href="<?php echo URL ?>" class="button">Home</a>
+					<li><a href="<?php echo URL; ?>" class="button">Home</a>
+					<li><a href="<?php echo URL.'reference/'; ?>" class="button">Reference</a>
 				</ul>
 				<ul class="nav-right">
 					<?php
