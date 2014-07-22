@@ -13,7 +13,15 @@
 				<h3>Buildings</h3>
 				<ul>
 				<?php foreach ($this->building_list as $b) { ?>
-					<li><?php echo $b->building_name; ?> 
+					<li><a href="building/<?php echo $b->building_id; ?>"><?php echo $b->building_name; ?></a>
+				<?php } ?>
+				</ul>
+			</div>
+			<div class="size-1-1">
+				<h3>Defenses</h3>
+				<ul>
+				<?php foreach ($this->defense_list as $def) { ?>
+					<li><a href="building/<?php echo $def->building_id; ?>"><?php echo $def->building_name; ?></a>
 				<?php } ?>
 				</ul>
 			</div>
@@ -24,7 +32,7 @@
 				<h3>Spells</h3>
 				<ul>
 				<?php foreach ($this->spell_list as $s) { ?>
-					<li><?php echo $s->troop_name; ?> 
+					<li><a href="troop/<?php echo $s->troop_id; ?>"><?php echo $s->troop_name; ?></a>
 				<?php } ?>
 				</ul>
 			</div>
@@ -32,7 +40,15 @@
 				<h3>Traps</h3>
 				<ul>
 				<?php foreach ($this->trap_list as $p) { ?>
-					<li><?php echo $p->building_name; ?> 
+					<li><a href="building/<?php echo $p->building_id; ?>"><?php echo $p->building_name; ?></a>
+				<?php } ?>
+				</ul>
+			</div>
+			<div class="size-1-1">
+				<h3>Heroes</h3>
+				<ul>
+				<?php foreach ($this->hero_list as $h) { ?>
+					<li><a href="building/<?php echo $h->building_id; ?>"><?php echo $h->building_name; ?></a>
 				<?php } ?>
 				</ul>
 			</div>
@@ -43,14 +59,14 @@
 				<h3>Troops</h3>
 				<ul>
 				<?php foreach ($this->troop_list as $t) { ?>
-					<li><?php echo $t->troop_name; ?> 
+					<li><a href="troop/<?php echo $t->troop_id; ?>"><?php echo $t->troop_name; ?></a> 
 				<?php } ?>
 				</ul>
 
 				<h5>Dark Troops</h5>
 				<ul>
 				<?php foreach ($this->dark_troop_list as $d) { ?>
-					<li><?php echo $d->troop_name; ?> 
+					<li><a href="troop/<?php echo $d->troop_id; ?>"><?php echo $d->troop_name; ?></a>
 				<?php } ?>
 				</ul>
 			</div>
