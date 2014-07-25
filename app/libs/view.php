@@ -39,6 +39,41 @@ class View {
 
 		return $result;
 	}
+
+	// Display level inputs for a subset of items
+	public function mybaseBuildingLevelSet($buildingset, $type, $subtype) {
+		echo '<table>';
+		
+		// Find max level
+		$maxLevel = 0;
+		foreach ($buildingset as $b) {
+			if ((!isset($type) OR ($type == $b->type)) 
+				AND (!isset($subtype) OR ($subtype == $b->subtype)) 
+				AND ($b->max_level > $maxLevel)) { $maxLevel = $b->max_level; }
+		}
+
+		// Echo cells for levels of each building
+		foreach ($buildingset as $b) {
+			if ((!isset($type) OR ($type == $b->type)) 
+				AND (!isset($subtype) OR ($subtype == $b->subtype))) { 
+					echo '<tr>';
+					echo '<td>'.$b->building_name.' '.$b->building_num;
+					for ($i=0;$i<=$maxLevel;$i++) {
+						echo '<td>';
+						if ($i > $b->max_level) {
+							echo '&nbsp;';
+						} else {
+							if ($i == $b->building_level) { echo '<b>'; }
+							echo $i;
+							if ($i == $b->building_level) { echo '</b>'; }	
+						}
+						
+					}
+			}
+		}
+
+		echo '</table>';
+	}
 }
 
 ?>
