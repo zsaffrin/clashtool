@@ -15,7 +15,7 @@ class myBase extends Controller {
 		$this->view->render('mybase/index');
 	}
 
-	// My Base page - Set Building levels, see available upgrades
+	// Buildings and Traps page
 	public function buildings() {
 		$myBaseModel = $this->loadModel('myBaseModel');
 
@@ -27,7 +27,17 @@ class myBase extends Controller {
 		$this->view->render('mybase/buildings');
 	}
 
-	
+	// Troops and Spells page
+	public function troops() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+
+		// Get troop set
+		$troopSet = $myBaseModel->getTroopSet(Session::get('user_id'));
+
+		// Pass data and render view
+		$this->view->troops = $troopSet;
+		$this->view->render('mybase/troops');
+	}
 
 }
 

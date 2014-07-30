@@ -40,40 +40,55 @@ class View {
 		return $result;
 	}
 
-	// Display level inputs for a subset of items
-	public function mybaseBuildingLevelSet($buildingset, $type, $subtype) {
-		echo '<table>';
-		
+	// Display item level input row
+	public function display_mybaseItemLevelSelect($item, $maxLevel) {
+		echo '<tr>';
+		echo '<th>'.$item->name.' ';
+		for ($n=0;$n<=$maxLevel;$n++) {
+			echo '<td>';
+			if (($n > $item->max_level)
+				OR (($item->item_class == 2) AND ($n == 0))) {
+				echo '&nbsp;';
+			} else {
+				echo '<input
+						type="radio" 
+						name="'.$item->item_id; if ($item->item_class == 1) { echo '-'.$item->building_num; } echo '" 
+						id="'.$item->item_id; if ($item->item_class == 1) { echo '-'.$item->building_num; } echo '-'.$n.'" 
+						value="'.$n.'" 
+						class="mybase-lvl-select"';
+					if ($n == $item->level) { echo ' checked="checked"'; }
+					echo '>';
+				echo '<label for="'.$item->item_id; if ($item->item_class == 1) { echo '-'.$item->building_num; } echo '-'.$n.'">';
+					echo '<span>'.$n.'</span>';
+				echo '</label>';
+			}
+		}
+	}
+
+	// Display table of My Base item level inputs
+	public function display_mybaseItemLevelSet($itemset, $type=null, $subtype=null) {
 		// Find max level
 		$maxLevel = 0;
-		foreach ($buildingset as $b) {
-			if ((!isset($type) OR ($type == $b->type)) 
-				AND (!isset($subtype) OR ($subtype == $b->subtype)) 
-				AND ($b->max_level > $maxLevel)) { $maxLevel = $b->max_level; }
-		}
-
-		// Echo cells for levels of each building
-		foreach ($buildingset as $b) {
-			if ((!isset($type) OR ($type == $b->type)) 
-				AND (!isset($subtype) OR ($subtype == $b->subtype))) { 
-					echo '<tr>';
-					echo '<td>'.$b->building_name.' '.$b->building_num;
-					for ($i=0;$i<=$maxLevel;$i++) {
-						echo '<td>';
-						if ($i > $b->max_level) {
-							echo '&nbsp;';
-						} else {
-							if ($i == $b->building_level) { echo '<b>'; }
-							echo $i;
-							if ($i == $b->building_level) { echo '</b>'; }	
-						}
-						
-					}
+		foreach ($itemset as $i) {
+			if ((empty($type) OR ($type == $i->type)) 
+				AND (empty($subtype) OR ($subtype == $i->subtype)) 
+				AND ($i->max_level > $maxLevel)) {
+				$maxLevel = $i->max_level;
 			}
 		}
 
+		// Display table and render rows containing inputs
+		echo '<table class="mybase-levels">';
+		foreach ($itemset as $i) {
+			if ((empty($type) OR ($type == $i->type)) 
+				AND (empty($subtype) OR ($subtype == $i->subtype))) {
+				
+				$this->display_mybaseItemLevelSelect($i, $maxLevel);
+			}
+		}
 		echo '</table>';
 	}
+
 }
 
 ?>

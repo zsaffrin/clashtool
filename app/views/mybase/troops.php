@@ -11,23 +11,19 @@
 
 		<div class="size-1-2">
 			<div class="size-1-1">
-				<h4>Resources</h4>
-				<?php $this->display_mybaseItemLevelSet($this->buildings, 1, 2); ?>
-			</div>
-			<div class="size-1-1">
-				<h4>Army</h4>
-				<?php $this->display_mybaseItemLevelSet($this->buildings, 1, 3); ?>
+				<h4>Troops</h4>
+				<?php $this->display_mybaseItemLevelSet($this->troops, 1); ?>
 			</div>
 		</div>
 
 		<div class="size-1-2">
 			<div class="size-1-1">
-				<h4>Defenses</h4>
-				<?php $this->display_mybaseItemLevelSet($this->buildings, 4, 1); ?>
+				<h4>Dark Troops</h4>
+				<?php $this->display_mybaseItemLevelSet($this->troops, 2); ?>
 			</div>
 			<div class="size-1-1">
-				<h4>Traps</h4>
-				<?php $this->display_mybaseItemLevelSet($this->buildings, 2, 1); ?>
+				<h4>Spells</h4>
+				<?php $this->display_mybaseItemLevelSet($this->troops, 3); ?>
 			</div>
 		</div>
 		<div class="clear"></div>

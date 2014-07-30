@@ -7,9 +7,7 @@
 			<h2>My Base</h2>
 		</div>
 
-		<div class="size-1-1">
-			<p><a href="buildings/" class="button">Buildings and Traps</a>
-		</div>
+		<?php require VIEWS_PATH.'_templates/mybase_nav.php'; ?>
 
 		<div class="size-1-1">
 			<h4>Production</h4>
