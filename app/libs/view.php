@@ -82,7 +82,6 @@ class View {
 		foreach ($itemset as $i) {
 			if ((empty($type) OR ($type == $i->type)) 
 				AND (empty($subtype) OR ($subtype == $i->subtype))) {
-				
 				$this->display_mybaseItemLevelSelect($i, $maxLevel);
 			}
 		}

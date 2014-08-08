@@ -27,6 +27,13 @@ class myBase extends Controller {
 		$this->view->render('mybase/buildings');
 	}
 
+	// Save changes to Buildings
+	public function buildings_action() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+		$myBaseModel->saveBuildingLevels(Session::get('user_id'));
+		header('Location: '.URL.'mybase/buildings');
+	}
+
 	// Troops and Spells page
 	public function troops() {
 		$myBaseModel = $this->loadModel('myBaseModel');
@@ -37,6 +44,13 @@ class myBase extends Controller {
 		// Pass data and render view
 		$this->view->troops = $troopSet;
 		$this->view->render('mybase/troops');
+	}
+
+	// Troops and Spells page
+	public function troops_action() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+		$myBaseModel->saveTroopLevels(Session::get('user_id'));
+		header('Location: '.URL.'mybase/troops');
 	}
 
 }

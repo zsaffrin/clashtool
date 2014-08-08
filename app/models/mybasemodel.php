@@ -120,6 +120,7 @@ class myBaseModel {
 		// Assemble user building set
 		$userBuildings = array();
 		$counts = array();
+		$thLevel = 1;
 		foreach ($userBuildingCounts as $c) {
 			for ($i=0;$i<$c->building_count;$i++) {
 				// Set up building
@@ -238,8 +239,145 @@ class myBaseModel {
 
 		// Return troop set
 		return $troopSet;
+	}
+
+	/**
+	 * 	Save building levels
+	 */
+	public function saveBuildingLevels($userid) {
+		// Get data
+		$userBuildings = $this->getBuildingSet($userid);
+		$buildingList = $this->getBuildingList();
+
+		$buildingCounts = array();
+		foreach ($userBuildings as $u) {
+			// Get levels from POST data
+			if (isset($_POST[$u->item_id.'-'.$u->building_num])) {
+				$u->level = $_POST[$u->item_id.'-'.$u->building_num];
+			}
+
+			// Add to building counts
+			if (!isset($buildingCounts[$u->item_id][$u->level])) {
+				$buildingCounts[$u->item_id][$u->level] = 0;
+			}
+			$buildingCounts[$u->item_id][$u->level] = abs($buildingCounts[$u->item_id][$u->level] + 1);
+		}
+
+		// Clear existing counts
+		$sql = 'DELETE FROM user_buildings 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+		if ($query->rowCount() < 1) {
+			$_SESSION["msg_errors"][] = ERROR_USER_BUILDING_CLEAR_FAILED;
+			return false;
+		}
+
+		// TEMPORARY - Hardcode TH level until TH input is built
+		$this->insertUserBuildingCounts($userid, 1, 1, 8, 1);
+
+		// Save new counts
+		foreach ($buildingList as $b) {
+			$increment = 1;
+			for ($l=1;$l<=40;$l++) {
+				if (isset($buildingCounts[$b->building_id][$l]) && ($buildingCounts[$b->building_id][$l] > 0)) {
+					if ($this->insertUserBuildingCounts($userid, $b->building_id, $increment, $l, $buildingCounts[$b->building_id][$l])) {
+						$increment++;
+					} else {
+						$_SESSION["msg_errors"][] = ERROR_USER_BUILDING_INSERT_FAILED;
+						return false;
+					}
+				}
+			}
+		}
+
+		// Return success
+		$_SESSION["msg_success"][] = SUCCESS_USER_BUILDINGS_SAVED;
+		return true;
 
 	}
+
+	/**
+	 * 	Insert user building counts
+	 */
+	public function insertUserBuildingCounts($userid, $buildingid, $increment, $level, $count) {
+		$newID = abs(($userid * 1000) + ($buildingid * 10) + $increment);
+		$sql = 'INSERT INTO user_buildings 	(entry_id, user_id, building_id, building_level, building_count)
+				VALUES 						(:newid, :userid, :buildingid, :level, :count)';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(
+						':newid' => $newID,
+						':userid' => $userid,
+						':buildingid' => $buildingid,
+						':level' => $level,
+						':count' => $count));
+		if ($query->rowCount() != 1) {
+			$_SESSION["msg_errors"][] = ERROR_USER_BUILDING_INSERT_FAILED;
+			return false;
+		} 
+
+		// Return success
+		return true;
+	}
+
+	/**
+	 * 	Save troop levels
+	 */
+	public function saveTroopLevels($userid) {
+		// Get data
+		$troopList = $this->getTroopSet($userid);
+
+		// Clear existing counts
+		$sql = 'DELETE FROM user_troops 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+		if ($query->rowCount() < 1) {
+			$_SESSION["msg_errors"][] = ERROR_USER_TROOP_CLEAR_FAILED;
+			return false;
+		}
+
+		foreach ($troopList as $t) {
+			// Collect data from form
+			if (isset($_POST[$t->item_id])) {
+				$t->level = $_POST[$t->item_id];
+			}
+
+			// Save levels to database
+			if (!$this->insertUserTroop($userid, $t->item_id, $t->level)) {
+				$_SESSION["msg_errors"][] = ERROR_USER_TROOP_INSERT_FAILED;
+				return false;
+			}
+		}
+
+		// Return success
+		$_SESSION["msg_success"][] = SUCCESS_USER_TROOPS_SAVED;
+		return true;
+
+	}
+
+	/**
+	 * 	Insert user troop level
+	 */
+	public function insertUserTroop($userid, $troopid, $level) {
+		$newID = abs(($userid * 100) + $troopid);
+		$sql = 'INSERT INTO user_troops	(entry_id, user_id, troop_id, troop_level) 
+				VALUES 					(:newid, :userid, :troopid, :level)';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(
+						':newid' => $newID,
+						':userid' => $userid,
+						':troopid' => $troopid,
+						':level' => $level));
+		if ($query->rowCount() != 1) {
+			$_SESSION["msg_errors"][] = ERROR_USER_TROOP_INSERT_FAILED;
+			return false;
+		} 
+
+		// Return success
+		return true;
+	}
+
 
 }
 
