@@ -14,13 +14,13 @@
 			<table>
 				<tr>
 					<th>Gold
-					<td>0
+					<td><?php echo $this->production["gold"]; ?>
 				<tr>
 					<th>Elixir
-					<td>0
+					<td><?php echo $this->production["elixir"]; ?>
 				<tr>
 					<th>Dark Elixir
-					<td>0
+					<td><?php echo $this->production["delixir"]; ?>
 			</table>
 		</div>
 

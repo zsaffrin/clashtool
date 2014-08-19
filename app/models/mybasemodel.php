@@ -63,6 +63,25 @@ class myBaseModel {
 	}
 
 	/**
+	 * 	Get building level details
+	 */
+	public function getBuildingLevels() {
+		$sql = 'SELECT 	building_id,
+						building_level,
+						build_time,
+						build_cost,
+						build_cost_type,
+						build_armcost,
+						build_armcost_type,
+						production,
+						capacity 
+				FROM 	building_levels';
+		$query = $this->db->prepare($sql);
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * 	Get list of all troops
 	 */
 	public function getTroopList() {
@@ -115,6 +134,7 @@ class myBaseModel {
 		// Get data
 		$userBuildingCounts = $this->getUserBuildings($userid);
 		$buildingList = $this->getBuildingList();
+		$buildingLevels = $this->getBuildingLevels();
 		$thReqs = $this->getTHReqs();
 		
 		// Assemble user building set
@@ -168,6 +188,16 @@ class myBaseModel {
 					foreach ($userBuildings as $u) {
 						if ($u->building_id == $r->building_id AND $u->building_num == $i) {
 							$building->level = $u->building_level;
+						}
+					}
+
+					// Append building level details
+					foreach ($buildingLevels as $l) {
+						if ($l->building_id == $building->item_id AND $l->building_level == $building->level) {
+							$building->production = $l->production;
+							$building->capacity = $l->capacity;
+							$building->armcost = $l->build_armcost;
+							$building->armcost_type = $l->build_armcost_type;
 						}
 					}
 
@@ -248,6 +278,7 @@ class myBaseModel {
 		// Get data
 		$userBuildings = $this->getBuildingSet($userid);
 		$buildingList = $this->getBuildingList();
+		$buildingLevels = $this->getBuildingLevels();
 
 		$buildingCounts = array();
 		foreach ($userBuildings as $u) {
@@ -376,6 +407,20 @@ class myBaseModel {
 
 		// Return success
 		return true;
+	}
+
+	/**
+	 * 	Calculate user's collector/mine/drill production
+	 */
+	public function getUserProduction($userid) {
+		$buildings = $this->getBuildingSet($userid);
+		$production = array("gold" => 0, "elixir" => 0, "delixir" => 0);
+		foreach ($buildings as $b) {
+			if ($b->item_id == 24) { $production["gold"] = abs($production["gold"] + $b->production); }
+			if ($b->item_id == 11) { $production["elixir"] = abs($production["elixir"] + $b->production); }
+			if ($b->item_id == 26) { $production["delixir"] = abs($production["delixir"] + $b->production); }
+		}
+		return $production;
 	}
 
 

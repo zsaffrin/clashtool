@@ -7,9 +7,12 @@ class myBase extends Controller {
 		Auth::checkLogin();
 	}
 
-	// Home page - Default landing page
+	// Dashboard - Default landing page
 	public function index() {
 		$myBaseModel = $this->loadModel('myBaseModel');
+
+		// Pass data
+		$this->view->production = $myBaseModel->getUserProduction(Session::get('user_id'));
 
 		// Render view
 		$this->view->render('mybase/index');
