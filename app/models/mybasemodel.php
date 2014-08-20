@@ -414,11 +414,17 @@ class myBaseModel {
 	 */
 	public function getUserProduction($userid) {
 		$buildings = $this->getBuildingSet($userid);
-		$production = array("gold" => 0, "elixir" => 0, "delixir" => 0);
+		
+		// Set up Production count array
+		$production = array();
+		$production[1] = array('name' => "Gold", 'count' => 0);
+		$production[2] = array('name' => "Elixir", 'count' => 0);
+		$production[3] = array('name' => "Dark Elixir", 'count' => 0);
+
 		foreach ($buildings as $b) {
-			if ($b->item_id == 24) { $production["gold"] = abs($production["gold"] + $b->production); }
-			if ($b->item_id == 11) { $production["elixir"] = abs($production["elixir"] + $b->production); }
-			if ($b->item_id == 26) { $production["delixir"] = abs($production["delixir"] + $b->production); }
+			if ($b->item_id == 24) { $production[1]['count'] = abs($production[1]['count'] + $b->production); }
+			if ($b->item_id == 11) { $production[2]['count'] = abs($production[2]['count'] + $b->production); }
+			if ($b->item_id == 26) { $production[3]['count'] = abs($production[3]['count'] + $b->production); }
 		}
 		return $production;
 	}

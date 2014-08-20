@@ -12,15 +12,23 @@
 		<div class="size-1-1">
 			<h4>Production</h4>
 			<table>
-				<tr>
-					<th>Gold
-					<td><?php echo $this->production["gold"]; ?>
-				<tr>
-					<th>Elixir
-					<td><?php echo $this->production["elixir"]; ?>
-				<tr>
-					<th>Dark Elixir
-					<td><?php echo $this->production["delixir"]; ?>
+				<?php 
+					$hours = array(1, 2, 4, 8, 12, 16);
+					
+					echo '<tr>';
+					echo '<th>&nbsp;';
+					foreach ($hours as $h) {
+						echo '<td>'.$h;
+					}
+
+					foreach ($this->production as $res) {
+						echo '<tr>';
+						echo '<th>'.$res['name'].' ';
+						foreach ($hours as $h) {
+							echo '<td>'.abs($res['count'] * $h).' ';
+						}
+					}
+				?>
 			</table>
 		</div>
 
