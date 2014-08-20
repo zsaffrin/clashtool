@@ -1,7 +1,6 @@
 
 /* 	GLOBAL DEFAULTS
 ======================================== */
-
 body { 
 	background: #ECF0F1;
 	color: #3B0E09;
@@ -10,6 +9,17 @@ body {
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 400;
+}
+
+
+/* 	TEXT AND LISTS
+======================================== */
+
+.horizontal-list {
+	margin: 0;
+}
+.horizontal-list li {
+	float: left;
 }
 
 /* 	BUTTONS
@@ -88,15 +98,72 @@ input {
 }
 
 
-/* 	BANNER AND NAVIGATION
+/* 	NAVIGATION
 ======================================== */
 
-nav ul li, .subnav li { float: left; }
-nav .nav-left { float: left; }
-nav .nav-right { float: right; }
-nav ul li a, .subnav li a { margin: 0 0.25em; }
+.top-nav {
+	background: #103137;
+	color: #ECF0F1;
+	font-size: 1.2em;
+	font-weight: 400;
+	line-height: 1.6em;
+	padding-left: 0.5em;
+}
+.top-nav a {
+	padding: 2em 0.4em;
+	text-decoration: none;
+	transition: background 0.15s linear;
+}
+.top-nav a:hover {
+	background: #556E2D;
+}
+.nav-right {
+	float: right;
+	margin-right: 1em;
+}
+.main, .main .container {
+	min-height: 95%;
+}
+.left-nav {
+	background: #1F434A;
+	padding: 0;
+	position: absolute;
+	left: 0;
+	height: 80em;
+	width: 10em;
+}
+.left-nav ul {
+	margin: 2em 0 0;
+	width: 100%;
+}
+.left-nav ul li { width: 100%; }
+.left-nav a {
+	color: #c9cfcf;
+	display: block;
+	padding: 0.25em 0.25em 0.25em 1em;
+	text-decoration: none;
+	width: 100%;
+}
+.left-nav a:hover {
+	background: #591F19;
+	transition: color 0.1s linear, background 0.1s linear;
+}
+.main .content {
+	margin-left: 11em;
+}
 
 
+/* 	FOOTER
+======================================== */
+
+.footer {
+	background: #103137;
+	color: #ECF0F1;
+}
+footer {
+	font-size: 0.8em;
+	margin-left: 1em;
+}
 
 /* 	MY BASE
 ======================================== */

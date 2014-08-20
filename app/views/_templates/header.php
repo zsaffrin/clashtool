@@ -7,11 +7,9 @@
 		<!-- Temporarily using Google Web Fonts. Will use cached fonts via @font-face at some point later -->
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400">
 
-		<!-- Temporarily linked to remote framework stylesheet. Will be cached locally at some point later -->
-		<link rel="stylesheet" type="text/css" href="http://projects.zachsaffrin.com/overeasy/style/css/overeasy.css">
-
-		<!-- Local stylesheet -->
-		<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/clashtool-style.css">
+		<!-- Local stylesheets -->
+		<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/ct-structure.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/ct-style.css">
 	</head>
 	<body>
 		

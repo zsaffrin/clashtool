@@ -1,0 +1,280 @@
+/************************************************
+ *	OverEasy
+ * 	A responsive CSS framework by Zach Saffrin
+ * 	http://projects.zachsaffrin.com/overeasy
+ *
+ ************************************************/
+
+ 
+/* 	Table of Contents
+========================================
+
+	1. CLEAN SLATE
+		a. Reset
+		b. Clearfix
+	2. STRUCTURE
+		a. Framing
+		b. Alignment
+		c. Grid Segment Sizes
+			i. Default
+			ii. Medium
+			iii. Small
+			iv. Friggin Huge
+		d. Breaks
+	3. SEASONING
+		a. Font Defaults
+		b. Headings
+		c. Text Effects
+		d. Links
+		e. Lists
+		f. Code
+
+======================================== */
+	
+
+/* 	1. CLEAN SLATE
+======================================== */
+
+	/* a. Reset */
+*, *:after, *:before {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+*:focus { outline: 0; }
+html, body, div, span, applet, object, iframe, 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, 
+acronym, address, big, cite, code, del, dfn, em, 
+img, ins, kbd, q, s, samp, small, strike, strong, 
+sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, 
+ul, li, fieldset, form, label, legend, table, 
+caption, tbody, tfoot, thead, tr, th, td, article, 
+aside, canvas, details, embed, figure, figcaption, 
+footer, header, hgroup, menu, nav, output, ruby, 
+section, summary, time, mark, audio, video {
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	
+	/* Font prettying */
+	-webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    -ms-text-rendering: optimizeLegibility;
+    -o-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after,
+q:before, q:after { content: none; }
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+input, textarea, select { 
+	font-size: 100%; 
+	font: inherit;
+}
+
+	/* b. Clearfix */
+.container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+/* 	2. STRUCTURE
+======================================== */
+
+	/* a. Framing */
+html, body { height: 100%; }
+.section { 
+	overflow: hidden; 
+	width: 100%;
+}
+.container {
+	position: relative;
+	width: 100%;
+	min-width: 960px;
+}
+
+	/* b. Alignment */
+[class^='size-'] {
+	float: left;
+	padding: 5px;
+}
+
+	/* c. Grid Segment Sizes */
+	
+	  /* c - i. Default */
+.size-1-12 { width: 8.333333333333333%; }
+.size-1-6 { width: 16.66666666666667%; }
+.size-1-4 { width: 25%; }
+.size-1-3 { width: 33.33333333333333%; }
+.size-1-2 { width: 50%; }
+.size-2-3 { width: 66.66666666666667%; }
+.size-3-4 { width: 75%; }
+.size-5-6 { width: 83.33333333333333%; }
+.size-11-12 { width: 91.66666666666667%; }
+.size-1-1 { width: 100%; }
+
+	  /* c - ii. Medium */
+@media (min-width: 640px) and (max-width: 960px) {	
+	.size-1-12.grid-stick { width: 8.333333333333333%; }
+	.size-1-6.grid-stick { width: 16.66666666666667%; }
+	.size-1-4.grid-stick, .size-1-12 { width: 25%; }
+	.size-1-3.grid-stick { width: 33.33333333333333%; }
+	.size-1-2.grid-stick, .size-1-6, .size-1-4, .size-3-4 { width: 50%; }
+	.size-2-3.grid-stick { width: 66.66666666666667%; }
+	.size-3-4.grid-stick, .size-11-12 { width: 75%; }
+	.size-5-6.grid-stick { width: 83.33333333333333%; }
+	.size-11-12.grid-stick { width: 91.66666666666667%; }
+	.size-1-3, .size-1-2, .size-2-3, .size-5-6, .size-1-1, .grid-fill { width: 100%; }
+	.grid-drop { display: none; }
+}
+	
+	
+	  /* c - iii. Small */
+@media (min-width: 160px) and (max-width: 640px) {	
+	.container { min-width: 320px; }
+	.size-1-12, .size-1-6, .size-1-4, 
+	.size-1-3, .size-1-2, .size-2-3, 
+	.size-3-4, .size-5-6, .size-11-12, 
+	.size-1-1 { width: 100%; }
+	.grid-drop { display: none; }
+	.grid-sm-ctr { text-align: center; }
+}	
+	
+	  /* c - iv. Friggin Huge */
+@media (min-width: 1400px) {  }
+
+	/* d. Breaks */
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	width: 0;
+}
+
+
+/* 	3. SEASONING
+======================================== */
+
+	/* a. Font Defaults */
+body {
+	font-size: 1.125em;
+	font-weight: normal;
+	line-height: 1.2em;
+	word-wrap: break-word;
+}
+
+	/* b. Headings */
+h1, h2, h3, h4, h5, h6 { 
+	font-weight: 400;
+}
+	h1 {
+	    font-size: 3em; /* 48px */
+	    line-height: 1em; 
+	    margin-bottom: .5em; 
+	}
+	h2 {
+	    font-size: 2.25em; /* 36px */
+	    line-height: 1.333333333333333em;
+	    margin-bottom: 0.6666666666666667em;
+	}
+	h3 {
+	    font-size: 1.5em; /* 24px */
+	    line-height: 1em;
+	    margin-bottom: 1em;
+	}
+	h4 {
+	    font-size: 1.3125em; /* 21px */
+	    line-height: 1.142857142857143em;
+	    margin-bottom: 1.142857142857143em;
+	}
+	h5 {
+	    font-size: 1.125em; /* 18px */
+	    line-height: 1.333333333333333em;
+	    margin-bottom: 1.333333333333333em;
+	}
+	h6 {
+	    font-size: 1em; /* 16px */
+	    line-height: 1.5em;
+	    margin-bottom: 1em;
+	}
+	
+	
+	/* c. Text Effects */
+p {
+    font-size: 0.9em;
+    margin-bottom: 1.5em; /* 24 / 16 */
+}
+i, em { font-style: italic; }
+b, strong { font-weight: bold; }
+small { font-size: 80%; }
+sub, sup { font-size: 70%; }
+sub { vertical-align: baseline; }
+sup { vertical-align: top; }
+blockquote {
+	font-size: 150%;
+	font-style: italic;
+	font-weight: lighter;
+	padding: 10px 0 10px 10px;
+}
+cite { font-size: 60%; }
+cite:before { content: "\2014 \0020"; }
+.align-l { text-align: left; }
+.align-c { text-align: center; }
+.align-r { text-align: right; }
+
+	/* d. Links */
+a, a:visited { color: inherit; }
+p a, p a:visited { line-height: inherit; }
+	
+	/* e. Lists */
+ul, ol { 
+	font-size: 0.875em;
+	margin: 0 0 1em 2em; 
+}
+ul.disc { list-style: disc outside; }
+ol { list-style: decimal; }
+ul ul, ul ol, ol ol, ol ul { 
+	font-size: 90%; 
+	margin-bottom: 0;
+}
+ol ol { list-style: lower-roman; }
+
+	/* f. Code */
+pre {
+	line-height: 1.2em;
+	margin-bottom: 1em;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+code {
+	background: #fff;
+	border: 1px solid #000;
+	border-radius: 0.25em;
+	border-width: 1px 1px 1px 8px;
+	color: #000;
+	display: block;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.875em;
+	margin: 0 0.5em 0 0.25em;
+	max-width: 48em;
+	padding: 0.5em;
+}
