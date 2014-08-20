@@ -10,6 +10,9 @@
 				<ul class="nav-left">
 					<li><a href="<?php echo URL; ?>" class="button">Home</a>
 					<li><a href="<?php echo URL.'reference/'; ?>" class="button">Reference</a>
+					<?php if (Session::get('user_logged_in')) { ?>
+							<li><a href="<?php echo URL.'mybase/'; ?>" class="button">My Base</a>
+					<?php } ?>
 				</ul>
 				<ul class="nav-right">
 					<?php

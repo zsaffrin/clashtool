@@ -59,6 +59,10 @@
 	define('ERROR_USER_CREATION_FAILED', 'User creation failed');
 	define('ERROR_NO_BUILDINGS_FOUND', 'No buildings found');
 	define('ERROR_NO_TROOPS_FOUND', 'No troops found');
+	define('ERROR_USER_BUILDING_CLEAR_FAILED', 'Error while saving Building levels - Database preparation failed');
+	define('ERROR_USER_BUILDING_INSERT_FAILED', 'Error while saving Building levels - Building record not saved successfully');
+	define('ERROR_USER_TROOP_CLEAR_FAILED', 'Error while saving Troop levels - Database preparation failed');
+	define('ERROR_USER_TROOP_INSERT_FAILED', 'Error while saving Troop levels - Troop level record not saved successfully');
 
 	/**
 	 * 	Success messages
@@ -66,6 +70,8 @@
 	define('SUCCESS_USER_INFO_UPDATED', 'User profile updated');
 	define('SUCCESS_PASSWORD_UPDATED', 'Password updated');
 	define('SUCCESS_USER_CREATED', 'New user created successfully');
+	define('SUCCESS_USER_BUILDINGS_SAVED', 'Building levels saved');
+	define('SUCCESS_USER_TROOPS_SAVED', 'Troop levels saved');
 
 
 ?>
