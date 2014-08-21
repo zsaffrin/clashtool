@@ -5,6 +5,7 @@ class myBase extends Controller {
 	public function __construct() {
 		parent::__construct();
 		Auth::checkLogin();
+		$this->view->cur_page = "mybase";
 	}
 
 	// Dashboard - Default landing page

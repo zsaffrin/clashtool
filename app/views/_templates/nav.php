@@ -29,9 +29,14 @@
 		<div class="left-nav">
 			<ul>
 				<li><a href="<?php echo URL; ?>">Home</a>
-				<li><a href="<?php echo URL.'mybase'; ?>">My Base</a>
-				<li><a href="<?php echo URL.'reference'; ?>">Reference</a>
+				<li<?php if (isset($this->cur_page) AND $this->cur_page == "mybase") { echo ' class="active"'; } ?>><a href="<?php echo URL.'mybase'; ?>">My Base</a>
+					<ul class="subnav">
+						<li><a href="<?php echo URL.'mybase'; ?>">Dashboard</a>
+						<li><a href="<?php echo URL.'mybase/buildings'; ?>">Buildings and Resources</a>
+						<li><a href="<?php echo URL.'mybase/troops'; ?>">Troops and Spells</a>
+					</ul>
+				<li<?php if (isset($this->cur_page) AND $this->cur_page == "ref") { echo ' class="active"'; } ?>><a href="<?php echo URL.'reference'; ?>">Reference</a>
 			</ul>
 		</div>
-		<div class="size-1-1 content">
+		<div class="content">
 	

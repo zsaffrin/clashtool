@@ -4,6 +4,7 @@ class Reference extends Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->view->cur_page = "ref";
 	}
 
 	// Reference section home page

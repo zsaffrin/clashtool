@@ -7,8 +7,6 @@
 			<h2>My Base</h2>
 		</div>
 
-		<?php require VIEWS_PATH.'_templates/mybase_nav.php'; ?>
-
 		<form method="post" action="buildings_action">
 
 			<div class="size-1-2">
