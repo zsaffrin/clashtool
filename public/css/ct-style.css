@@ -10,6 +10,12 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 400;
 }
+.half-space { 
+	margin-bottom: 0.5em;
+}
+.no-space { 
+	margin-bottom: 0em;
+}
 
 
 /* 	TEXT AND LISTS
@@ -210,5 +216,42 @@ footer {
 }
 .mybase-lvl-select[type="radio"]:checked + label span {
 	font-weight: 600;
+}
+
+.mybase-sect-title {
+	color: #666;
+	text-transform: uppercase;
+}
+.mybase-tile {
+	color: #fff;
+	padding: 1em;
+	width: 100%;
+}
+.mybase-tile span.title {
+	display: block;
+	margin-bottom: 1em;
+	width: 100%;
+	font-size: 2em;
+	font-weight: 400;
+}
+.mybase-tile.gold {
+	background: #FFB002;
+}
+.mybase-tile.purple {
+	background: #7D57D8;
+}
+.mybase-tile.black {
+	background: #100529;
+}
+
+.mybase-tile table {
+	font-size: 0.8em;
+}
+.mybase-tile table th {
+	width: 5em;
+}
+.mybase-tile table td {
+	font-weight: 400;
+	text-align: center;
 }
 
