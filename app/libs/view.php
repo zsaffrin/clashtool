@@ -14,10 +14,11 @@ class View {
 	}
 
 	public function showMessage() {
-		require VIEWS_PATH.'_templates/message.php';
+		if (isset($_SESSION['messages'])) {
+			require VIEWS_PATH.'_templates/message.php';
+		}
 		
-		Session::set('msg_errors', null);
-		Session::set('msg_success', null);
+		Session::set('messages', null);
 	}
 
 	// Display timespan (in seconds) in d/h/m/s format
@@ -55,7 +56,10 @@ class View {
 						name="'.$item->item_id; if ($item->item_class == 1) { echo '-'.$item->building_num; } echo '" 
 						id="'.$item->item_id; if ($item->item_class == 1) { echo '-'.$item->building_num; } echo '-'.$n.'" 
 						value="'.$n.'" 
-						class="mybase-lvl-select"';
+						class="mybase-lvl-select';
+						if ($n < $item->level) { echo ' past-lvl'; }
+						if ($n > $item->level) { echo ' avail-lvl'; }
+						echo '"';
 					if ($n == $item->level) { echo ' checked="checked"'; }
 					echo '>';
 				echo '<label for="'.$item->item_id; if ($item->item_class == 1) { echo '-'.$item->building_num; } echo '-'.$n.'">';

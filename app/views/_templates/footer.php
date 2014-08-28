@@ -6,7 +6,7 @@
 <div class="section footer">
 	<div class="container">
 		<div class="size-1-1">
-			<footer>Made by Zach Saffrin with knowhow and elbow-grease</footer>
+			<footer>Made by Zach Saffrin on a COMPUTER with DIGITS and MOLECULES</footer>
 		</div>
 	</div>
 </div>

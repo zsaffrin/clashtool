@@ -32,7 +32,7 @@ class referenceModel {
 		if ($query->rowCount()>=1) {
 			return $query->fetchAll();
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_NO_BUILDINGS_FOUND; 
+			$_SESSION["messages"][] = array("error", ERROR_NO_BUILDINGS_FOUND);
 			return false;
 		}
 	}
@@ -108,7 +108,7 @@ class referenceModel {
 		if ($query->rowCount()>=1) {
 			return $query->fetchAll();
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_NO_TROOPS_FOUND; 
+			$_SESSION["messages"][] = array("error", ERROR_NO_TROOPS_FOUND);
 			return false;
 		}
 	}

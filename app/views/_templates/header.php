@@ -4,8 +4,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Clash of Clans Toolkit</title>
 		
-		<!-- Temporarily using Google Web Fonts. Will use cached fonts via @font-face at some point later -->
+		<!-- Temporarily using Web Fonts. Will use cached fonts via @font-face at some point later -->
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
 		<!-- Local stylesheets -->
 		<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/ct-structure.css">

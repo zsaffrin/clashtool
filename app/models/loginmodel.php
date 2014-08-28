@@ -11,9 +11,9 @@ class loginModel {
 	 */
 	public function login() {
 		if (empty($_POST['email'])) {
-			$_SESSION["msg_errors"][] = ERROR_EMAIL_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_EMAIL_FIELD_EMPTY);
 		} elseif (empty($_POST['password'])) {
-			$_SESSION["msg_errors"][] = ERROR_PASSWORD_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_FIELD_EMPTY);
 		} elseif (!empty($_POST['email']) 
 			AND !empty($_POST['password'])) {
 			$sql = 'SELECT 	user_id, 
@@ -29,7 +29,7 @@ class loginModel {
 			$query = $this->db->prepare($sql);
 			$query->execute(array(':email' => $_POST['email']));
 			if ($query->rowCount() != 1) {
-				$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND;
+				$_SESSION["messages"][] = array("error", ERROR_USER_NOT_FOUND);
 				return false;
 			}
 			$dbUser = $query->fetch();
@@ -56,7 +56,7 @@ class loginModel {
 						)
 					);
 				if ($query->rowCount()!=1) {
-					$_SESSION["msg_errors"][] = ERROR_FAILED_LOGIN_RESET_FAILED;
+					$_SESSION["messages"][] = array("error", ERROR_FAILED_LOGIN_RESET_FAILED);
 					return false;
 				}
 
@@ -79,7 +79,7 @@ class loginModel {
 						)
 					);
 
-				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;
+				$_SESSION["messages"][] = array("error", ERROR_PASSWORD_WRONG);
 				return false;
 			}
 

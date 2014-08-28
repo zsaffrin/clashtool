@@ -4,7 +4,8 @@
 		<?php $this->showMessage(); ?>
 
 		<div class="size-1-1">
-			<h2>My Base</h2>
+			<h3 class="no-space">My Base</h3>
+			<h2 class="mybase-sect-title">Troops and Spells</h2>
 		</div>
 
 		<form method="post" action="troops_action">

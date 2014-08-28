@@ -128,6 +128,18 @@ class myBaseModel {
 	}
 
 	/**
+	 * 	Get user's TH level
+	 */
+	public function getUserTHLevel($userid) {
+		$userBuildingCounts = $this->getUserBuildings($userid);
+		$thLevel = null;
+		foreach ($userBuildingCounts as $c) {
+			if ($c->building_id == 1) { $thLevel = $c->building_level; }
+		}
+		return $thLevel;
+	}
+
+	/**
 	 * 	Get user's allowed buildings (by TH level) and current building levels
 	 */
 	public function getBuildingSet($userid) {
@@ -162,8 +174,30 @@ class myBaseModel {
 			}
 		}
 
-		// Create allowed building set based on TH Level
+		// Create building set
 		$buildingSet = array();
+
+		// Town Hall
+		$building = new stdClass();
+		$building->item_class = 1;
+		$building->item_id = 1;
+		$building->level = 0;
+		$building->max_level = 10;
+		$building->building_num = 1;
+		$building->name = "Town Hall";
+		$building->type = 1;
+		$building->subtype = 1;
+
+		foreach ($userBuildings as $u) {
+			if ($u->building_id == 1 AND $u->building_num == 1) {
+				$building->level = $u->building_level;
+			}
+		}
+
+		$buildingSet[] = $building;
+
+
+		// All other buildings
 		foreach ($thReqs as $r) {
 			if ($r->th_level == $thLevel) {
 				for ($i=1;$i<=$r->max_count;$i++) {
@@ -300,12 +334,9 @@ class myBaseModel {
 		$query = $this->db->prepare($sql);
 		$query->execute(array(':userid' => $userid));
 		if ($query->rowCount() < 1) {
-			$_SESSION["msg_errors"][] = ERROR_USER_BUILDING_CLEAR_FAILED;
+			$_SESSION["messages"][] = array("error", ERROR_USER_BUILDING_CLEAR_FAILED);
 			return false;
 		}
-
-		// TEMPORARY - Hardcode TH level until TH input is built
-		$this->insertUserBuildingCounts($userid, 1, 1, 8, 1);
 
 		// Save new counts
 		foreach ($buildingList as $b) {
@@ -315,7 +346,7 @@ class myBaseModel {
 					if ($this->insertUserBuildingCounts($userid, $b->building_id, $increment, $l, $buildingCounts[$b->building_id][$l])) {
 						$increment++;
 					} else {
-						$_SESSION["msg_errors"][] = ERROR_USER_BUILDING_INSERT_FAILED;
+						$_SESSION["messages"][] = array("error", ERROR_USER_BUILDING_INSERT_FAILED);
 						return false;
 					}
 				}
@@ -323,7 +354,7 @@ class myBaseModel {
 		}
 
 		// Return success
-		$_SESSION["msg_success"][] = SUCCESS_USER_BUILDINGS_SAVED;
+		$_SESSION["messages"][] = array("success", SUCCESS_USER_BUILDINGS_SAVED);
 		return true;
 
 	}
@@ -343,7 +374,7 @@ class myBaseModel {
 						':level' => $level,
 						':count' => $count));
 		if ($query->rowCount() != 1) {
-			$_SESSION["msg_errors"][] = ERROR_USER_BUILDING_INSERT_FAILED;
+			$_SESSION["messages"][] = array("error", ERROR_USER_BUILDING_INSERT_FAILED);
 			return false;
 		} 
 
@@ -364,7 +395,7 @@ class myBaseModel {
 		$query = $this->db->prepare($sql);
 		$query->execute(array(':userid' => $userid));
 		if ($query->rowCount() < 1) {
-			$_SESSION["msg_errors"][] = ERROR_USER_TROOP_CLEAR_FAILED;
+			$_SESSION["messages"][] = array("error", ERROR_USER_TROOP_CLEAR_FAILED);
 			return false;
 		}
 
@@ -376,13 +407,13 @@ class myBaseModel {
 
 			// Save levels to database
 			if (!$this->insertUserTroop($userid, $t->item_id, $t->level)) {
-				$_SESSION["msg_errors"][] = ERROR_USER_TROOP_INSERT_FAILED;
+				$_SESSION["messages"][] = array("error", ERROR_USER_TROOP_INSERT_FAILED);
 				return false;
 			}
 		}
 
 		// Return success
-		$_SESSION["msg_success"][] = SUCCESS_USER_TROOPS_SAVED;
+		$_SESSION["messages"][] = array("success", SUCCESS_USER_TROOPS_SAVED);
 		return true;
 
 	}
@@ -401,7 +432,7 @@ class myBaseModel {
 						':troopid' => $troopid,
 						':level' => $level));
 		if ($query->rowCount() != 1) {
-			$_SESSION["msg_errors"][] = ERROR_USER_TROOP_INSERT_FAILED;
+			$_SESSION["messages"][] = array("error", ERROR_USER_TROOP_INSERT_FAILED);
 			return false;
 		} 
 

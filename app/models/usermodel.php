@@ -30,7 +30,7 @@ class userModel {
 		if ($query->rowCount()==1) {
 			return $query->fetch();
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND; 
+			$_SESSION["messages"][] = array("error", ERROR_USER_NOT_FOUND);
 			return false;
 		}
 	}
@@ -55,10 +55,10 @@ class userModel {
 			Session::set('user_firstname', $_POST['firstname']);
 			Session::set('user_lastname', $_POST['lastname']);
 			Session::set('user_email', $_POST['email']);
-			$_SESSION["msg_success"][] = SUCCESS_USER_INFO_UPDATED;
+			$_SESSION["messages"][] = array("success", SUCCESS_USER_INFO_UPDATED);
 			return true;
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_USER_UPDATE_FAILED; 
+			$_SESSION["messages"][] = array("error", ERROR_USER_UPDATE_FAILED);
 			return false;
 		}
 	}
@@ -69,15 +69,15 @@ class userModel {
 	public function changePassword() {
 		// Check form fields
 		if (empty($_POST['password'])) { 
-			$_SESSION["msg_errors"][] = ERROR_PASSWORD_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_FIELD_EMPTY);
 		} elseif (empty($_POST['new_password'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_FIELD_EMPTY);
 		} elseif (strlen($_POST['new_password']) < 6) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_TOO_SHORT);
 		} elseif (empty($_POST['new_password_confirm'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY);
 		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
-			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_CONFIRM_WRONG);
 		} elseif (!empty($_POST['password']) 
 			AND !empty($_POST['new_password']) 
 			AND (strlen($_POST['new_password']) >= 6) 
@@ -87,7 +87,7 @@ class userModel {
 			// Validate current password
 			$user = $this->getUser(Session::get('user_id'));
 			if (!password_verify($_POST['password'], $user->user_password)) {
-				$_SESSION["msg_errors"][] = ERROR_PASSWORD_WRONG;
+				$_SESSION["messages"][] = array("error", ERROR_PASSWORD_WRONG);
 				return false;
 			}
 
@@ -103,12 +103,12 @@ class userModel {
 
 			// Check success
 			if ($query->rowCount()!=1) {
-				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED;
+				$_SESSION["messages"][] = array("error", ERROR_PASSWORD_UPDATE_FAILED);
 				return false;
 			}
 
 			// Return success
-			$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
+			$_SESSION["messages"][] = array("error", SUCCESS_PASSWORD_UPDATED);
 			return true;
 		}
 

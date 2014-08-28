@@ -32,7 +32,7 @@ class adminModel {
 		if ($query->rowCount()>=1) {
 			return $query->fetchAll();
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_USER_UPDATE_FAILED; 
+			$_SESSION["messages"][] = array("error", ERROR_USER_UPDATE_FAILED); 
 			return false;
 		}
 	}
@@ -52,7 +52,7 @@ class adminModel {
 		if ($query->rowCount()==1) {
 			return $query->fetch();
 		} else {
-			$_SESSION["msg_errors"][] = ERROR_USER_NOT_FOUND; 
+			$_SESSION["messages"][] = array("error", ERROR_USER_NOT_FOUND);
 			return false;
 		}
 	}
@@ -63,19 +63,19 @@ class adminModel {
 	public function insertUser() {
 		// Check input fields
 		if (empty($_POST['firstname'])) {
-			$_SESSION["msg_errors"][] = ERROR_FIRST_NAME_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_FIRST_NAME_FIELD_EMPTY);
 		} elseif (empty($_POST['lastname'])) {
-			$_SESSION["msg_errors"][] = ERROR_LAST_NAME_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_LAST_NAME_FIELD_EMPTY);
 		} elseif (empty($_POST['email'])) {
-			$_SESSION["msg_errors"][] = ERROR_EMAIL_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_EMAIL_FIELD_EMPTY);
 		} elseif (empty($_POST['new_password'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_FIELD_EMPTY);
 		} elseif (strlen($_POST['new_password']) < 6) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_TOO_SHORT);
 		} elseif (empty($_POST['new_password_confirm'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY);
 		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
-			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_CONFIRM_WRONG);
 		} elseif (!empty($_POST['firstname']) 
 			AND !empty($_POST['lastname']) 
 			AND !empty($_POST['email']) 
@@ -88,7 +88,7 @@ class adminModel {
 			$query = $this->db->prepare("SELECT user_id FROM users WHERE user_email = :email");
 			$query->execute(array(':email' => $_POST['email']));
 			if ($query->rowCount() >= 1) {
-				$_SESSION["msg_errors"][] = ERROR_EMAIL_TAKEN;
+				$_SESSION["messages"][] = array("error", ERROR_EMAIL_TAKEN);
 				return false;
 			}
 
@@ -110,12 +110,12 @@ class adminModel {
 							':code' => $newCode,
 							':created' => date('Y-m-d H:i:s')));
 			if ($query->rowCount() != 1) {
-				$_SESSION["msg_errors"][] = ERROR_USER_CREATION_FAILED;
+				$_SESSION["messages"][] = array("error", ERROR_USER_CREATION_FAILED);
 				return false;
 			}
 
 			// Return success
-			$_SESSION["msg_success"][] = SUCCESS_USER_CREATED;
+			$_SESSION["messages"][] = array("success", SUCCESS_USER_CREATED);
 			return true;
 
 		}
@@ -131,13 +131,13 @@ class adminModel {
 	public function resetPassword($userid) {
 		// Check form fields
 		if (empty($_POST['new_password'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_FIELD_EMPTY);
 		} elseif (strlen($_POST['new_password']) < 6) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_TOO_SHORT;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_TOO_SHORT);
 		} elseif (empty($_POST['new_password_confirm'])) {
-			$_SESSION["msg_errors"][] = ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY;
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY);
 		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
-			$_SESSION["msg_errors"][] = ERROR_PASSWORD_CONFIRM_WRONG;
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_CONFIRM_WRONG);
 		} elseif (!empty($_POST['new_password']) 
 			AND (strlen($_POST['new_password']) >= 6) 
 			AND !empty($_POST['new_password_confirm'])
@@ -155,12 +155,12 @@ class adminModel {
 
 			// Check success
 			if ($query->rowCount()!=1) {
-				$_SESSION["msg_errors"][] = ERROR_PASSWORD_UPDATE_FAILED;
+				$_SESSION["messages"][] = array("error", ERROR_PASSWORD_UPDATE_FAILED);
 				return false;
 			}
 
 			// Return success
-			$_SESSION["msg_success"][] = SUCCESS_PASSWORD_UPDATED;
+			$_SESSION["messages"][] = array("success", SUCCESS_PASSWORD_UPDATED);
 			return true;
 		}
 

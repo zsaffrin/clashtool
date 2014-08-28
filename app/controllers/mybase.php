@@ -13,13 +13,14 @@ class myBase extends Controller {
 		$myBaseModel = $this->loadModel('myBaseModel');
 
 		// Pass data
+		$this->view->th_level = $myBaseModel->getUserTHLevel(Session::get('user_id'));
 		$this->view->production = $myBaseModel->getUserProduction(Session::get('user_id'));
 
 		// Render view
 		$this->view->render('mybase/index');
 	}
 
-	// Buildings and Traps page
+	// Buildings and Resources page
 	public function buildings() {
 		$myBaseModel = $this->loadModel('myBaseModel');
 
@@ -36,6 +37,25 @@ class myBase extends Controller {
 		$myBaseModel = $this->loadModel('myBaseModel');
 		$myBaseModel->saveBuildingLevels(Session::get('user_id'));
 		header('Location: '.URL.'mybase/buildings');
+	}
+
+	// Defenses and Traps page
+	public function defenses() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+
+		// Get building set
+		$buildingSet = $myBaseModel->getBuildingSet(Session::get('user_id'));
+
+		// Pass data and render view
+		$this->view->buildings = $buildingSet;
+		$this->view->render('mybase/defenses');
+	}
+
+	// Save changes to Defenses
+	public function defenses_action() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+		$myBaseModel->saveBuildingLevels(Session::get('user_id'));
+		header('Location: '.URL.'mybase/defenses');
 	}
 
 	// Troops and Spells page
