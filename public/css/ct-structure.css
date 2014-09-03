@@ -238,6 +238,7 @@ cite:before { content: "\2014 \0020"; }
 .align-l { text-align: left; }
 .align-c { text-align: center; }
 .align-r { text-align: right; }
+.no-pad { padding: 0;}
 
 	/* d. Links */
 a, a:visited { color: inherit; }

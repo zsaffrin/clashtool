@@ -24,7 +24,7 @@ class Login extends Controller {
 		$this->view->form_submit_label = 'Log In';
 
 		// Render view
-		$this->view->render('login/index');
+		$this->view->render_noLeftNav('login/index');
 	}
 
 	/**

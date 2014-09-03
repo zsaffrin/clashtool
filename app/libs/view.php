@@ -4,7 +4,16 @@ class View {
 
 	public function render($view_path) {
 		require VIEWS_PATH.'_templates/header.php';
-		require VIEWS_PATH.'_templates/nav.php';
+		require VIEWS_PATH.'_templates/top-nav.php';
+		require VIEWS_PATH.'_templates/main_with-left-nav.php';
+		require VIEWS_PATH.$view_path.'.php';
+		require VIEWS_PATH.'_templates/footer.php';
+	}
+
+	public function render_noLeftNav($view_path) {
+		require VIEWS_PATH.'_templates/header.php';
+		require VIEWS_PATH.'_templates/top-nav.php';
+		require VIEWS_PATH.'_templates/main_no-left-nav.php';
 		require VIEWS_PATH.$view_path.'.php';
 		require VIEWS_PATH.'_templates/footer.php';
 	}
