@@ -50,6 +50,17 @@ class View {
 		return $result;
 	}
 
+	// Display a given value as game resource
+	public function resource_format($resource_type, $value) {
+		echo '<span class="resource-format ';
+		if ($resource_type == 1) { echo 'gold'; }
+		else if ($resource_type == 2) { echo 'elixir'; }
+		else if ($resource_type == 3) { echo 'dark-elixir'; }
+		echo '">';
+		echo number_format($value);
+		echo '</span>';
+	}
+
 	// Display item level input row
 	public function display_mybaseItemLevelSelect($item, $maxLevel) {
 		echo '<tr>';
@@ -75,6 +86,10 @@ class View {
 					echo '<span>'.$n.'</span>';
 				echo '</label>';
 			}
+		}
+		echo '<td class="mybase-level-info">';
+		if (isset($item->next_level_cost) AND $item->next_level_cost > 0) {
+			echo $this->resource_format($item->next_level_cost_type, $item->next_level_cost);
 		}
 	}
 

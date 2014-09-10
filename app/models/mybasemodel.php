@@ -99,6 +99,26 @@ class myBaseModel {
 	}
 
 	/**
+	 * 	Get troop level details
+	 */
+	public function getTroopLevels() {
+		$sql = 'SELECT 	troop_id,
+						troop_level,
+						lab_level_required,
+						research_time,
+						research_cost,
+						research_cost_type,
+						train_cost,
+						train_cost_type,
+						damage,
+						hit_points  
+				FROM 	troop_levels';
+		$query = $this->db->prepare($sql);
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * 	Get TH Requirement mappings
 	 */
 	public function getTHReqs() {
@@ -241,6 +261,20 @@ class myBaseModel {
 			}
 		}
 
+		// Next level info
+		foreach ($buildingSet as $b) {
+			if ($b->level < $b->max_level) {
+				foreach ($buildingLevels as $l) {
+					if ($l->building_id == $b->item_id 
+						AND $l->building_level == ($b->level + 1)) {
+
+						$b->next_level_cost = $l->build_cost;
+						$b->next_level_cost_type = $l->build_cost_type;
+					}
+				}
+			}
+		}
+
 		// Return building set
 		return $buildingSet;
 	}
@@ -251,6 +285,7 @@ class myBaseModel {
 	public function getTroopSet($userid) {
 		// Get data
 		$troopList = $this->getTroopList();
+		$troopLevels = $this->getTroopLevels();
 		$userTroopLevels = $this->getUserTroops($userid);
 		$labReqs = $this->getLabReqs();
 		$buildings = $this->getBuildingSet($userid);
@@ -298,6 +333,20 @@ class myBaseModel {
 
 				// Add troop to set
 				$troopSet[] = $troop;
+			}
+		}
+
+		// Next level info
+		foreach ($troopSet as $t) {
+			if ($t->level < $t->max_level) {
+				foreach ($troopLevels as $l) {
+					if ($l->troop_id == $t->item_id 
+						AND $l->troop_level == ($t->level + 1)) {
+
+						$t->next_level_cost = $l->research_cost;
+						$t->next_level_cost_type = $l->research_cost_type;
+					}
+				}
 			}
 		}
 

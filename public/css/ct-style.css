@@ -16,6 +16,24 @@ h1, h2, h3, h4, h5, h6 {
 .no-space { 
 	margin-bottom: 0em;
 }
+.resource-format {
+	background-position: top left;
+	background-repeat: no-repeat;
+	background-size: 16px;
+	padding-left: 20px;
+}
+.resource-format.gold { 
+	background-image: url('../img/icons-sm/ico-sm-gold.png');
+	color: #A69612; 
+}
+.resource-format.elixir { 
+	background-image: url('../img/icons-sm/ico-sm-elixir.png');
+	color: #9358AC; 
+}
+.resource-format.dark-elixir { 
+	background-image: url('../img/icons-sm/ico-sm-darkelixir.png');
+	color: #100529; 
+}
 
 
 /* 	TEXT AND LISTS
@@ -284,15 +302,16 @@ footer {
 .mybase-levels {
 	font-size: 0.875em;
 }
-.mybase-levels tr {
-	
-}
 .mybase-levels th {
 	text-align: left;
 	padding-right: 1em;
 }
 .mybase-levels td {
 	vertical-align: middle;
+}
+.mybase-level-info {
+	font-size: 0.8em;
+	padding: 0 0 0.25em 1em;
 }
 .mybase-lvl-select[type="radio"] {
 	display: none;
