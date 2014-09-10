@@ -64,7 +64,9 @@ class referenceModel {
 						build_armcost,
 						build_armcost_type,
 						production,
-						capacity 
+						production_type,
+						capacity,
+						capacity_type 
 				FROM 	building_levels 
 				WHERE 	building_id = :buildingid 
 				ORDER BY building_level ASC';
@@ -142,7 +144,9 @@ class referenceModel {
 						lab_level_required,
 						research_time,
 						research_cost,
-						train_cost 
+						research_cost_type,
+						train_cost,
+						train_cost_type 
 				FROM 	troop_levels  
 				WHERE 	troop_id = :troopid 
 				ORDER BY troop_level ASC';

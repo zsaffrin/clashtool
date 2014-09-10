@@ -152,7 +152,7 @@ class myBaseModel {
 	 */
 	public function getUserTHLevel($userid) {
 		$userBuildingCounts = $this->getUserBuildings($userid);
-		$thLevel = null;
+		$thLevel = 1;
 		foreach ($userBuildingCounts as $c) {
 			if ($c->building_id == 1) { $thLevel = $c->building_level; }
 		}
@@ -201,7 +201,7 @@ class myBaseModel {
 		$building = new stdClass();
 		$building->item_class = 1;
 		$building->item_id = 1;
-		$building->level = 0;
+		$building->level = 1;
 		$building->max_level = 10;
 		$building->building_num = 1;
 		$building->name = "Town Hall";
@@ -209,7 +209,7 @@ class myBaseModel {
 		$building->subtype = 1;
 
 		foreach ($userBuildings as $u) {
-			if ($u->building_id == 1 AND $u->building_num == 1) {
+			if ($u->building_id == $building->item_id AND $u->building_num == $building->building_num) {
 				$building->level = $u->building_level;
 			}
 		}
@@ -502,9 +502,11 @@ class myBaseModel {
 		$production[3] = array('name' => "Dark Elixir", 'count' => 0);
 
 		foreach ($buildings as $b) {
-			if ($b->item_id == 24) { $production[1]['count'] = abs($production[1]['count'] + $b->production); }
-			if ($b->item_id == 11) { $production[2]['count'] = abs($production[2]['count'] + $b->production); }
-			if ($b->item_id == 26) { $production[3]['count'] = abs($production[3]['count'] + $b->production); }
+			if (isset($b->production)) {
+				if ($b->item_id == 24) { $production[1]['count'] = abs($production[1]['count'] + $b->production); }
+				if ($b->item_id == 11) { $production[2]['count'] = abs($production[2]['count'] + $b->production); }
+				if ($b->item_id == 26) { $production[3]['count'] = abs($production[3]['count'] + $b->production); }
+			}
 		}
 		return $production;
 	}

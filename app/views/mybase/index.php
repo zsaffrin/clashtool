@@ -31,6 +31,9 @@
 						<span class="tile-title">Gold</span>
 					</div>
 					<div class="tile-content">
+						<div class="pull-left fade">
+							<img src="<?php echo URL.'public/img/icons-lg/ico-lg-gold.png'; ?>" />
+						</div>
 						<div class="pull-right">
 							<table>
 								<?php
@@ -52,6 +55,9 @@
 						<span class="tile-title">Elixir</span>
 					</div>
 					<div class="tile-content">
+						<div class="pull-left fade">
+							<img src="<?php echo URL.'public/img/icons-lg/ico-lg-elixir.png'; ?>" />
+						</div>
 						<div class="pull-right">
 							<table>
 								<?php
@@ -73,6 +79,9 @@
 						<span class="tile-title">Dark Elixir</span>
 					</div>
 					<div class="tile-content">
+						<div class="pull-left fade">
+							<img src="<?php echo URL.'public/img/icons-lg/ico-lg-darkelixir.png'; ?>" />
+						</div>
 						<div class="pull-right">
 							<table>
 								<?php

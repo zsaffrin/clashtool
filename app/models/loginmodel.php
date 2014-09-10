@@ -17,6 +17,7 @@ class loginModel {
 		} elseif (!empty($_POST['email']) 
 			AND !empty($_POST['password'])) {
 			$sql = 'SELECT 	user_id, 
+							user_status, 
 							user_email, 
 							user_firstname, 
 							user_lastname, 
@@ -35,6 +36,15 @@ class loginModel {
 			$dbUser = $query->fetch();
 			if (password_verify($_POST['password'], $dbUser->user_password)) {
 				
+				// Check user account status
+				if ($dbUser->user_status == 0) {
+					$_SESSION["messages"][] = array("error", ERROR_USER_PENDING);
+					return false;
+				} 
+				if ($dbUser->user_status == 2) {
+					$_SESSION["messages"][] = array("error", ERROR_USER_ACCOUNT_LOCKED);
+					return false;
+				} 
 				// Set session data
 				Session::set('user_logged_in', true);
 				Session::set('user_id', $dbUser->user_id);

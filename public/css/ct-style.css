@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 0em;
 }
 .resource-format {
-	background-position: top left;
+	background-position: left;
 	background-repeat: no-repeat;
 	background-size: 16px;
 	padding-left: 20px;
@@ -97,6 +97,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .list td {
 	font-size: 0.875em;
+}
+table.align-c th {
+	text-align: center;
 }
 
 /* 	INPUTS
@@ -311,7 +314,7 @@ footer {
 }
 .mybase-level-info {
 	font-size: 0.8em;
-	padding: 0 0 0.25em 1em;
+	padding: 0 1em 0.25em;
 }
 .mybase-lvl-select[type="radio"] {
 	display: none;
@@ -369,7 +372,7 @@ footer {
 	background: #9358AC;
 }
 .mybase-dash-tile.black {
-	background: #100529;
+	background: rgba(16, 5, 41, 0.75);
 }
 .mybase-dash-tile .tile-titlebar {
 	background: rgba(255, 255, 255, 0.3);
@@ -384,6 +387,13 @@ footer {
 .mybase-dash-tile .tile-content {
 	overflow: hidden;
 	padding: 5px;
+}
+.mybase-dash-tile .tile-content .pull-left {
+	float: left;
+	padding: 1em;
+}
+.mybase-dash-tile .tile-content .pull-left.fade {
+	opacity: 1;
 }
 .mybase-dash-tile .tile-content .pull-right {
 	float: right;

@@ -34,7 +34,7 @@
 								<td><?php echo $u->user_level; ?> 
 								<td><?php echo $u->user_last_login; ?> 
 								<td><?php echo $u->user_failed_logins; ?> 
-								<td><a href="<?php echo 'resetPassword/'.$u->user_id; ?>" class="button">Reset Password</a>
+								<td><a href="<?php echo 'resetPassword/'.$u->user_id; ?>" title="Reset User Password"><span class="fa fa-key fa-fw"></span></a>
 						<?php }
 					} 
 				?>

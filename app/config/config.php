@@ -63,6 +63,8 @@
 	define('ERROR_USER_BUILDING_INSERT_FAILED', 'Error while saving Building levels - Building record not saved successfully');
 	define('ERROR_USER_TROOP_CLEAR_FAILED', 'Error while saving Troop levels - Database preparation failed');
 	define('ERROR_USER_TROOP_INSERT_FAILED', 'Error while saving Troop levels - Troop level record not saved successfully');
+	define('ERROR_USER_PENDING', 'Signup request is still pending. You will be notified by email once your account is ready.');
+	define('ERROR_USER_ACCOUNT_LOCKED', 'Account locked. Please contact me to unlock.');
 
 	/**
 	 * 	Success messages

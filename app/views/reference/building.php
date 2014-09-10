@@ -29,17 +29,17 @@
 				<tr>
 					<td><?php echo $l->building_level; ?> 
 					<td><?php echo $this->formatTime($l->build_time); ?> 
-					<td><?php echo number_format($l->build_cost); ?> 
+					<td><?php echo $this->resource_format($l->build_cost_type, $l->build_cost); ?> 
 					<?php 	if ($this->building_info->building_type == 2) { ?>
-								<td><?php echo $l->build_armcost; ?> 
+								<td><?php echo $this->resource_format($l->build_armcost_type, $l->build_armcost); ?> 
 					<?php 	} 
 							$production = array(11, 24, 26);
 							if (in_array($this->building_info->building_id, $production)) { ?>
-								<td><?php echo number_format($l->production); ?> 
+								<td><?php echo $this->resource_format($l->production_type, $l->production); ?> 
 					<?php 	} 
 							$capacity = array(10, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26);
 							if (in_array($this->building_info->building_id, $capacity)) { ?>
-								<td><?php echo number_format($l->capacity); ?> 
+								<td><?php echo $this->resource_format($l->capacity_type, $l->capacity); ?> 
 					<?php 	} 
 				} ?>
 			</table>

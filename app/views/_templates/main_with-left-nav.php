@@ -17,5 +17,12 @@
 						<span class="fa fa-database fa-fw"></span>&nbsp; Reference
 					</a>
 			</ul>
+
+			<?php if ((Session::get('user_level')) >= 3) { ?>
+			<ul>
+				<li>&nbsp;
+				<li><a href="<?php echo URL.'admin/users'; ?>"><span class="fa fa-gears fa-fw"></span>&nbsp; Users</a>
+			</ul>
+			<?php } ?>
 		</div>
 		<div class="content">

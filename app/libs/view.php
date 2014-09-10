@@ -107,6 +107,12 @@ class View {
 
 		// Display table and render rows containing inputs
 		echo '<table class="mybase-levels">';
+		
+		echo '<tr>';
+		echo '<td>&nbsp;';
+		for ($n=0;$n<=$maxLevel;$n++) { echo '<td>&nbsp;'; }
+		echo '<td class="align-c"><small>Next Level</small>';
+
 		foreach ($itemset as $i) {
 			if ((empty($type) OR ($type == $i->type)) 
 				AND (empty($subtype) OR ($subtype == $i->subtype))) {

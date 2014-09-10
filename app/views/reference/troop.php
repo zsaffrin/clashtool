@@ -39,8 +39,8 @@
 					<td><?php echo $l->troop_level; ?> 
 					<td><?php echo $l->lab_level_required; ?> 
 					<td><?php echo $this->formatTime($l->research_time); ?> 
-					<td><?php echo number_format($l->research_cost); ?> 
-					<td><?php echo number_format($l->train_cost); ?> 
+					<td><?php echo $this->resource_format($l->research_cost_type, $l->research_cost); ?> 
+					<td><?php echo $this->resource_format($l->train_cost_type, $l->train_cost); ?> 
 				<?php } ?>
 			</table>
 		</div>
