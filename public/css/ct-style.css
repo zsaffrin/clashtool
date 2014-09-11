@@ -104,19 +104,7 @@ table.align-c th {
 
 /* 	INPUTS
 ======================================== */
-/*
-input {
-	border: 1px solid #B3B3B3;
-	border-radius: 0.25em;
-	color: #233656;
-	font-weight: 400;
-	line-height: 1.5em;
-	padding: 0.15em 0.2em;
-	margin: 0.25em;
-	text-indent: 0.25em;
-	width: 100%;
-}
-*/
+
 .submit {
 	padding: 0.5em;
 	text-align: center;
@@ -145,6 +133,10 @@ input {
 .top-nav .page-title {
 	float: left;
 	margin-left: 0.5em;
+}
+.top-nav .page-title a {
+	background: url('../img/icons-sm/ico-sm-swords.png') left no-repeat;
+	padding-left: 30px;
 }
 
 .user-nav {

@@ -108,7 +108,7 @@ class userModel {
 			}
 
 			// Return success
-			$_SESSION["messages"][] = array("error", SUCCESS_PASSWORD_UPDATED);
+			$_SESSION["messages"][] = array("success", SUCCESS_PASSWORD_UPDATED);
 			return true;
 		}
 

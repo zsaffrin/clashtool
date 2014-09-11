@@ -62,6 +62,15 @@ class Admin extends Controller {
 		
 	}
 
+	// Edit user
+	public function editUser($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		$userInfo = $adminModel->getUser($userid);
+		$this->view->user_info = $userInfo;
+
+		$this->view->render('admin/edituser');
+	}
+
 	// Change user password
 	public function resetPassword($userid) {
 		$adminModel = $this->loadModel('adminModel');

@@ -382,10 +382,6 @@ class myBaseModel {
 				WHERE 	user_id = :userid';
 		$query = $this->db->prepare($sql);
 		$query->execute(array(':userid' => $userid));
-		if ($query->rowCount() < 1) {
-			$_SESSION["messages"][] = array("error", ERROR_USER_BUILDING_CLEAR_FAILED);
-			return false;
-		}
 
 		// Save new counts
 		foreach ($buildingList as $b) {
