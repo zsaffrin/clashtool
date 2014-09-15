@@ -45,6 +45,9 @@ h1, h2, h3, h4, h5, h6 {
 .horizontal-list li {
 	float: left;
 }
+.list tr:hover {
+	background: #E6E6E6;
+}
 
 /* 	BUTTONS
 ======================================== */
@@ -105,6 +108,24 @@ table.align-c th {
 /* 	INPUTS
 ======================================== */
 
+.input-field {
+	background: #fff;
+	border: 1px solid #ccc;
+	padding: 5px;
+	margin: 2px auto;
+	overflow: hidden;
+	width: 95%;
+}
+.input-field label {
+	float: left;
+}
+.input-field input {
+	background: none;
+	border: none;
+	float: right;
+	font-weight: 400;
+	width: 94%;
+}
 .submit {
 	padding: 0.5em;
 	text-align: center;
@@ -112,7 +133,6 @@ table.align-c th {
 .submit input {
 	width: auto;
 }
-
 
 /* 	NAVIGATION
 ======================================== */
@@ -233,6 +253,13 @@ table.align-c th {
 	background: #ebbdb7;
 	border-color: #591F19;
 }
+.alert {
+	padding: 10px;
+	width: 100%;
+}
+.alert.red {
+	background: #ebbdb7;
+}
 
 /* 	LOGIN PANEL
 ======================================== */
@@ -246,37 +273,6 @@ table.align-c th {
 	position: relative;
 	width: 500px;
 }
-.login-panel .field {
-	background: #fff;
-	border: 1px solid #ccc;
-	padding: 5px;
-	margin: 2px auto;
-	overflow: hidden;
-	width: 480px;
-}
-.login-panel .field > input:focus {
-	border-color: #103137;
-}
-.login-panel .field label {
-	float: left;
-	width: 80px;
-}
-.login-panel .field input {
-	background: none;
-	border: none;
-	float: right;
-	font-weight: 400;
-	width: 380px;
-}
-.login-panel .field input:focus {
-	border: none;
-}
-.login-panel .field input:focus:parent {
-	border-color: #103137;
-}
-.login-panel .submit {
-	padding: 20px 10px;
-}
 
 
 /* 	FOOTER
@@ -289,6 +285,25 @@ table.align-c th {
 footer {
 	font-size: 0.8em;
 	margin-left: 1em;
+}
+
+/* 	ADMIN TOOLS
+======================================== */
+
+.inline-user-tools {
+	list-style: none;
+}
+.inline-user-tools li {
+	float: left;
+}
+.inline-user-tools li a {
+	color: #C9CFCF;
+}
+.inline-user-tools li a:hover {
+	color: #3B0E09;
+}
+.inline-user-tools li a.active {
+	color: #E44444;
 }
 
 /* 	MY BASE

@@ -116,6 +116,51 @@ class userModel {
 		return false;
 	}
 
+
+	/**
+	 * 	Force-set user password
+	 */
+	public function setPassword() {
+		// Check form fields
+		if (empty($_POST['new_password'])) {
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_FIELD_EMPTY);
+		} elseif (strlen($_POST['new_password']) < 6) {
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_TOO_SHORT);
+		} elseif (empty($_POST['new_password_confirm'])) {
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY);
+		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_CONFIRM_WRONG);
+		} elseif (!empty($_POST['new_password']) 
+			AND (strlen($_POST['new_password']) >= 6) 
+			AND !empty($_POST['new_password_confirm'])
+			AND ($_POST['new_password'] == $_POST['new_password_confirm'])) {
+
+			// Hash new password
+			$hpass = password_hash($_POST['new_password'], PASSWORD_DEFAULT, ['cost' => HASH_COST_FACTOR]);
+
+			// Store new password
+			$sql = 'UPDATE 	users
+					SET 	user_password = :hpass,
+							force_password_reset = 0 
+					WHERE 	user_id = :userid';
+			$query = $this->db->prepare($sql);
+			$query->execute(array(':hpass' => $hpass, ':userid' => $_POST['userid']));
+
+			// Check success
+			if ($query->rowCount()!=1) {
+				$_SESSION["messages"][] = array("error", ERROR_PASSWORD_UPDATE_FAILED);
+				return false;
+			}
+
+			// Return success
+			$_SESSION["messages"][] = array("success", SUCCESS_PASSWORD_UPDATED);
+			return true;
+		}
+
+		// Default return
+		return false;
+	}
+
 }
 
 ?>

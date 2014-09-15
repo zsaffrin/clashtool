@@ -12,9 +12,14 @@
 				<li><a href="<?php echo URL.'user/myaccount'; ?>">My Account</a>
 				<li><a href="<?php echo URL.'login/logout'; ?>">Log Out</a>
 			<?php } else {
-				// Otherwise, display public navigation ?>
-				<li><a href="#">Sign Up</a>
-			<?php } ?>
+				// Otherwise, display public navigation
+				if ($this->page_id == 'login') {
+					echo '<li><a href="'.URL.'login/signup">Sign Up</a>';
+				} elseif ($this->page_id == 'signup') {
+					echo '<li><a href="'.URL.'login">Log In</a>';
+				}
+			} 
+			?>
 			</ul>
 		</div>
 	</div>

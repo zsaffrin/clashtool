@@ -10,14 +10,50 @@ class Admin extends Controller {
 		if (!Auth::checkLevel(4)) {
 			header('location: '.URL);
 		}
+
+		// Interrupt if password reset is required
+		if (isset($_SESSION['force_password_reset']) AND $_SESSION['force_password_reset'] == true) {
+			header('Location: '.URL.'user/setPassword');
+		}
+	}
+
+	// Default landing page
+	public function index() {
+		$this->users();
 	}
 
 	// User admin home page
 	public function users() {
 		$adminModel = $this->loadModel('adminModel');
+
+		// Get user data
 		$userList = $adminModel->getAllUsers();
 		$this->view->user_list = $userList;
+
+		// Render view
 		$this->view->render('admin/users');
+	}
+
+	// Trigger flag to force user to choose a new password upon next login
+	public function force_password_reset($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		$adminModel->force_password_reset($userid);
+		header('location: '.URL.'admin/users');
+	}
+
+	// Trigger email verification process
+	public function trigger_email_verification($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
+		$adminModel->trigger_email_verification($userid);
+		header('location: '.URL.'admin/users');
+	}
+
+	// Toggle user activation status
+	public function toggle_user_status($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		$adminModel->toggle_user_status($userid);
+		header('location: '.URL.'admin/users');
 	}
 
 	// Add new user
@@ -108,6 +144,22 @@ class Admin extends Controller {
 		} else {
 			header('location: '.URL.'admin/resetPassword/'.$userid);
 		}
+	}
+
+	// Delete user
+	public function deleteUser($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		$userInfo = $adminModel->getUser($userid);
+		$this->view->user_info = $userInfo;
+
+		$this->view->render('admin/deleteuser');
+	}
+
+	// Delete user
+	public function deleteUser_action($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		$adminModel->deleteUser($userid);
+		header('location: '.URL.'admin/users');
 	}
 
 }

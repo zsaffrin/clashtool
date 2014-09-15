@@ -5,6 +5,13 @@ class myBase extends Controller {
 	public function __construct() {
 		parent::__construct();
 		Auth::checkLogin();
+
+		// Interrupt if password reset is required
+		if (isset($_SESSION['force_password_reset']) AND $_SESSION['force_password_reset'] == true) {
+			header('Location: '.URL.'user/setPassword');
+		}
+
+		// Page parent for navigation
 		$this->view->cur_page = "mybase";
 	}
 

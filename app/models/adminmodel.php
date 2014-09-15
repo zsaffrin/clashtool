@@ -20,11 +20,14 @@ class adminModel {
 	public function getAllUsers() {
 		$sql = 'SELECT 	user_id,
 						user_email,
+						user_email_verified,
+						user_status,
 						user_firstname,
 						user_lastname,
 						user_level,
 						user_last_login,
-						user_failed_logins 
+						user_failed_logins,
+						force_password_reset 
 				FROM 	users 
 				ORDER BY user_id ASC';
 		$query = $this->db->prepare($sql);
@@ -44,7 +47,8 @@ class adminModel {
 		$sql = 'SELECT 	user_id,
 						user_firstname,
 						user_lastname,
-						user_email  
+						user_email,
+						user_status 
 				FROM 	users 
 				WHERE 	user_id = :userid';
 		$query = $this->db->prepare($sql);
@@ -166,6 +170,142 @@ class adminModel {
 
 		// Default return
 		return false;
+	}
+
+	/**
+	 * 	Trigger flag to force user to choose a new password upon next login
+	 */
+	public function force_password_reset($userid) {
+		$sql = 'SELECT 	user_id,
+						force_password_reset 
+				FROM 	users 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+		$user = $query->fetch();
+
+		$newValue = 1;
+		if ($user->force_password_reset == 1) {
+			$newValue = 0;
+		} 
+
+		$sql = 'UPDATE 	users
+				SET 	force_password_reset = :newvalue 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid, ':newvalue' => $newValue));
+		if ($query->rowCount()!=1) {
+			$_SESSION["messages"][] = array("error", ERROR_FLAG_UPDATE_FAILED);
+			return false;
+		} else  {
+			return true;
+		}
+	}
+
+	/**
+	 * 	Trigger email verification process
+	 */
+	public function trigger_email_verification($userid) {
+		// Get User info
+		$user = $this->getUser($userid);
+
+		// Generate verification code
+		$verifyCode = substr(md5(microtime()),rand(0,26),16);
+
+		// Update database
+		$sql = 'UPDATE 	users
+				SET 	user_email_verified = 0,
+						user_email_verify_code = :vcode 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid, ':vcode' => $verifyCode));
+		if ($query->rowCount()==1) {
+			$_SESSION["messages"][] = array("success", SUCCESS_USER_FLAGS_UPDATED);
+		}
+
+		// Send verification email
+		$mail = new PHPMailer;
+
+		$mail->IsSMTP();
+		$mail->SMTPDebug = PHPMAILER_DEBUG_MODE;
+		$mail->SMTPAuth = EMAIL_SMTP_AUTH;
+		$mail->Host = EMAIL_SMTP_HOST;
+		$mail->Username = EMAIL_SMTP_USERNAME;
+		$mail->Password = EMAIL_SMTP_PASSWORD;
+		$mail->Port = EMAIL_SMTP_PORT;
+		$mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+
+		$mail->IsHTML(true);
+		$mail->AddReplyTo(EMAIL_VERIFICATION_FROM_EMAIL, EMAIL_VERIFICATION_FROM_NAME);
+		$mail->From = EMAIL_VERIFICATION_FROM_EMAIL;
+		$mail->FromName = EMAIL_VERIFICATION_FROM_NAME;
+		$mail->AddAddress($user->user_email);
+		
+		$mail->Subject = EMAIL_VERIFICATION_SUBJECT;
+		$mail->Body = EMAIL_VERIFICATION_CONTENT;
+		$mail->Body .= URL.'login/verify_email/'.urlencode($user->user_id).'/'.urlencode($verifyCode);
+		$mail->Body .= EMAIL_VERIFICATION_CONTENT_CLOSE;
+
+		if ($mail->Send()) {
+			$_SESSION["messages"][] = array("success", SUCCESS_EMAIL_SENT);
+			return true;
+		} else {
+			$_SESSION["messages"][] = array("error", ERROR_EMAIL_SEND_FAILED.' - '.$mail->ErrorInfo);
+			return false;
+		}
+	}
+
+	/**
+	 * 	Toggle user activation status
+	 */
+	public function toggle_user_status($userid) {
+		// Get User info
+		$user = $this->getUser($userid);
+
+		// Check current lock state, determine new state
+		if ($user->user_status == 1) {
+			$newStatus = 2;
+		} else {
+			$newStatus = 1;
+		}
+
+		$sql = 'UPDATE 	users
+				SET 	user_status = :status 
+				WHERE 	user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid, ':status' => $newStatus));
+		if ($query->rowCount()!=1) {
+			$_SESSION["messages"][] = array("error", ERROR_FLAG_UPDATE_FAILED);
+			return false;
+		} else  {
+			return true;
+		}
+	}
+
+	/**
+	 * 	Toggle user activation status
+	 */
+	public function deleteUser($userid) {
+		// Delete User buildings
+		$sql = 'DELETE FROM user_buildings 
+				WHERE 		user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+
+		// Delete User troops
+		$sql = 'DELETE FROM user_troops 
+				WHERE 		user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+
+		// Delete User Record
+		$sql = 'DELETE FROM users 
+				WHERE 		user_id = :userid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid));
+
+		return true;
+
 	}
 
 }
