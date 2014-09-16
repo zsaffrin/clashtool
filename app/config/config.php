@@ -10,13 +10,18 @@
 	/**
 	 * 	Set time zone
 	 */
-	date_default_timezone_set('Etc/UTC');
+	date_default_timezone_set('America/New_York');
 
 	/**
 	 * 	Default root path
 	 * 	Set to localhost path while in Development mode
 	 */
 	define('URL', 'http://localhost:8888/clashtool/');
+
+	/**
+	 * 	Administrative Contacts
+	 */
+	define('SYS_ADMIN_EMAIL_ADDRESS', 'awesomezach@gmail.com');
 
 	/**
 	 * 	Folder locations
@@ -56,12 +61,37 @@
 	/**
 	 * 	Email info and content templates
 	 */
+	define('EMAIL_NEW_USER_NOTIFICATION_FROM_EMAIL', 'no-reply@zachsaffrin.com');
+	define('EMAIL_NEW_USER_NOTIFICATION_FROM_NAME', 'ClashTool');
+	define('EMAIL_NEW_USER_NOTIFICATION_SUBJECT', 'New User Signup Notification');
+	define('EMAIL_NEW_USER_NOTIFICATION_CONTENT', '<p>A new user signup request has been received for email address ');
+	define('EMAIL_NEW_USER_NOTIFICATION_CONTENT_CLOSE', '. <p>Please log in to Activate this account.');
+
+	/**
+	 * 	Email info and content templates
+	 */
+	define('EMAIL_ADMIN_INVITE_FROM_EMAIL', 'no-reply@zachsaffrin.com');
+	define('EMAIL_ADMIN_INVITE_FROM_NAME', 'ClashTool');
+	define('EMAIL_ADMIN_INVITE_SUBJECT', 'You have been invited to use ClashTool');
+	define('EMAIL_ADMIN_INVITE_CONTENT_A', '	<p>I would like to invite you to check out my ClashTool app, a planning toolkit for playing Clash of Clans.
+											<p>If you don&apos;t know me or don&apos;t want to use this tool, you can simply ignore this email.
+											<p>If you&apos;re interested, though, click this link to log in and get started!<br>'.URL.'
+											<p>Log in with email address <b>');
+	define('EMAIL_ADMIN_INVITE_CONTENT_B', '</b><br>Your temporary password is: <b>');
+	define('EMAIL_ADMIN_INVITE_CONTENT_C', '</b>
+												<p>Thanks!
+												<p><i>-- Zach</i>');
+
+	/**
+	 * 	Email info and content templates
+	 */
 	define('EMAIL_VERIFICATION_FROM_EMAIL', 'no-reply@zachsaffrin.com');
 	define('EMAIL_VERIFICATION_FROM_NAME', 'ClashTool');
 	define('EMAIL_VERIFICATION_SUBJECT', 'Email verification for your ClashTool account');
 	define('EMAIL_VERIFICATION_CONTENT', '	<p>Hey there
-											<p>Terribly sorry to bug you, but we need you to verify the email address for your account to prove you own it. 
-											Not to worry, no personal details required, just click the link below to confirm.
+											<p>Terribly sorry to bug you, but we need you to verify the email address for your account to unlock it. 
+											This will happen when you sign up for an account, when you change your email address associated with the account, 
+											or as required from time to time by an administrator.
 											<p>Please click this link to verify your email address: ');
 	define('EMAIL_VERIFICATION_CONTENT_CLOSE', '<p>Thanks!
 												<p><i>-- Zach</i>');
@@ -80,6 +110,7 @@
 	define('ERROR_PASSWORD_CONFIRM_WRONG', 'New Password and Confirmation do not match. Please try again.');
 	define('ERROR_NEW_PASSWORD_TOO_SHORT', 'New Password too short. Please use at least 6 characters.');
 	define('ERROR_PASSWORD_WRONG', 'Incorrect Password');
+	define('ERROR_PASSWORD_NOT_UNIQUE', 'New Password cannot be the same as the old one. Please try another.');
 	define('ERROR_PASSWORD_UPDATE_FAILED', 'Password update failed');
 	define('ERROR_FAILED_LOGIN_RESET_FAILED', 'Failed Login count reset failed');
 	define('ERROR_ARGUMENT_MISSING', 'Argument Missing - ');

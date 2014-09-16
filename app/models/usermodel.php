@@ -138,6 +138,13 @@ class userModel {
 			// Hash new password
 			$hpass = password_hash($_POST['new_password'], PASSWORD_DEFAULT, ['cost' => HASH_COST_FACTOR]);
 
+			// Check if password is new
+			$user = $this->getUser($_POST['userid']);
+			if (password_verify($_POST['new_password'], $user->user_password)) {
+				$_SESSION["messages"][] = array("error", ERROR_PASSWORD_NOT_UNIQUE);
+				return false;
+			}
+
 			// Store new password
 			$sql = 'UPDATE 	users
 					SET 	user_password = :hpass,

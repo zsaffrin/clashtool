@@ -118,6 +118,7 @@ table.align-c th {
 }
 .input-field label {
 	float: left;
+	width: 5%;
 }
 .input-field input {
 	background: none;

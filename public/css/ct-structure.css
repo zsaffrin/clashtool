@@ -103,6 +103,7 @@ html, body { height: 100%; }
 .section { 
 	overflow: hidden; 
 	width: 100%;
+	min-width: 960px;
 }
 .container {
 	position: relative;

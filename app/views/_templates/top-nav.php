@@ -8,7 +8,7 @@
 			<?php
 			// If user is logged in, display internal navigation
 			if (Session::get('user_logged_in')) { ?>
-				<li><a href="#" class="inactive"><?php echo Session::get('user_firstname').' '.Session::get('user_lastname'); ?></a>
+				<li><a href="#" class="inactive"><?php echo Session::get('user_email'); ?></a>
 				<li><a href="<?php echo URL.'user/myaccount'; ?>">My Account</a>
 				<li><a href="<?php echo URL.'login/logout'; ?>">Log Out</a>
 			<?php } else {

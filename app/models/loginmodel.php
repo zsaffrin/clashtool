@@ -19,8 +19,6 @@ class loginModel {
 			$sql = 'SELECT 	user_id, 
 							user_status, 
 							user_email, 
-							user_firstname, 
-							user_lastname, 
 							user_password, 
 							user_code, 
 							user_level, 
@@ -49,8 +47,6 @@ class loginModel {
 				// Set session data
 				Session::set('user_logged_in', true);
 				Session::set('user_id', $dbUser->user_id);
-				Session::set('user_firstname', $dbUser->user_firstname);
-				Session::set('user_lastname', $dbUser->user_lastname);
 				Session::set('user_email', $dbUser->user_email);
 				Session::set('user_level', $dbUser->user_level);
 				if ($dbUser->force_password_reset == 1) { Session::set('force_password_reset', true); }
@@ -114,13 +110,19 @@ class loginModel {
 	public function signup() {
 		if (empty($_POST['email'])) {
 			$_SESSION["messages"][] = array("error", ERROR_EMAIL_FIELD_EMPTY);
-		} elseif (empty($_POST['firstname'])) {
-			$_SESSION["messages"][] = array("error", ERROR_FIRST_NAME_FIELD_EMPTY);
-		} elseif (empty($_POST['lastname'])) {
-			$_SESSION["messages"][] = array("error", ERROR_LAST_NAME_FIELD_EMPTY);
+		} elseif (empty($_POST['new_password'])) {
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_FIELD_EMPTY);
+		} elseif (strlen($_POST['new_password']) < 6) {
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_TOO_SHORT);
+		} elseif (empty($_POST['new_password_confirm'])) {
+			$_SESSION["messages"][] = array("error", ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY);
+		} elseif ($_POST['new_password'] !== $_POST['new_password_confirm']) {
+			$_SESSION["messages"][] = array("error", ERROR_PASSWORD_CONFIRM_WRONG);
 		} elseif (!empty($_POST['email']) 
-			AND !empty($_POST['firstname']) 
-			AND !empty($_POST['lastname'])) {
+			AND !empty($_POST['new_password']) 
+			AND (strlen($_POST['new_password']) >= 6)
+			AND !empty($_POST['new_password_confirm']) 
+			AND ($_POST['new_password'] == $_POST['new_password_confirm'])) {
 			
 			// Check if email is available
 			$sql = 'SELECT 	user_id,  
@@ -134,21 +136,48 @@ class loginModel {
 				return false;
 			}
 
+			// Hash new password
+			$hpass = password_hash($_POST['new_password'], PASSWORD_DEFAULT, ['cost' => HASH_COST_FACTOR]);
+
 			// Insert user record
-			$sql = 'INSERT INTO users 	(user_email, user_email_verified, user_status, user_firstname, user_lastname, user_created)
-					VALUES 				(:email, :emailverif, :status, :fname, :lname, :created)';
+			$sql = 'INSERT INTO users 	(user_email, user_email_verified, user_status, user_password, user_created)
+					VALUES 				(:email, :emailverif, :status, :newpass, :created)';
 			$query = $this->db->prepare($sql);
 			$query->execute(array(
 							':email' => $_POST['email'],
 							':emailverif' => 0,
 							':status' => 0,
-							':fname' => $_POST['firstname'],
-							':lname' => $_POST['lastname'],
+							':newpass' => $hpass,
 							':created' => date('Y-m-d H:i:s')));
 			if ($query->rowCount() != 1) {
 				$_SESSION["messages"][] = array("error", ERROR_USER_CREATION_FAILED);
 				return false;
 			}
+
+			// Send verification email
+			$mail = new PHPMailer;
+
+			$mail->IsSMTP();
+			$mail->SMTPDebug = PHPMAILER_DEBUG_MODE;
+			$mail->SMTPAuth = EMAIL_SMTP_AUTH;
+			$mail->Host = EMAIL_SMTP_HOST;
+			$mail->Username = EMAIL_SMTP_USERNAME;
+			$mail->Password = EMAIL_SMTP_PASSWORD;
+			$mail->Port = EMAIL_SMTP_PORT;
+			$mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+
+			$mail->IsHTML(true);
+			$mail->AddReplyTo(EMAIL_NEW_USER_NOTIFICATION_FROM_EMAIL, EMAIL_NEW_USER_NOTIFICATION_FROM_NAME);
+			$mail->From = EMAIL_NEW_USER_NOTIFICATION_FROM_EMAIL;
+			$mail->FromName = EMAIL_NEW_USER_NOTIFICATION_FROM_NAME;
+			$mail->AddAddress(SYS_ADMIN_EMAIL_ADDRESS);
+			
+			$mail->Subject = EMAIL_NEW_USER_NOTIFICATION_SUBJECT;
+			$mail->Body = EMAIL_NEW_USER_NOTIFICATION_CONTENT;
+			$mail->Body .= $_POST['email'];
+			$mail->Body .= EMAIL_NEW_USER_NOTIFICATION_CONTENT_CLOSE;
+
+			$mail->Send();
 
 			// Return success
 			return true;
@@ -158,9 +187,9 @@ class loginModel {
 	}
 
 	/**
-	 * 	Process signup request
+	 * 	Verify user email
 	 */
-	public function verifyEmail($uid, $code) {
+	public function verifyEmail($uid, $code, $unlock) {
 		$sql = 'SELECT 	user_id,  
 						user_email,
 						user_email_verified,
@@ -190,11 +219,12 @@ class loginModel {
 			AND $user->user_email_verify_code == $code
 			) {
 
-			// Verify email
+			// Update DB flags
 			$sql = 'UPDATE 	users 
 					SET 	user_email_verified = 1, 
-							user_email_verify_code = null 
-					WHERE 	user_id = :userid';
+							user_email_verify_code = null'; 
+			if ($unlock == 1) { $sql .= ', user_status = 1'; }
+			$sql .= ' WHERE 	user_id = :userid';
 			$query = $this->db->prepare($sql);
 			$query->execute(array(':userid' => $uid));
 

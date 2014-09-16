@@ -69,17 +69,7 @@ class Login extends Controller {
 				'id' => 'email', 
 				'type' => 'text',
 				'title' => 'Email',
-				'icon' => 'envelope-o'), 
-			array(
-				'id' => 'firstname', 
-				'type' => 'text',
-				'title' => 'First Name',
-				'icon' => 'user'),
-			array(
-				'id' => 'lastname', 
-				'type' => 'text',
-				'title' => 'Last Name',
-				'icon' => 'user'),
+				'icon' => 'envelope-o'),
 			array(
 				'id' => 'new_password', 
 				'type' => 'password',
@@ -102,6 +92,8 @@ class Login extends Controller {
 	**/
 	public function signup_action() {
 		$loginModel = $this->loadModel('loginModel');
+		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
+		
 		$signupSuccess = $loginModel->signup();
 		if ($signupSuccess) {
 			header('Location: '.URL.'login/signup_success');
@@ -120,12 +112,15 @@ class Login extends Controller {
 	}
 
 	/**
-	* 	Verify email
-	**/
-	public function verify_email($uid, $code) {
+	 * 	Verify user email
+	 * 	@param $uid 	User ID to verify
+	 * 	@param $code 	Verification code to confirm
+	 * 	@param $unlock 	Unlock account once verified - 0 = No (Default); 1 = Yes
+	 */
+	public function verify_email($uid, $code, $unlock=0) {
 		$this->view->page_id = 'login';
 		$loginModel = $this->loadModel('loginModel');
-		$verifySuccess = $loginModel->verifyEmail($uid, $code);
+		$verifySuccess = $loginModel->verifyEmail($uid, $code, $unlock);
 		if ($verifySuccess) {
 			header('Location: '.URL);
 		} else {

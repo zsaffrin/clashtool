@@ -10,6 +10,7 @@
 		<div class="size-1-1">
 			<div class="size-1-1">
 				<h3>Profile</h3>
+				<p>Please note that if you change your email address, you will need to verify the new address before you can log in again.
 			</div>
 
 			<div class="size-1-2">

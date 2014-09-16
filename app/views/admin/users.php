@@ -7,12 +7,14 @@
 
 		<?php $this->showMessage(); ?>
 
-		<div class="size-1-1">
-			<ul>
-				<li><a href="addUser" class="button">Add New User</a>
-				<li>&nbsp;
-			</ul>
+		<div class="size-1-2">
+			<form method="post" action="addUser">
+				<input type="text" id="email" name="email" title="Email" placeholder="Email" />
+				<input type="submit" class="button" value="Add New User">
+			</form>
 		</div>
+		<div class="size-1-2">&nbsp;</div>
+
 		<div class="size-1-1">
 			<table class="list">
 				<tr>
@@ -23,6 +25,7 @@
 					<th>Level
 					<th>Last Login
 					<th>Failed Logins
+					<th>&nbsp;
 				<?php 
 					if (!empty($this->user_list)) {
 						foreach ($this->user_list as $u) { ?>
@@ -59,13 +62,17 @@
 											</a>
 										<li>
 											<?php
-												if ($u->user_status == 1) {
-													echo '<a href="toggle_user_status/'.$u->user_id.'" title="Lock user">';
+												if ($u->user_status == 0) {
+													echo '<a href="activateUser/'.$u->user_id.'" title="Approve user">';
+													echo '<span class="fa fa-check-square-o fa-fw"></span>';
+													echo '</a>';
+												} elseif ($u->user_status == 1) {
+													echo '<a href="toggleUserLock/'.$u->user_id.'" title="Lock user">';
 													echo '<span class="fa fa-lock fa-fw"></span>';
 													echo '</a>';
-												} else {
-													echo '<a href="toggle_user_status/'.$u->user_id.'" title="Activate user" class="active">';
-													echo '<span class="fa fa-unlock fa-fw"></span>';
+												} elseif ($u->user_status == 2) {
+													echo '<a href="toggleUserLock/'.$u->user_id.'" title="Unlock user">';
+													echo '<span class="fa fa-unlock-alt fa-fw"></span>';
 													echo '</a>';
 												}
 											?>

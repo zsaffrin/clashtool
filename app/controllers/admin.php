@@ -45,57 +45,38 @@ class Admin extends Controller {
 	public function trigger_email_verification($userid) {
 		$adminModel = $this->loadModel('adminModel');
 		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
-		$adminModel->trigger_email_verification($userid);
+		$adminModel->verifyUserEmail($userid);
+		header('location: '.URL.'admin/users');
+	}
+
+	// Toggle user lock status
+	public function toggleUserLock($userid) {
+		$adminModel = $this->loadModel('adminModel');
+		$user = $adminModel->getUser($userid);
+		if ($user->user_status == 1) {
+			$adminModel->setUserStatus($userid, 2);
+		} elseif ($user->user_status == 2) {
+			$adminModel->setUserStatus($userid, 1);
+		} 
 		header('location: '.URL.'admin/users');
 	}
 
 	// Toggle user activation status
-	public function toggle_user_status($userid) {
+	public function activateUser($userid) {
 		$adminModel = $this->loadModel('adminModel');
-		$adminModel->toggle_user_status($userid);
+		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
+		$user = $adminModel->getUser($userid);
+		
+		$adminModel->setUserStatus($userid, 2);
+		$adminModel->verifyUserEmail($userid, 1);
 		header('location: '.URL.'admin/users');
 	}
 
 	// Add new user
 	public function addUser() {
-		// Set up Form options and inputs
-		$this->view->form_inputs = array(
-			array(
-				'id' => 'firstname', 
-				'type' => 'text',
-				'title' => 'First Name'),
-			array(
-				'id' => 'lastname', 
-				'type' => 'text',
-				'title' => 'Last Name'),
-			array(
-				'id' => 'email', 
-				'type' => 'text',
-				'title' => 'Email'),
-			array(
-				'id' => 'new_password', 
-				'type' => 'password',
-				'title' => 'Password'),
-			array(
-				'id' => 'new_password_confirm', 
-				'type' => 'password',
-				'title' => 'Confirm Password'));
-		$this->view->form_action = 'addUser_action';
-		$this->view->form_submit_label = 'Add User';
-
-		// Render the view
-		$this->view->render('admin/adduser');
-	}
-
-	// Add new user action
-	public function addUser_action() {
 		$adminModel = $this->loadModel('adminModel');
-		if ($adminModel->insertUser()) {
-			header('Location: '.URL.'admin/users');
-		} else {
-			$this->addUser();
-		}
-		
+		$adminModel->createUser();
+		header('Location: '.URL.'admin/users');
 	}
 
 	// Edit user
