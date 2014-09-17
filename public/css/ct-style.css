@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 0.5em;
 }
 .no-space { 
-	margin-bottom: 0em;
+	margin-bottom: 0;
 }
 .resource-format {
 	background-position: left;
@@ -370,6 +370,7 @@ footer {
 .mybase-sect-title {
 	color: #666;
 	text-transform: uppercase;
+	margin-top: 0;
 }
 
 .mybase-dash-tile {

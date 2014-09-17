@@ -188,32 +188,32 @@ h1, h2, h3, h4, h5, h6 {
 	h1 {
 	    font-size: 3em; /* 48px */
 	    line-height: 1em; 
-	    margin-bottom: .5em; 
+	    margin: .5em 0; 
 	}
 	h2 {
 	    font-size: 2.25em; /* 36px */
 	    line-height: 1.333333333333333em;
-	    margin-bottom: 0.6666666666666667em;
+	    margin: 0.6666666666666667em 0;
 	}
 	h3 {
 	    font-size: 1.5em; /* 24px */
 	    line-height: 1em;
-	    margin-bottom: 1em;
+	    margin: 1em 0;
 	}
 	h4 {
 	    font-size: 1.3125em; /* 21px */
 	    line-height: 1.142857142857143em;
-	    margin-bottom: 1.142857142857143em;
+	    margin: 1.142857142857143em 0;
 	}
 	h5 {
 	    font-size: 1.125em; /* 18px */
 	    line-height: 1.333333333333333em;
-	    margin-bottom: 1.333333333333333em;
+	    margin: 1.333333333333333em 0;
 	}
 	h6 {
 	    font-size: 1em; /* 16px */
 	    line-height: 1.5em;
-	    margin-bottom: 1em;
+	    margin: 1em 0;
 	}
 	
 	
