@@ -270,6 +270,7 @@ class myBaseModel {
 
 						$b->next_level_cost = $l->build_cost;
 						$b->next_level_cost_type = $l->build_cost_type;
+						$b->next_level_build_time = $l->build_time;
 					}
 				}
 			}

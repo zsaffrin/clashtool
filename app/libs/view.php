@@ -61,6 +61,11 @@ class View {
 		echo '</span>';
 	}
 
+	// Display a given value in D/H/M/S
+	public function timespan_format($timespan) {
+		echo '<span class="timespan-format">'.$this->formatTime($timespan).'</span>';
+	}
+
 	// Display item level input row
 	public function display_mybaseItemLevelSelect($item, $maxLevel) {
 		echo '<tr>';
@@ -90,6 +95,8 @@ class View {
 		echo '<td class="mybase-level-info">';
 		if (isset($item->next_level_cost) AND $item->next_level_cost > 0) {
 			echo $this->resource_format($item->next_level_cost_type, $item->next_level_cost);
+			echo ' ';
+			echo $this->formatTime($item->next_level_build_time);
 		}
 	}
 

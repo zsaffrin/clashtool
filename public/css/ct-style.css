@@ -291,9 +291,23 @@ table.align-c th {
 	background: #103137;
 	color: #ECF0F1;
 }
+.footer a:hover {
+	color: #FBEE00;
+	text-decoration: underline;
+}
 footer {
-	font-size: 0.8em;
-	margin-left: 1em;
+	font-size: 0.9em;
+	line-height: 1.1em;
+	margin: 1em;
+}
+footer a {
+	text-decoration: none;
+}
+.disclaimer {
+	color: #999;
+	font-size: 0.6em;
+	line-height: 1.1em;
+	padding: 2em 2em 1em;
 }
 
 /* 	ADMIN TOOLS
@@ -331,6 +345,7 @@ footer {
 .mybase-level-info {
 	font-size: 0.8em;
 	padding: 0 1em 0.25em;
+	white-space: nowrap;
 }
 .mybase-item-title {
 	white-space: nowrap;

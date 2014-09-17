@@ -28,7 +28,7 @@
 				foreach ($this->building_levels as $l) { ?>
 				<tr>
 					<td><?php echo $l->building_level; ?> 
-					<td><?php echo $this->formatTime($l->build_time); ?> 
+					<td><?php echo $this->timespan_format($l->build_time); ?> 
 					<td><?php echo $this->resource_format($l->build_cost_type, $l->build_cost); ?> 
 					<?php 	if ($this->building_info->building_type == 2) { ?>
 								<td><?php echo $this->resource_format($l->build_armcost_type, $l->build_armcost); ?> 
