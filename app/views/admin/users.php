@@ -7,15 +7,21 @@
 
 		<?php $this->showMessage(); ?>
 
-		<div class="size-1-2">
+		<div class="size-1-2 grid-stick">
 			<form method="post" action="addUser">
-				<input type="text" id="email" name="email" title="Email" placeholder="Email" />
-				<input type="submit" class="button" value="Add New User">
+				<div class="input-field">
+					<input type="text" id="email" name="email" title="Email" placeholder="Email" />
+					<label for="email"><span class="fa fa-envelope-o fa-fw"></label>
+				</div>
+				<div class="size-1-1 align-c submit">
+					<input type="submit" class="button" value="Add New User">
+				</div>
 			</form>
 		</div>
-		<div class="size-1-2">&nbsp;</div>
+		<div class="size-1-2 grid-stick">&nbsp;</div>
 
 		<div class="size-1-1">
+			<h3>All Users</h3>
 			<table class="list">
 				<tr>
 					<th>ID

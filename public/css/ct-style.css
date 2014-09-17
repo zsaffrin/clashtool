@@ -332,6 +332,9 @@ footer {
 	font-size: 0.8em;
 	padding: 0 1em 0.25em;
 }
+.mybase-item-title {
+	white-space: nowrap;
+}
 .mybase-lvl-select[type="radio"] {
 	display: none;
 }

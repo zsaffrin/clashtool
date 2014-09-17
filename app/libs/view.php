@@ -64,7 +64,7 @@ class View {
 	// Display item level input row
 	public function display_mybaseItemLevelSelect($item, $maxLevel) {
 		echo '<tr>';
-		echo '<th>'.$item->name.' ';
+		echo '<th class="mybase-item-title">'.$item->name.' ';
 		for ($n=0;$n<=$maxLevel;$n++) {
 			echo '<td>';
 			if (($n > $item->max_level)
