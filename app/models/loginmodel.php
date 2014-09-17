@@ -19,8 +19,7 @@ class loginModel {
 			$sql = 'SELECT 	user_id, 
 							user_status, 
 							user_email, 
-							user_password, 
-							user_code, 
+							user_password,  
 							user_level, 
 							user_failed_logins,
 							force_password_reset 
@@ -33,17 +32,17 @@ class loginModel {
 				return false;
 			}
 			$dbUser = $query->fetch();
-			if (password_verify($_POST['password'], $dbUser->user_password)) {
+			if ($dbUser->user_status == 2) {
+				$_SESSION["messages"][] = array("error", ERROR_USER_ACCOUNT_LOCKED);
+				return false;
+			} elseif (password_verify($_POST['password'], $dbUser->user_password)) {
 				
 				// Check user account status
 				if ($dbUser->user_status == 0) {
 					$_SESSION["messages"][] = array("error", ERROR_USER_PENDING);
 					return false;
 				} 
-				if ($dbUser->user_status == 2) {
-					$_SESSION["messages"][] = array("error", ERROR_USER_ACCOUNT_LOCKED);
-					return false;
-				} 
+				
 				// Set session data
 				Session::set('user_logged_in', true);
 				Session::set('user_id', $dbUser->user_id);
@@ -73,17 +72,18 @@ class loginModel {
 				return true;
 
 			} else {
-				
 				// Increment Failed Login count
+				$failCount = abs($dbUser->user_failed_logins + 1);
 				$sql = 'UPDATE 	users 
 						SET 	user_failed_logins = :failcount, 
-								user_last_failed_login = :lastfail 
-						WHERE 	user_id = :userid';
+								user_last_failed_login = :lastfail';
+				if ($failCount >= 10) { $sql .= ',user_status = 2'; }
+				$sql .= ' WHERE user_id = :userid';
 				$query = $this->db->prepare($sql);
 				$query->execute(
 					array(
 						':userid' => $dbUser->user_id, 
-						':failcount' => abs($dbUser->user_failed_logins + 1), 
+						':failcount' => $failCount, 
 						':lastfail' => date('Y-m-d H:i:s')
 						)
 					);
