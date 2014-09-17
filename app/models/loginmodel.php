@@ -53,7 +53,8 @@ class loginModel {
 
 				// Reset Failed Login count and stamp Last Login time
 				$sql = 'UPDATE 	users 
-						SET 	user_failed_logins = 0, 
+						SET 	password_recovery_code = null,
+								user_failed_logins = 0, 
 								user_last_login = :now 
 						WHERE 	user_id = :userid';
 				$query = $this->db->prepare($sql);
@@ -236,6 +237,115 @@ class loginModel {
 		// Default return
 		$_SESSION["messages"][] = array("error", ERROR_EMAIL_VERIFICATION_FAILED);
 		return false;
+
+	}
+
+	/**
+	 * 	Initiate Password recovery
+	 */
+	public function forgotPassword() {
+		// Valid email required
+		if (empty($_POST['email'])) {
+			$_SESSION["messages"][] = array("error", ERROR_EMAIL_FIELD_EMPTY);
+			return false;
+		} else {
+			$sql = 'SELECT 	user_id,  
+							user_email,
+							user_email_verified 
+					FROM 	users 
+					WHERE 	user_email like :email';
+			$query = $this->db->prepare($sql);
+			$query->execute(array(':email' => $_POST['email']));
+			$user = $query->fetch();
+			if ($query->rowCount() != 1) {
+				$_SESSION["messages"][] = array("error", ERROR_USER_NOT_FOUND);
+				return false;
+			} elseif ($user->user_email_verified == 0) {
+				// Email address must be verified
+				$_SESSION["messages"][] = array("error", ERROR_RECOVERY_UNVERIFIED_EMAIL);
+				return false;
+			} else {
+				// Generate recovery response code
+				$recoveryCode = substr(md5(microtime()),rand(0,26),32);
+				$sql = 'UPDATE 	users
+						SET 	password_recovery_code = :code 
+						WHERE 	user_id = :userid';
+				$query = $this->db->prepare($sql);
+				$query->execute(array(':code' => $recoveryCode, ':userid' => $user->user_id));
+
+				// Send recovery email
+				$mail = new PHPMailer;
+
+				$mail->IsSMTP();
+				$mail->SMTPDebug = PHPMAILER_DEBUG_MODE;
+				$mail->SMTPAuth = EMAIL_SMTP_AUTH;
+				$mail->Host = EMAIL_SMTP_HOST;
+				$mail->Username = EMAIL_SMTP_USERNAME;
+				$mail->Password = EMAIL_SMTP_PASSWORD;
+				$mail->Port = EMAIL_SMTP_PORT;
+				$mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+
+				$mail->IsHTML(true);
+				$mail->AddReplyTo(EMAIL_PASSWORD_RECOVERY_FROM_EMAIL, EMAIL_PASSWORD_RECOVERY_FROM_NAME);
+				$mail->From = EMAIL_PASSWORD_RECOVERY_FROM_EMAIL;
+				$mail->FromName = EMAIL_PASSWORD_RECOVERY_FROM_NAME;
+				$mail->AddAddress($user->user_email);
+				
+				$mail->Subject = EMAIL_PASSWORD_RECOVERY_SUBJECT;
+				$mail->Body = EMAIL_PASSWORD_RECOVERY_CONTENT;
+				$mail->Body .= URL.'login/recoverPassword/'.urlencode($user->user_id).'/'.urlencode($recoveryCode);
+				$mail->Body .= EMAIL_PASSWORD_RECOVERY_CONTENT_CLOSE;
+
+				$mail->Send();
+
+				// Return success
+				$_SESSION["messages"][] = array("success", SUCCESS_PASSWORD_RECOVERY_EMAIL_SENT);
+				return true;
+			}
+		}
+	}
+
+	/**
+	 * 	Direct login when clicking on Password Recovery email link
+	 */
+	public function recoveryLogin($userid, $code) {
+		$sql = 'SELECT 	user_id,
+						user_email,
+						password_recovery_code,
+						user_status,
+						user_level 
+				FROM 	users 
+				WHERE 	user_id = :uid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':uid' => $userid));
+		if ($query->rowCount() != 1) {
+			$_SESSION["messages"][] = array("error", ERROR_USER_NOT_FOUND);
+			return false;
+		} else {
+			$user = $query->fetch();
+			if (is_null($user->password_recovery_code) OR ($user->password_recovery_code != $code)) {
+				$_SESSION["messages"][] = array("error", ERROR_RECOVERY_CODE_INVALID);
+				return false;
+			} elseif ($user->user_status != 1) {
+				$_SESSION["messages"][] = array("error", ERROR_USER_ACCOUNT_LOCKED);
+				return false;
+			} else {
+				// Set session data
+				Session::set('user_logged_in', true);
+				Session::set('user_id', $user->user_id);
+				Session::set('user_email', $user->user_email);
+				Session::set('user_level', $user->user_level);
+
+				// Reset recovery code
+				$sql = 'UPDATE 	users
+						SET 	password_recovery_code = null 
+						WHERE 	user_id = :userid';
+				$query = $this->db->prepare($sql);
+				$query->execute(array(':userid' => $user->user_id));
+
+				return true;
+			}
+		}
 
 	}
 

@@ -128,6 +128,53 @@ class Login extends Controller {
 		}
 	}
 
+	/**
+	* 	Password recovery page
+	**/
+	public function forgotPassword() {
+		$this->view->page_id = 'login';
+
+		// Set up Form and inputs
+		$this->view->form_inputs = array(
+			array(
+				'id' => 'email', 
+				'type' => 'text',
+				'title' => 'Email',
+				'icon' => 'envelope-o'));
+		$this->view->form_action = 'forgotPassword_action';
+		$this->view->form_submit_label = 'Reset Password';
+
+		// Render view
+		$this->view->render_noLeftNav('login/forgotpassword');
+	}
+
+	/**
+	* 	Password recovery action
+	**/
+	public function forgotPassword_action() {
+		$this->view->page_id = 'login';
+		$loginModel = $this->loadModel('loginModel');
+		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
+		$loginModel->forgotPassword();
+		$this->view->render_noLeftNav('login/message');
+	}
+
+	/**
+	* 	Password recovery action in response to clicked email link
+	* 	@param $userid 	User ID to reset
+	* 	@param $code 	Password recovery code
+	**/
+	public function recoverPassword($userid, $code) {
+		$this->view->page_id = 'login';
+		$loginModel = $this->loadModel('loginModel');
+		$recoverySuccess = $loginModel->recoveryLogin($userid, $code);
+		if ($recoverySuccess) {
+			header('Location: '.URL.'user/setPassword');
+		} else {
+			$this->view->render_noLeftNav('login/message');
+		}
+	}
+
 }
 
 ?>

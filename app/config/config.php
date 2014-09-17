@@ -67,9 +67,6 @@
 	define('EMAIL_NEW_USER_NOTIFICATION_CONTENT', '<p>A new user signup request has been received for email address ');
 	define('EMAIL_NEW_USER_NOTIFICATION_CONTENT_CLOSE', '. <p>Please log in to Activate this account.');
 
-	/**
-	 * 	Email info and content templates
-	 */
 	define('EMAIL_ADMIN_INVITE_FROM_EMAIL', 'no-reply@zachsaffrin.com');
 	define('EMAIL_ADMIN_INVITE_FROM_NAME', 'ClashTool');
 	define('EMAIL_ADMIN_INVITE_SUBJECT', 'You have been invited to use ClashTool');
@@ -82,9 +79,6 @@
 												<p>Thanks!
 												<p><i>-- Zach</i>');
 
-	/**
-	 * 	Email info and content templates
-	 */
 	define('EMAIL_VERIFICATION_FROM_EMAIL', 'no-reply@zachsaffrin.com');
 	define('EMAIL_VERIFICATION_FROM_NAME', 'ClashTool');
 	define('EMAIL_VERIFICATION_SUBJECT', 'Email verification for your ClashTool account');
@@ -96,6 +90,24 @@
 	define('EMAIL_VERIFICATION_CONTENT_CLOSE', '<p>Thanks!
 												<p><i>-- Zach</i>');
 
+	define('EMAIL_CHANGE_VERIFICATION_FROM_EMAIL', 'no-reply@zachsaffrin.com');
+	define('EMAIL_CHANGE_VERIFICATION_FROM_NAME', 'ClashTool');
+	define('EMAIL_CHANGE_VERIFICATION_SUBJECT', 'Email verification for your ClashTool account');
+	define('EMAIL_CHANGE_VERIFICATION_CONTENT', '	<p>Hey there
+													<p>Looks like you changed the email address for your ClashTool account to this one. 
+													<p>Please click this link to verify the change: ');
+	define('EMAIL_CHANGE_VERIFICATION_CONTENT_CLOSE', '<p>Thanks!
+												<p><i>-- Zach</i>');
+
+	define('EMAIL_PASSWORD_RECOVERY_FROM_EMAIL', 'no-reply@zachsaffrin.com');
+	define('EMAIL_PASSWORD_RECOVERY_FROM_NAME', 'ClashTool');
+	define('EMAIL_PASSWORD_RECOVERY_SUBJECT', 'Password Recovery for your ClashTool account');
+	define('EMAIL_PASSWORD_RECOVERY_CONTENT', '	<p>Hey there
+												<p>Word is you lost or forgot your password. That&apos;s a real bummer. Let me help you out.
+												<p>Click this link to reset your password and you&apos;ll be good to go:<br>');
+	define('EMAIL_PASSWORD_RECOVERY_CONTENT_CLOSE', '	<p>Thanks!
+												<p><i>-- Zach</i>');
+
 	/**
 	 * 	Error messages
 	 **/
@@ -104,6 +116,7 @@
 	define('ERROR_USER_NOT_FOUND', 'User not found');
 	define('ERROR_USER_UPDATE_FAILED', 'User record update failed');
 	define('ERROR_EMAIL_FIELD_EMPTY', 'Email field was empty');
+	define('ERROR_EMAIL_FIELD_EMPTY_ALT', 'Gotta at least have a valid email. Life is kinda tough, I know.');
 	define('ERROR_PASSWORD_FIELD_EMPTY', 'Password field was empty');
 	define('ERROR_NEW_PASSWORD_FIELD_EMPTY', 'New Password field was empty');
 	define('ERROR_NEW_PASSWORD_CONFIRM_FIELD_EMPTY', 'Please confirm your new Password');
@@ -135,6 +148,8 @@
 	define('ERROR_EMAIL_CODE_MISMATCH', 'Verification failed - This verification email is expired');
 	define('ERROR_FLAG_UPDATE_FAILED', 'Error - the flag in the database was not set successfully');
 	define('ERROR_EMAIL_SEND_FAILED', 'Email send failed');
+	define('ERROR_RECOVERY_UNVERIFIED_EMAIL', 'Password recovery is not available for this account because the email address is not verified. Please contact me to resolve.');
+	define('ERROR_RECOVERY_CODE_INVALID', 'This password recovery link is no longer valid');
 
 	/**
 	 * 	Success messages
@@ -145,8 +160,10 @@
 	define('SUCCESS_USER_CREATED', 'New user created successfully');
 	define('SUCCESS_USER_BUILDINGS_SAVED', 'Building levels saved');
 	define('SUCCESS_USER_TROOPS_SAVED', 'Troop levels saved');
+	define('SUCCESS_EMAIL_VERIFICATION_SENT', 'Email verification link sent successfully.');
 	define('SUCCESS_EMAIL_VERIFIED', 'Email verified successfully');
 	define('SUCCESS_EMAIL_SENT', 'Email sent successfully');
+	define('SUCCESS_PASSWORD_RECOVERY_EMAIL_SENT', 'An email has been sent to you with further instructions regarding your password recovery');
 
 	/**
 	 * 	Debug messages

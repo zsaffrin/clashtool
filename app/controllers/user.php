@@ -56,6 +56,7 @@ class User extends Controller {
 	// Save user info updates
 	public function saveUserData() {
 		$userModel = $this->loadModel('userModel');
+		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
 		$userModel->saveUserData();
 		header('Location: '.URL.'user/myAccount');
 	}

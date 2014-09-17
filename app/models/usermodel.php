@@ -15,6 +15,24 @@ class userModel {
 	}
 
 	/**
+	 * 	Get list of all users
+	 */
+	public function getAllUsers() {
+		$sql = 'SELECT 	user_id,
+						user_email 
+				FROM 	users 
+				ORDER BY user_id ASC';
+		$query = $this->db->prepare($sql);
+		$query->execute();
+		if ($query->rowCount()>=1) {
+			return $query->fetchAll();
+		} else {
+			$_SESSION["messages"][] = array("error", ERROR_USER_UPDATE_FAILED); 
+			return false;
+		}
+	}
+
+	/**
 	 * 	Get User - Fetch user data from DB
 	 */
 	public function getUser($userid) {
@@ -39,28 +57,78 @@ class userModel {
 	 * 	Save user information to DB
 	 */
 	public function saveUserData() {
+		// Valid email required
+		if (empty($_POST['email'])) {
+			$_SESSION["messages"][] = array("error", ERROR_EMAIL_FIELD_EMPTY_ALT);
+			return false;
+		} 
+
+		// Check if Email changed
+		$emailChanged = 0;
+		$user = $this->getUser(Session::get('user_id'));
+		if ($_POST['email'] != $user->user_email) {
+			$emailChanged = 1;
+			$verifyCode = substr(md5(microtime()),rand(0,26),16);
+
+			// Unique email required
+			$users = $this->getAllUsers();
+			foreach ($users as $u) {
+				if ($_POST['email'] == $u->user_email) {
+					$_SESSION["messages"][] = array("error", ERROR_EMAIL_TAKEN);
+					return false;
+				}
+			}
+		}
+
+		// Update info
 		$sql = 'UPDATE 	users
 				SET 	user_firstname = :fname,
 						user_lastname = :lname,
-						user_email = :email 
-				WHERE 	user_id = :userid';
+						user_email = :email'; 
+		if ($emailChanged == 1) { $sql .= ',user_email_verified = 0,user_email_verify_code = :vcode'; }
+		$sql .= ' WHERE 	user_id = :userid';
 		$query = $this->db->prepare($sql);
-		$query->execute(
-			array(
+		$args = array(
 				':fname' => $_POST['firstname'],
 				':lname' => $_POST['lastname'],
 				':email' => $_POST['email'],
-				':userid' => Session::get('user_id')));
-		if ($query->rowCount()==1) {
-			Session::set('user_firstname', $_POST['firstname']);
-			Session::set('user_lastname', $_POST['lastname']);
-			Session::set('user_email', $_POST['email']);
-			$_SESSION["messages"][] = array("success", SUCCESS_USER_INFO_UPDATED);
-			return true;
-		} else {
-			$_SESSION["messages"][] = array("error", ERROR_USER_UPDATE_FAILED);
-			return false;
+				':userid' => Session::get('user_id'));
+		if ($emailChanged == 1) {
+			$args[':vcode'] = $verifyCode;
 		}
+		$query->execute($args);
+		if ($emailChanged == 1) {
+			// Send verification email
+			$mail = new PHPMailer;
+
+			$mail->IsSMTP();
+			$mail->SMTPDebug = PHPMAILER_DEBUG_MODE;
+			$mail->SMTPAuth = EMAIL_SMTP_AUTH;
+			$mail->Host = EMAIL_SMTP_HOST;
+			$mail->Username = EMAIL_SMTP_USERNAME;
+			$mail->Password = EMAIL_SMTP_PASSWORD;
+			$mail->Port = EMAIL_SMTP_PORT;
+			$mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+
+			$mail->IsHTML(true);
+			$mail->AddReplyTo(EMAIL_CHANGE_VERIFICATION_FROM_EMAIL, EMAIL_CHANGE_VERIFICATION_FROM_NAME);
+			$mail->From = EMAIL_CHANGE_VERIFICATION_FROM_EMAIL;
+			$mail->FromName = EMAIL_CHANGE_VERIFICATION_FROM_NAME;
+			$mail->AddAddress($_POST['email']);
+			
+			$mail->Subject = EMAIL_CHANGE_VERIFICATION_SUBJECT;
+			$mail->Body = EMAIL_CHANGE_VERIFICATION_CONTENT;
+			$mail->Body .= URL.'login/verify_email/'.urlencode($user->user_id).'/'.urlencode($verifyCode);
+			$mail->Body .= EMAIL_CHANGE_VERIFICATION_CONTENT_CLOSE;
+
+			$mail->Send();
+			$_SESSION["messages"][] = array("success", SUCCESS_EMAIL_VERIFICATION_SENT);
+		}
+		Session::set('user_firstname', $_POST['firstname']);
+		Session::set('user_lastname', $_POST['lastname']);
+		Session::set('user_email', $_POST['email']);
+		$_SESSION["messages"][] = array("success", SUCCESS_USER_INFO_UPDATED);
+		return true;
 	}
 
 	/**
