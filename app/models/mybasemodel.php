@@ -346,6 +346,7 @@ class myBaseModel {
 
 						$t->next_level_cost = $l->research_cost;
 						$t->next_level_cost_type = $l->research_cost_type;
+						$t->next_level_build_time = $l->research_time;
 					}
 				}
 			}
@@ -506,6 +507,96 @@ class myBaseModel {
 			}
 		}
 		return $production;
+	}
+
+	/**
+	 * 	Calculate wall data
+	 */
+	public function getWallData($userid) {
+		// Fetch game and user data
+		$buildings = $this->getUserBuildings($userid);
+		$thReqs = $this->getTHReqs();
+
+		// Prepare wall data object
+		$wallData = new stdClass();
+		$wallData->wall_counts = array();
+
+		// Find TH level
+		$thLevel = 1;
+		foreach ($buildings as $b) {
+			if ($b->building_id == 1) {
+				$thLevel = $b->building_level;
+			}
+		}
+
+		// Find max wall count and level allowed by TH level
+		foreach ($thReqs as $req) {
+			if ($req->th_level == $thLevel 
+				AND $req->building_id == 29) {
+				$wallData->max_wall_count = $req->max_count;
+				$wallData->max_wall_level = $req->max_level;
+			}
+		}
+
+		// Make array of built wall counts
+		foreach ($buildings as $b) {
+			if ($b->building_id == 29) {
+				$wallData->wall_counts[] = $b;
+			}
+		}
+
+		// Find total walls built
+		$wallData->wall_total = 0;
+		foreach ($wallData->wall_counts as $n) {
+			$wallData->wall_total = abs($wallData->wall_total + $n->building_count);
+		}
+
+		// Return data
+		return $wallData;
+	}
+
+	/**
+	 * 	Save wall data
+	 */
+	public function saveWallCounts($userid) {
+		// Get user data
+		$wallData = $this->getWallData($userid);
+
+		// Validate entered values
+		$wallTotal = 0;
+		for ($i=1;$i<=$wallData->max_wall_level;$i++) {
+			if (!empty($_POST['count-'.$i])
+				AND $_POST['count-'.$i] > 0) {
+				$wallTotal = abs($wallTotal + $_POST['count-'.$i]);
+			}
+		}
+		if ($wallTotal > $wallData->max_wall_count) {
+			$_SESSION["messages"][] = array("error", ERROR_MAX_WALL_COUNT_EXCEEDED);
+		}
+
+		// Clear existing counts
+		$sql = 'DELETE FROM user_buildings 
+				WHERE 		user_id = :userid 
+				AND 		building_id = :bid';
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':userid' => $userid, ':bid' => 29));
+
+		// Save new counts
+		$increment = 1;
+		for ($i=1;$i<=$wallData->max_wall_level;$i++) {
+			if (!empty($_POST['count-'.$i])
+				AND $_POST['count-'.$i] > 0) {
+				if ($this->insertUserBuildingCounts($userid, 29, $increment, $i, $_POST['count-'.$i])) {
+					$increment++;	
+				} else {
+					$_SESSION["messages"][] = array("error", ERROR_USER_BUILDING_INSERT_FAILED);
+					return false;
+				}
+			}
+		}
+		
+		// Return success
+		return true;
 	}
 
 

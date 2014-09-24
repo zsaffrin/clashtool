@@ -31,6 +31,7 @@
 	define('MODELS_PATH', 'app/models/');
 	define('VIEWS_PATH', 'app/views/');
 	define('HELPERS_PATH', 'app/helpers/');
+	define('IMAGES_PATH', 'public/img/');
 
 	/**
 	 * 	Hashing strength for password processing
@@ -150,6 +151,7 @@
 	define('ERROR_EMAIL_SEND_FAILED', 'Email send failed');
 	define('ERROR_RECOVERY_UNVERIFIED_EMAIL', 'Password recovery is not available for this account because the email address is not verified. Please contact me to resolve.');
 	define('ERROR_RECOVERY_CODE_INVALID', 'This password recovery link is no longer valid');
+	define('ERROR_MAX_WALL_COUNT_EXCEEDED', 'You have entered more walls than you are allowed at your level. Please re-check your numbers.');
 
 	/**
 	 * 	Success messages

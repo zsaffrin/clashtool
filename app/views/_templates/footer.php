@@ -7,8 +7,10 @@
 	<div class="container">
 		<div class="size-1-1 footer-content">
 			<footer>
-				<p>Made by <a href="http://zachsaffrin.com" target="_blank">Zach Saffrin</a> for fun and giggles. I built this app on my own time simply because I wanted to. It is completely free and unlimited to use, since its purpose is not monetary gain but personal education in software development, although this means it may break, change, or crash when I'm messing with it. I hope it is fun and useful for you.<br>
-				<p>If you run into any trouble with the tool or have any questions, please email me at <a href="mailto:clashtool@zachsaffrin.com?Subject=ClashTool%20Feedback">clashtool@zachsaffrin.com</a>.
+				<a href="http://zachsaffrin.com" class="zs-signature" target="_blank">
+					<?php include(IMAGES_PATH."icons-sm/zs-block.svg"); ?>
+					Built by Zach Saffrin
+				</a>
 			</footer>
 		</div>
 		<div class="size-1-1 disclaimer">

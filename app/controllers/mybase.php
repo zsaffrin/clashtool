@@ -84,6 +84,43 @@ class myBase extends Controller {
 		header('Location: '.URL.'mybase/troops');
 	}
 
+	// Heroes page
+	public function heroes() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+
+		// Get building set
+		$buildingSet = $myBaseModel->getBuildingSet(Session::get('user_id'));
+
+		// Pass data and render view
+		$this->view->buildings = $buildingSet;
+		$this->view->render('mybase/heroes');
+	}
+
+	// Heroes action
+	public function heroes_action() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+		$myBaseModel->saveBuildingLevels(Session::get('user_id'));
+		header('Location: '.URL.'mybase/heroes');
+	}
+
+	// Walls page
+	public function walls() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+
+		// Get wall data
+		$this->view->wall_data = $myBaseModel->getWallData(Session::get('user_id'));
+
+		// Render view
+		$this->view->render('mybase/walls');
+	}
+
+	// Save changes to walls
+	public function walls_action() {
+		$myBaseModel = $this->loadModel('myBaseModel');
+		$myBaseModel->saveWallCounts(Session::get('user_id'));
+		header('Location: '.URL.'mybase/walls');
+	}
+
 }
 
 ?>
