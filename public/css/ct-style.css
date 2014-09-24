@@ -1,0 +1,492 @@
+
+/* 	GLOBAL DEFAULTS
+======================================== */
+body { 
+	background: #ECF0F1;
+	color: #3B0E09;
+	font-family: 'Lato', Arial, sans-serif; 
+	font-weight: 300;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 400;
+}
+.quiet-link {
+	color: #999;
+	font-size: 0.8em;
+	text-decoration: none;
+}
+.quiet-link:hover {
+	color: #3B0E09;
+}
+.half-space { 
+	margin-bottom: 0.5em;
+}
+.no-space { 
+	margin-bottom: 0;
+}
+.resource-format {
+	background-position: left;
+	background-repeat: no-repeat;
+	background-size: 16px;
+	padding-left: 20px;
+}
+.resource-format.gold { 
+	background-image: url('../img/icons-sm/ico-sm-gold.png');
+	color: #A69612; 
+}
+.resource-format.elixir { 
+	background-image: url('../img/icons-sm/ico-sm-elixir.png');
+	color: #9358AC; 
+}
+.resource-format.dark-elixir { 
+	background-image: url('../img/icons-sm/ico-sm-darkelixir.png');
+	color: #100529; 
+}
+
+
+/* 	TEXT AND LISTS
+======================================== */
+
+.horizontal-list {
+	margin: 0;
+}
+.horizontal-list li {
+	float: left;
+}
+.list tr:hover {
+	background: #E6E6E6;
+}
+
+/* 	BUTTONS
+======================================== */
+
+.button, .button:visited {
+	background: #44606E;
+	border: none;
+	border-radius: 0.25em;
+	color: #ECF0F1;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 0.875em;
+	font-weight: 400;
+	padding: 0.15em 0.75em;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.button:hover {
+	background: #233656;
+}
+.button.inactive, .button.inactive:hover {
+	background: #999;
+	cursor: default;
+}
+.button.label, .button.label:hover {
+	background: #ECF0F1;
+	color: #3B0E09;
+	cursor: default;
+}
+
+/* 	TABLES
+======================================== */
+
+.vert th {
+	text-align: left;
+	padding: 0 0.5em;
+	white-space: nowrap;
+}
+.vert td {
+	width: 100%;
+}
+.list th, .list td {
+	padding: 0 0.5em;
+	vertical-align: middle;
+}
+.list th {
+	font-size: 0.85em;
+	font-weight: 400;
+	text-align: left;
+}
+.list td {
+	font-size: 0.875em;
+}
+table.align-c th {
+	text-align: center;
+}
+.total-row th {
+	font-size: 0.85em;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+.total-row td {
+	font-size: 0.8em;
+}
+.total-row td.total {
+	font-size: 1em;
+	font-weight: 600;
+	padding-top: 0.2em;
+	text-align: center;
+}
+
+/* 	INPUTS
+======================================== */
+
+.input-field {
+	background: #fff;
+	border: 1px solid #ccc;
+	padding: 5px;
+	margin: 2px auto;
+	overflow: hidden;
+	width: 95%;
+}
+.input-field label {
+	float: left;
+	width: 5%;
+}
+.input-field input {
+	background: none;
+	border: none;
+	float: right;
+	font-weight: 400;
+	width: 94%;
+}
+.submit {
+	padding: 0.5em;
+	text-align: center;
+}
+.submit input {
+	width: auto;
+}
+
+/* 	NAVIGATION
+======================================== */
+
+.top-nav {
+	background: #103137;
+	color: #fff;
+	font-size: 1.2em;
+	font-weight: 400;
+	height: 40px;
+}
+.top-nav a {
+	display: block;
+	line-height: 40px;
+	padding: 0 0.7em;
+	text-decoration: none;
+}
+.top-nav .page-title {
+	float: left;
+	margin-left: 0.5em;
+}
+.top-nav .page-title a {
+	background: url('../img/icons-sm/ico-sm-swords.png') left no-repeat;
+	padding-left: 30px;
+}
+
+.user-nav {
+	float: right;
+	font-size: 0.85em;
+	height: 100%;
+	margin-right: 1em;
+}
+.user-nav ul {
+	list-style: none;
+}
+.user-nav ul li {
+	float: left;
+}
+.user-nav ul li a:hover {
+	background: #27AE60;
+}
+.user-nav ul li a.inactive {
+	cursor: default;
+	font-weight: 300;
+}
+.user-nav ul li a.inactive:hover {
+	background: inherit;
+}
+
+.main, .main .container {
+	min-height: 91%;
+}
+.left-nav {
+	background: #1F434A;
+	padding: 2em 0 0 0;
+	position: absolute;
+	left: 0;
+	height: 80em;
+	width: 11em;
+}
+.left-nav ul {
+	margin: 0;
+	width: 100%;
+}
+.left-nav ul li { width: 100%; }
+.left-nav a {
+	color: #c9cfcf;
+	display: block;
+	padding: 0.25em 0.25em 0.25em 1em;
+	text-decoration: none;
+	width: 100%;
+}
+.left-nav a:hover {
+	background: #591F19;
+	transition: color 0.1s linear, background 0.1s linear;
+}
+.left-nav li.active {
+	background: #3C5217;
+}
+.left-nav .subnav {
+	display: none;
+	font-size: 0.8em;
+	margin: 0;
+}
+.left-nav li.active .subnav {
+	display: inline;
+}
+.left-nav .subnav li {
+	padding-left: 1em;
+}
+
+.main .content {
+	margin-left: 11em;
+	padding: 1em;
+	overflow: hidden;
+}
+
+.main-no-left-nav {
+	background: #1F434A;
+	min-height: 100%;
+}
+
+/* 	MESSAGES
+======================================== */
+
+.message {
+	background: #c2dfe5;
+	border-left: 5px solid #1F434A;
+	padding: 10px;
+	width: 100%;
+}
+.message.success {
+	background: #dee6d1;
+	border-color: #98B170;
+	color: #3F5718;
+}
+.message.error {
+	background: #ebbdb7;
+	border-color: #591F19;
+}
+.alert {
+	padding: 10px;
+	width: 100%;
+}
+.alert.red {
+	background: #ebbdb7;
+}
+
+/* 	LOGIN PANEL
+======================================== */
+
+.login-panel {
+	background: #ECF0F1;
+	border-radius: 4px;
+	display: block;
+	margin: 5em auto;
+	overflow: hidden;
+	position: relative;
+	width: 500px;
+}
+
+
+/* 	FOOTER
+======================================== */
+
+.footer {
+	background: #103137;
+	color: #ECF0F1;
+}
+footer {
+	margin: 0.5em 1em;
+}
+.disclaimer {
+	color: #999;
+	font-size: 0.6em;
+	line-height: 1.1em;
+	padding: 0 2em 1em;
+}
+a.zs-signature {
+	color: #999;
+	font-size: 0.8em;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+.zs-signature svg {
+	float: left;
+	height: 1.25em;
+	margin: 0.2em 0.5em 0 0;
+	width: 1.25em;
+}
+.zs-signature path {
+	fill: #666;
+	transition: fill 0.2s ease;
+}
+.zs-signature:hover {
+	color: #ECF0F1;
+}
+.zs-signature:hover path {
+	fill: #fff;
+}
+
+/* 	ADMIN TOOLS
+======================================== */
+
+.inline-user-tools {
+	list-style: none;
+}
+.inline-user-tools li {
+	float: left;
+}
+.inline-user-tools li a {
+	color: #C9CFCF;
+}
+.inline-user-tools li a:hover {
+	color: #3B0E09;
+}
+.inline-user-tools li a.active {
+	color: #E44444;
+}
+
+/* 	MY BASE
+======================================== */
+
+.mybase-levels {
+	font-size: 0.875em;
+}
+.mybase-levels th {
+	text-align: left;
+	padding-right: 1em;
+}
+.mybase-levels td {
+	vertical-align: middle;
+}
+.mybase-level-info {
+	font-size: 0.8em;
+	padding: 0 1em 0.25em;
+	white-space: nowrap;
+}
+.mybase-item-title {
+	white-space: nowrap;
+}
+.mybase-lvl-select[type="radio"] {
+	display: none;
+}
+.mybase-lvl-select[type="radio"] + label span {
+	background: #C6CFD9;
+	color: #bbb;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 0.6em;
+	font-weight: 400;
+	line-height: 1.5em;
+	overflow: hidden;
+	text-align: center;
+	white-space: nowrap;
+	width: 20px;
+}
+.mybase-lvl-select[type="radio"].avail-lvl + label span {
+	background: #dfeef1;
+	border: 1px dashed #ccc;
+}
+.mybase-lvl-select[type="radio"]:hover + label span {
+	color: #3B0E09;
+}
+.mybase-lvl-select[type="radio"].avail-lvl:hover + label span {
+	background: #b8dae0;
+}
+.mybase-lvl-select[type="radio"]:checked + label span, .mybase-lvl-select[type="radio"]:checked:hover + label span {
+	background: #44606E;
+	border: none;
+	border-radius: 0.25em;
+	color: #fff;
+	font-weight: 400;
+	font-size: 0.85em;
+}
+
+.mybase-sect-title {
+	color: #666;
+	text-transform: uppercase;
+	margin-top: 0;
+}
+
+.mybase-dash-tile {
+	background: #999;
+	border-radius: 3px;
+	color: #fff;
+	width: 100%;
+}
+.mybase-dash-tile.green {
+	background: #27AE60;
+}
+.mybase-dash-tile.gold {
+	background: #A69612;
+}
+.mybase-dash-tile.purple {
+	background: #9358AC;
+}
+.mybase-dash-tile.black {
+	background: rgba(16, 5, 41, 0.75);
+}
+.mybase-dash-tile .tile-titlebar {
+	background: rgba(255, 255, 255, 0.3);
+	padding: 5px;
+	width: 100%;
+}
+.mybase-dash-tile span.tile-title {
+	letter-spacing: 2px;
+	margin-left: 0.5em;
+	text-transform: uppercase;
+}
+.mybase-dash-tile .tile-content {
+	overflow: hidden;
+	padding: 5px;
+}
+.mybase-dash-tile .tile-content .pull-left {
+	float: left;
+	padding: 1em;
+}
+.mybase-dash-tile .tile-content .pull-left.fade {
+	opacity: 1;
+}
+.mybase-dash-tile .tile-content .pull-right {
+	float: right;
+	margin-right: 0.5em;
+}
+.mybase-dash-tile .tile-content .big-num {
+	font-size: 3em;
+	font-weight: 400;
+	line-height: 1.4em;
+}
+.mybase-dash-tile .tile-content table {
+	font-size: 0.8em;
+}
+.mybase-dash-tile .tile-content table th {
+	width: 5em;
+}
+.mybase-dash-tile .tile-content table td {
+	font-weight: 400;
+	text-align: center;
+}
+
+.mybase-shortnum {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	color: #103137;
+	font-weight: 400;
+	margin: 2px 0.5em;
+	padding: 2px 0;
+	text-align: center;
+	width: 2.5em;
+}
+
+
+

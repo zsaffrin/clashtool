@@ -1,12 +1,16 @@
 <div class="section">
 	<div class="container">
-		<div class="size-1-3 grid-drop">&nbsp;</div>
-		<div class="size-1-3 grid-fill align-c">
-			<?php 
-				$this->showMessage();
-				$this->form(); 
-			?>
+		<div class="login-panel">
+			<h2 class="align-c">Log In</h2>
+			
+			<?php $this->showMessage(); ?>
+			
+			<?php $this->form(); ?>
+
+			<div class="size-1-1 align-r">
+				<a href="login/forgotPassword" class="quiet-link">Forgot Password?</a>
+			</div>
+			
 		</div>
-		<div class="size-1-3 grid-drop">&nbsp;</div>
 	</div>
 </div>

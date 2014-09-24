@@ -1,5 +1,3 @@
-<div class="section">
-	<div class="container">
 		
 		<?php $this->showMessage(); ?>
 
@@ -9,5 +7,3 @@
 				<p>When a user is logged in, this view will be replaced by the Dashboard once the My Base functionality is built 
 			<?php } ?>
 		</div>
-	</div>
-</div>

@@ -1,21 +1,14 @@
 <div class="size-1-1">
 	<?php
 
-	$errors = Session::get('msg_errors');
-	$success = Session::get('msg_success');
+	$messages = Session::get('messages');
 
-	if (isset($errors)) {
-		echo '<p>';
-		foreach ($errors as $msg) {
-			echo $msg.'<br>';
-		}
-	}
-	if (isset($success)) {
-		echo '<p>';
-		foreach ($success as $msg) {
-			echo $msg.'<br>';
-		}
+	foreach ($messages as $m) {
+		echo '<div class="message '.$m[0].'">';
+		echo $m[1];
+		echo '</div>';
 	}
 	
 	?>
 </div>
+<div class="clear"></div>
