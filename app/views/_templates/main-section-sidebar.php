@@ -1,6 +1,7 @@
-<div class="section main">
+<div class="section main-section">
 	<div class="container">
-		<div class="left-nav">
+
+		<div class="sidebar">
 			<ul>
 				<li<?php if (isset($this->cur_page) AND $this->cur_page == "mybase") { echo ' class="active"'; } ?>>
 					<a href="<?php echo URL.'mybase'; ?>">
@@ -14,9 +15,9 @@
 							<li><a href="<?php echo URL.'mybase/heroes'; ?>"><span class="fa fa-child fa-fw"></span>&nbsp; Heroes</a>
 						<li><a href="<?php echo URL.'mybase/walls'; ?>"><span class="fa fa-cubes fa-fw"></span>&nbsp; Walls</a>
 					</ul>
-				<li<?php if (isset($this->cur_page) AND $this->cur_page == "ref") { echo ' class="active"'; } ?>>
-					<a href="<?php echo URL.'reference'; ?>">
-						<span class="fa fa-database fa-fw"></span>&nbsp; Reference
+				<li>
+					<a href="<?php echo URL.'mybase'; ?>">
+						<span class="fa fa-database fa-fw"></span>&nbsp; Research
 					</a>
 			</ul>
 
@@ -27,4 +28,6 @@
 			</ul>
 			<?php } ?>
 		</div>
-		<div class="content">
+
+		<div class="main-content">
+	

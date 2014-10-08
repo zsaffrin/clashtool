@@ -9,7 +9,7 @@
 		<link rel="icon" href="<?php echo URL.'favicon.ico'; ?>" type="image/x-icon">
 
 		<!-- Temporarily using Web Fonts. Will use cached fonts via @font-face at some point later -->
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,700">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
 		<!-- Local stylesheets -->

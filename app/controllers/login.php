@@ -10,61 +10,66 @@ class Login extends Controller {
 	* 	Default login page
 	**/
 	public function index() {
-		$this->view->page_id = 'login';
+		// Action if form submitted
+		if (isset($_POST['submitted']) AND $_POST['submitted'] == 1) {
+			$loginModel = $this->loadModel('login');
+			if ($loginModel->login()) {
+				header('Location: '.URL);
+			}
+		}
 
-		// Set up Form and inputs
-		$this->view->form_inputs = array(
-			array(
+		// Toggle alternate top-nav
+		$this->view->signup_topnav = true;
+
+		// Prepare form
+		$loginForm = new stdClass();
+		$loginForm->form_inputs = array(
+			0 => array(
 				'id' => 'email', 
 				'type' => 'text',
 				'title' => 'Email',
 				'icon' => 'envelope-o'), 
-			array(
+			1 => array(
 				'id' => 'password', 
 				'type' => 'password',
 				'title' => 'Password',
 				'icon' => 'key'));
-		$this->view->form_action = 'login/login';
-		$this->view->form_submit_label = 'Log In';
+		if (isset($_POST['email']) AND !empty($_POST['email'])) { 
+			$loginForm->form_inputs[0]['value'] = $_POST['email'];
+		}
+		$loginForm->form_action = URL.'login';
+		$loginForm->form_submit_label = 'Log In';
+		$this->view->login_form = $loginForm;
 
 		// Render view
-		$this->view->render_noLeftNav('login/index');
-	}
-
-	/**
-	* 	Log in
-	**/
-	public function login() {
-		$loginModel = $this->loadModel('loginModel');
-		$loginSuccess = $loginModel->login();
-		if ($loginSuccess) {
-			if (isset($_SESSION['force_password_reset']) AND $_SESSION['force_password_reset'] == true) {
-				header('Location: '.URL.'user/setPassword');
-			} else {
-				header('Location: '.URL);
-			}
-		} else {
-			header('Location: '.URL.'login');
-		}
+		$this->view->render('login/login', false);
 	}
 
 	/**
 	* 	Log out
 	**/
 	public function logout() {
-		$loginModel = $this->loadModel('loginModel');
+		$loginModel = $this->loadModel('login');
 		$loginModel->logout();
-		header('location: '.URL);
+		header('Location: '.URL);
 	}
-	
+
 	/**
 	* 	Signup page
 	**/
 	public function signup() {
-		$this->view->page_id = 'signup';
+		// Action if form submitted
+		if (isset($_POST['submitted']) AND $_POST['submitted'] == 1) {
+			$loginModel = $this->loadModel('login');
+			require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
+			if ($loginModel->signup()) {
+				header('Location: '.URL.'login/signup_success');
+			}
+		}
 
-		// Set up Form and inputs
-		$this->view->form_inputs = array(
+		// Prepare form
+		$signupForm = new stdClass();
+		$signupForm->form_inputs = array(
 			array(
 				'id' => 'email', 
 				'type' => 'text',
@@ -80,98 +85,79 @@ class Login extends Controller {
 				'type' => 'password',
 				'title' => 'Confirm Password',
 				'icon' => 'lock'));
-		$this->view->form_action = 'signup_action';
-		$this->view->form_submit_label = 'Sign Up';
+		if (isset($_POST['email']) AND !empty($_POST['email'])) { 
+			$signupForm->form_inputs[0]['value'] = $_POST['email'];
+		}
+		$signupForm->form_action = 'signup';
+		$signupForm->form_submit_label = 'Sign Up';
+		$this->view->signup_form = $signupForm;
 
 		// Render view
-		$this->view->render_noLeftNav('login/signup');
+		$this->view->render('login/signup', false);
 	}
 
 	/**
-	* 	Signup action
-	**/
-	public function signup_action() {
-		$loginModel = $this->loadModel('loginModel');
-		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
-		
-		$signupSuccess = $loginModel->signup();
-		if ($signupSuccess) {
-			header('Location: '.URL.'login/signup_success');
-		} else {
-			header('Location: '.URL.'login/signup');
-		}
-
-	}
-
-	/**
-	* 	Signup success confirmation
+	* 	Log out
 	**/
 	public function signup_success() {
-		$this->view->page_id = 'signup';
-		$this->view->render_noLeftNav('login/signup-success');
+		$this->view->render('login/signup-success', false);
 	}
 
 	/**
-	 * 	Verify user email
+	 * 	Verify email
+	 * 	Action when responding to email verification link
 	 * 	@param $uid 	User ID to verify
 	 * 	@param $code 	Verification code to confirm
 	 * 	@param $unlock 	Unlock account once verified - 0 = No (Default); 1 = Yes
 	 */
 	public function verify_email($uid, $code, $unlock=0) {
-		$this->view->page_id = 'login';
-		$loginModel = $this->loadModel('loginModel');
-		$verifySuccess = $loginModel->verifyEmail($uid, $code, $unlock);
-		if ($verifySuccess) {
-			header('Location: '.URL);
-		} else {
-			$this->view->render_noLeftNav('login/message');
-		}
+		$loginModel = $this->loadModel('login');
+		$loginModel->verifyEmail($uid, $code, $unlock);
+		$this->view->render('login/message', false);
 	}
 
 	/**
 	* 	Password recovery page
 	**/
 	public function forgotPassword() {
-		$this->view->page_id = 'login';
+		// If form submitted, recover password
+		if (isset($_POST['submitted']) AND ($_POST['submitted'] == 1)) {
+			$loginModel = $this->loadModel('login');
+			require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
+			if ($loginModel->recoverPassword()) {
+				$this->view->render('login/forgotpassword-success', false);
+			} else {
+				header('Location: '.URL.'login/forgotPassword');
+			}
+		} else {
+			// Set up Form and inputs
+			$recoveryForm = new stdClass();
+			$recoveryForm->form_inputs = array(
+				array(
+					'id' => 'email', 
+					'type' => 'text',
+					'title' => 'Email',
+					'icon' => 'envelope-o'));
+			$recoveryForm->form_action = 'forgotPassword';
+			$recoveryForm->form_submit_label = 'Reset Password';
+			$this->view->recovery_form = $recoveryForm;
 
-		// Set up Form and inputs
-		$this->view->form_inputs = array(
-			array(
-				'id' => 'email', 
-				'type' => 'text',
-				'title' => 'Email',
-				'icon' => 'envelope-o'));
-		$this->view->form_action = 'forgotPassword_action';
-		$this->view->form_submit_label = 'Reset Password';
-
-		// Render view
-		$this->view->render_noLeftNav('login/forgotpassword');
+			// Render view
+			$this->view->render('login/forgotpassword', false);
+		}
 	}
 
 	/**
-	* 	Password recovery action
-	**/
-	public function forgotPassword_action() {
-		$this->view->page_id = 'login';
-		$loginModel = $this->loadModel('loginModel');
-		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
-		$loginModel->forgotPassword();
-		$this->view->render_noLeftNav('login/message');
-	}
-
-	/**
-	* 	Password recovery action in response to clicked email link
+	* 	Password recovery action in response to recovery email link
 	* 	@param $userid 	User ID to reset
 	* 	@param $code 	Password recovery code
 	**/
 	public function recoverPassword($userid, $code) {
-		$this->view->page_id = 'login';
-		$loginModel = $this->loadModel('loginModel');
-		$recoverySuccess = $loginModel->recoveryLogin($userid, $code);
-		if ($recoverySuccess) {
-			header('Location: '.URL.'user/setPassword');
+		$loginModel = $this->loadModel('login');
+		if ($loginModel->recoveryLogin($userid, $code)) {
+			header('Location: '.URL.'user/setNewPassword');
 		} else {
-			$this->view->render_noLeftNav('login/message');
+			$this->view->render('login/message', false);
 		}
 	}
 

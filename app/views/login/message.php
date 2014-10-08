@@ -1,7 +1,7 @@
-<div class="section">
-	<div class="container">
-		<div class="login-panel">
-			<?php $this->showMessage(); ?>
-		</div>
+<div class="size-1-1">
+	<div class="modal">
+
+		<?php $this->showMessages(); ?>
+
 	</div>
 </div>

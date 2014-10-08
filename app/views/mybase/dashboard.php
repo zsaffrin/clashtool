@@ -1,14 +1,13 @@
-<div class="section">
-	<div class="container">
-		
-		<?php $this->showMessage(); ?>
+<div class="size-1-1">
+	
+	<div class="size-1-1">
+		<h3 class="no-space">My Base</h3>
+		<h2 class="mybase-sect-title">Dashboard</h2>
+	</div>
 
-		<div class="size-1-1">
-			<h3 class="no-space">My Base</h3>
-			<h2 class="mybase-sect-title">Dashboard</h2>
-		</div>
+	<?php $this->showMessages(); ?>
 
-		<div class="size-1-1">
+	<div class="size-1-1">
 			<div class="size-1-3">
 				<div class="mybase-dash-tile green">
 					<div class="tile-titlebar">
@@ -97,7 +96,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
 	</div>
+
 </div>

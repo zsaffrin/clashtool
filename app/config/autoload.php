@@ -4,7 +4,7 @@ function autoload($class) {
 	if (file_exists(LIBS_PATH.$class.".php")) {
 		require LIBS_PATH.$class.".php";
 	} else {
-		exit ('The file '.$class.'.php not found in libs folder');
+		exit ('Could not find '.$class.' and there is no '.$class.'.php in the libs folder.');
 	}
 }
 

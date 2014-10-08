@@ -13,13 +13,14 @@ class Auth {
 		// If user not logged in, redirect to login page
 		if (!isset($_SESSION['user_logged_in'])) {
 			Session::destroy();
-			header('location: '.URL.'login');
+			header('Location: '.URL.'login');
 		}
 	}
 
 	/**
-	 * 	Check user level
-	 * 	Used to protect admin-only methods 
+	 * Check user level. Redirects to home URL if user is below minimum level
+	 * @param string $level 	The minimum level for access to the given path
+     * @return boolean
 	 */
 	public static function checkLevel($level) {
 		// Start the session
@@ -30,9 +31,11 @@ class Auth {
 			AND $_SESSION['user_level'] >= $level) {
 			return true;
 		} else {
+			header('Location: '.URL);
 			return false;
 		}
 	}
+
 }
 
 ?>

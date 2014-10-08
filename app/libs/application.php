@@ -34,10 +34,8 @@ class Application {
 				$this->url_controller->index();
 			}
 		} else {
-			// If controller not found, call Home/index
-			require CONTROLLERS_PATH.'home.php';
-			$home = new Home();
-			$home->index();
+			// Default path: My Base page
+			header('Location: '.URL.'mybase');
 		}
 
 	}

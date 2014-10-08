@@ -99,16 +99,14 @@ input, textarea, select {
 ======================================== */
 
 	/* a. Framing */
-html, body { height: 100%; }
 .section { 
 	overflow: hidden; 
 	width: 100%;
-	min-width: 960px;
 }
 .container {
 	position: relative;
 	width: 100%;
-	min-width: 960px;
+	min-width: 640px;
 }
 
 	/* b. Alignment */
@@ -158,32 +156,32 @@ h1, h2, h3, h4, h5, h6 {
 	h1 {
 	    font-size: 3em; /* 48px */
 	    line-height: 1em; 
-	    margin: .5em 0; 
+	    margin-bottom: .5em; 
 	}
 	h2 {
 	    font-size: 2.25em; /* 36px */
 	    line-height: 1.333333333333333em;
-	    margin: 0.6666666666666667em 0;
+	    margin-bottom: 0.6666666666666667em;
 	}
 	h3 {
 	    font-size: 1.5em; /* 24px */
 	    line-height: 1em;
-	    margin: 1em 0;
+	    margin-bottom: 1em;
 	}
 	h4 {
 	    font-size: 1.3125em; /* 21px */
 	    line-height: 1.142857142857143em;
-	    margin: 1.142857142857143em 0;
+	    margin-bottom: 1.142857142857143em;
 	}
 	h5 {
 	    font-size: 1.125em; /* 18px */
 	    line-height: 1.333333333333333em;
-	    margin: 1.333333333333333em 0;
+	    margin-bottom: 1.333333333333333em;
 	}
 	h6 {
 	    font-size: 1em; /* 16px */
 	    line-height: 1.5em;
-	    margin: 1em 0;
+	    margin-bottom: 1em;
 	}
 	
 	
@@ -209,7 +207,6 @@ cite:before { content: "\2014 \0020"; }
 .align-l { text-align: left; }
 .align-c { text-align: center; }
 .align-r { text-align: right; }
-.no-pad { padding: 0;}
 
 	/* d. Links */
 a, a:visited { color: inherit; }
