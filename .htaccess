@@ -8,7 +8,7 @@ RewriteEngine on
 Options -Indexes
 
 # Rewrite base path
-RewriteBase /clashtool_v2/
+RewriteBase /clashtool/
 
 # Rewrite rules
 RewriteCond %{REQUEST_FILENAME} !-f

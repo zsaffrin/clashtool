@@ -16,7 +16,7 @@
 	 * 	Default root path
 	 * 	Set to localhost path while in Development mode
 	 */
-	define('URL', 'http://localhost:8888/clashtool_v2/');
+	define('URL', 'http://localhost:8888/clashtool/');
 
 	/**
 	 * 	Administrative Contacts

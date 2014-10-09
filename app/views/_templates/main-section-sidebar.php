@@ -16,8 +16,8 @@
 						<li><a href="<?php echo URL.'mybase/walls'; ?>"><span class="fa fa-cubes fa-fw"></span>&nbsp; Walls</a>
 					</ul>
 				<li>
-					<a href="<?php echo URL.'mybase'; ?>">
-						<span class="fa fa-database fa-fw"></span>&nbsp; Research
+					<a href="<?php echo URL.'reference'; ?>">
+						<span class="fa fa-database fa-fw"></span>&nbsp; Reference
 					</a>
 			</ul>
 
