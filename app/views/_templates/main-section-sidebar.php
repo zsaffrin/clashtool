@@ -15,7 +15,7 @@
 							<li><a href="<?php echo URL.'mybase/heroes'; ?>"><span class="fa fa-child fa-fw"></span>&nbsp; Heroes</a>
 						<li><a href="<?php echo URL.'mybase/walls'; ?>"><span class="fa fa-cubes fa-fw"></span>&nbsp; Walls</a>
 					</ul>
-				<li>
+				<li<?php if (isset($this->cur_page) AND $this->cur_page == "ref") { echo ' class="active"'; } ?>>
 					<a href="<?php echo URL.'reference'; ?>">
 						<span class="fa fa-database fa-fw"></span>&nbsp; Reference
 					</a>
