@@ -357,6 +357,7 @@ h1, h2, h3, h4, h5, h6 {
 .mybase-dash-tile .tile-content .pull-left {
 	float: left;
 	padding: 1em;
+	width: 30%;
 }
 .mybase-dash-tile .tile-content .pull-left.fade {
 	opacity: 1;
@@ -364,13 +365,16 @@ h1, h2, h3, h4, h5, h6 {
 .mybase-dash-tile .tile-content .pull-right {
 	float: right;
 	margin-right: 0.5em;
+	width: 65%;
 }
 .mybase-dash-tile .tile-content .big-num {
 	font-size: 3em;
 	font-weight: 400;
 	line-height: 1.4em;
+	text-align: right;
 }
 .mybase-dash-tile .tile-content table {
+	float: right;
 	font-size: 0.8em;
 }
 .mybase-dash-tile .tile-content table th {
