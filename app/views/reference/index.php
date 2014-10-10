@@ -7,7 +7,7 @@
 
 	<?php $this->showMessages(); ?>
 
-	<div class="size-1-3">
+	<div class="size-1-3 grid-stick">
 		<div class="size-1-1">
 			<h3>Buildings</h3>
 			<ul>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	
-	<div class="size-1-3">
+	<div class="size-1-3 grid-stick">
 		<div class="size-1-1">
 			<h3>Spells</h3>
 			<ul>
@@ -53,7 +53,7 @@
 		</div>
 	</div>
 
-	<div class="size-1-3">
+	<div class="size-1-3 grid-stick">
 		<div class="size-1-1">
 			<h3>Troops</h3>
 			<ul>
@@ -70,5 +70,6 @@
 			</ul>
 		</div>
 	</div>
+	<div class="clear"></div>
 
 </div>
