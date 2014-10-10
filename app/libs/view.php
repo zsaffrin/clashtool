@@ -2,32 +2,29 @@
 
 class View {
 
-	public function render($view_path) {
+	public function render($view_to_show, $sidebar=true) {
 		require VIEWS_PATH.'_templates/header.php';
 		require VIEWS_PATH.'_templates/top-nav.php';
-		require VIEWS_PATH.'_templates/main_with-left-nav.php';
-		require VIEWS_PATH.$view_path.'.php';
+
+		if ($sidebar) { require VIEWS_PATH.'_templates/main-section-sidebar.php'; } 
+		 else { require VIEWS_PATH.'_templates/main-section-no-sidebar.php'; }
+
+		require VIEWS_PATH.$view_to_show.'.php';
 		require VIEWS_PATH.'_templates/footer.php';
 	}
 
-	public function render_noLeftNav($view_path) {
-		require VIEWS_PATH.'_templates/header.php';
-		require VIEWS_PATH.'_templates/top-nav.php';
-		require VIEWS_PATH.'_templates/main_no-left-nav.php';
-		require VIEWS_PATH.$view_path.'.php';
-		require VIEWS_PATH.'_templates/footer.php';
-	}
-
-	public function form() {
+	// Form display handler
+	public function displayForm($form) {
+		$this->render_form = $form;
 		require VIEWS_PATH.'_templates/form.php';
 	}
 
-	public function showMessage() {
+	// Message display handler
+	public function showMessages() {
 		if (isset($_SESSION['messages'])) {
-			require VIEWS_PATH.'_templates/message.php';
+			require VIEWS_PATH.'_templates/messages.php';
+			Session::set('messages', null);
 		}
-		
-		Session::set('messages', null);
 	}
 
 	// Display timespan (in seconds) in d/h/m/s format

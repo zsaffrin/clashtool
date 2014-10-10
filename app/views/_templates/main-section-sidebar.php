@@ -1,6 +1,7 @@
-<div class="section main">
+<div class="section main-section">
 	<div class="container">
-		<div class="left-nav">
+
+		<div class="sidebar">
 			<ul>
 				<li<?php if (isset($this->cur_page) AND $this->cur_page == "mybase") { echo ' class="active"'; } ?>>
 					<a href="<?php echo URL.'mybase'; ?>">
@@ -27,4 +28,6 @@
 			</ul>
 			<?php } ?>
 		</div>
-		<div class="content">
+
+		<div class="main-content">
+	

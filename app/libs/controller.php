@@ -38,17 +38,20 @@ class Controller {
 		// Convert model name to lowercase and load model
 		require MODELS_PATH.strtolower($model_name).'.php';
 		// Return model object with common database connection
-		return new $model_name($this->db);
+		$model_title = $model_name.'Model';
+		return new $model_title($this->db);
 	}
 
 	/**
-	 * 	System message display handler
+	 * 	Check interrupts
+	 * 	Take alternate action if any trigger conditions met
 	 */
-	public function showMessage() {
-		if (isset($_SESSION['msg'])) {
-			require 'app/views/_templates/sys_message.php';
+	protected function checkInterrupts() {
+		if (isset($_SESSION['force_password_reset']) AND ($_SESSION['force_password_reset'] == true)) { 
+			header('Location: '.URL.'user/setNewPassword'); 
 		}
 	}
+
 }
 
 ?>

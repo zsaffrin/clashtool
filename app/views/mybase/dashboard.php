@@ -1,15 +1,14 @@
-<div class="section">
-	<div class="container">
-		
-		<?php $this->showMessage(); ?>
+<div class="size-1-1">
+	
+	<div class="size-1-1">
+		<h3 class="no-space">My Base</h3>
+		<h2 class="mybase-sect-title">Dashboard</h2>
+	</div>
 
-		<div class="size-1-1">
-			<h3 class="no-space">My Base</h3>
-			<h2 class="mybase-sect-title">Dashboard</h2>
-		</div>
+	<?php $this->showMessages(); ?>
 
-		<div class="size-1-1">
-			<div class="size-1-3">
+	<div class="size-1-1">
+			<div class="size-1-3 grid-stick">
 				<div class="mybase-dash-tile green">
 					<div class="tile-titlebar">
 						<span class="tile-title">Town Hall</span>
@@ -25,7 +24,7 @@
 			<div class="size-1-1">
 				<h3 class="mybase-sect-title half-space">Production</h3>
 			</div>
-			<div class="size-1-3">
+			<div class="size-1-3 grid-stick">
 				<div class="mybase-dash-tile gold">
 					<div class="tile-titlebar">
 						<span class="tile-title">Gold</span>
@@ -49,7 +48,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="size-1-3">
+			<div class="size-1-3 grid-stick">
 				<div class="mybase-dash-tile purple">
 					<div class="tile-titlebar">
 						<span class="tile-title">Elixir</span>
@@ -73,7 +72,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="size-1-3">
+			<div class="size-1-3 grid-stick">
 				<div class="mybase-dash-tile black">
 					<div class="tile-titlebar">
 						<span class="tile-title">Dark Elixir</span>
@@ -97,7 +96,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
 	</div>
+
 </div>

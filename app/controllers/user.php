@@ -9,26 +9,19 @@ class User extends Controller {
 
 	// Default view behavior
 	public function index() {
-		// Interrupt if password reset is required
-		if (isset($_SESSION['force_password_reset']) AND $_SESSION['force_password_reset'] == true) {
-			header('Location: '.URL.'user/setPassword');
-		}
-
-		$this->view->render('user/index');
+		header('Location: '.URL.'user/myAccount');
 	}
 
 	// User account self-service view
 	public function myAccount() {
-		// Interrupt if password reset is required
-		if (isset($_SESSION['force_password_reset']) AND $_SESSION['force_password_reset'] == true) {
-			header('Location: '.URL.'user/setPassword');
-		}
+		$this->checkInterrupts();
 
-		$userModel = $this->loadModel('userModel');
+		$userModel = $this->loadModel('user');
 		$this->view->user = $userModel->getUser(Session::get('user_id'));
 
 		// Set up Form options and inputs
-		$this->view->form_inputs = array(
+		$userInfoForm = new stdClass();
+		$userInfoForm->form_inputs = array(
 			array(
 				'id' => 'firstname', 
 				'type' => 'text',
@@ -47,24 +40,71 @@ class User extends Controller {
 				'title' => 'Email',
 				'value' => $this->view->user->user_email,
 				'icon' => 'envelope-o'));
-		$this->view->form_action = 'saveUserData';
-		$this->view->form_submit_label = 'Save Changes';
+		$userInfoForm->form_action = 'saveUserInfo';
+		$userInfoForm->form_submit_label = 'Save Changes';
+		$this->view->userinfo_form = $userInfoForm;
 
 		$this->view->render('user/myaccount');
 	}
 
 	// Save user info updates
-	public function saveUserData() {
-		$userModel = $this->loadModel('userModel');
+	public function saveUserInfo() {
+		$userModel = $this->loadModel('user');
 		require HELPERS_PATH.'PHPMailer/PHPMailerAutoload.php';
-		$userModel->saveUserData();
+		$userModel->saveUserInfo();
 		header('Location: '.URL.'user/myAccount');
 	}
 
-	// User password self-service view - with authentication
+	// User password self-service view - No verification of current password
+	public function setNewPassword() {
+		// If form submitted, apply new password. Else, display input form
+		if (isset($_POST['submitted']) AND $_POST['submitted'] == 1) {
+			$userModel = $this->loadModel('user');
+			if ($userModel->setPassword()) {
+				if (isset($_SESSION['force_password_reset'])) { unset($_SESSION['force_password_reset']); }
+				header('Location: '.URL);
+			} else {
+				header('Location: '.URL.'user/setnewpassword');
+			}
+		} else {
+			$setPasswordForm = new stdClass();
+			$setPasswordForm->form_inputs = array(
+				array(
+					'id' => 'new_password', 
+					'type' => 'password',
+					'title' => 'New Password',
+					'icon' => 'key'),
+				array(
+					'id' => 'new_password_confirm', 
+					'type' => 'password',
+					'title' => 'Confirm New Password',
+					'icon' => 'key'),
+				array(
+					'id' => 'userid', 
+					'type' => 'hidden',
+					'value' => Session::get('user_id')));
+			$setPasswordForm->form_action = 'setNewPassword';
+			$setPasswordForm->form_submit_label = 'Set Password';
+			$this->view->set_password_form = $setPasswordForm;
+
+			// Render view
+			$this->view->render('user/setnewpassword');
+		}
+	}
+
+	// User password self-service view - With verification of current password
 	public function changePassword() {
-		// Set up Form and inputs
-		$this->view->form_inputs = array(
+		// If form submitted, apply new password. Else, display input form
+		if (isset($_POST['submitted']) AND $_POST['submitted'] == 1) {
+			$userModel = $this->loadModel('user');
+			if ($userModel->changePassword()) {
+				header('Location: '.URL);
+			} else {
+				header('Location: '.URL.'user/changepassword');
+			}
+		} else {
+			$changePasswordForm = new stdClass();
+			$changePasswordForm->form_inputs = array(
 			array(
 				'id' => 'password', 
 				'type' => 'password',
@@ -80,57 +120,12 @@ class User extends Controller {
 				'type' => 'password',
 				'title' => 'Confirm New Password',
 				'icon' => 'key'));
-		$this->view->form_action = 'changePassword_action';
-		$this->view->form_submit_label = 'Change Password';
+			$changePasswordForm->form_action = 'changePassword';
+			$changePasswordForm->form_submit_label = 'Change Password';
+			$this->view->change_password_form = $changePasswordForm;
 
-		// Render view
-		$this->view->render('user/changepassword');
-	}
-
-	// Save new user password
-	public function changePassword_action() {
-		$userModel = $this->loadModel('userModel');
-		if ($userModel->changePassword()) {
-			header('Location: '.URL.'user/myAccount');
-		} else {
-			header('Location: '.URL.'user/changePassword');
-		}
-		
-	}
-
-	// User password self-service view - No authentication
-	public function setPassword() {
-		// Set up Form and inputs
-		$this->view->form_inputs = array(
-			array(
-				'id' => 'new_password', 
-				'type' => 'password',
-				'title' => 'New Password',
-				'icon' => 'key'),
-			array(
-				'id' => 'new_password_confirm', 
-				'type' => 'password',
-				'title' => 'Confirm New Password',
-				'icon' => 'key'),
-			array(
-				'id' => 'userid', 
-				'type' => 'hidden',
-				'value' => Session::get('user_id')));
-		$this->view->form_action = 'setPassword_action';
-		$this->view->form_submit_label = 'Set Password';
-
-		// Render view
-		$this->view->render('user/resetpassword');
-	}
-
-	// Force-set user password
-	public function setPassword_action() {
-		$userModel = $this->loadModel('userModel');
-		if ($userModel->setPassword()) {
-			unset($_SESSION['force_password_reset']);
-			header('Location: '.URL);
-		} else {
-			header('Location: '.URL.'user/setPassword');
+			// Render view
+			$this->view->render('user/changepassword');
 		}
 	}
 

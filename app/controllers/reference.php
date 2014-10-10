@@ -16,7 +16,7 @@ class Reference extends Controller {
 
 	// Reference section home page
 	public function index() {
-		$referenceModel = $this->loadModel('referenceModel');
+		$referenceModel = $this->loadModel('reference');
 		
 		// Get buildings
 		$buildingList = $referenceModel->getBuildingList(1);
@@ -52,7 +52,7 @@ class Reference extends Controller {
 
 	// Building detail page
 	public function building($buildingid) {
-		$referenceModel = $this->loadModel('referenceModel');
+		$referenceModel = $this->loadModel('reference');
 		
 		// Get building info
 		$buildingInfo = $referenceModel->getBuilding($buildingid);
@@ -72,7 +72,7 @@ class Reference extends Controller {
 
 	// Troop detail page
 	public function troop($troopid) {
-		$referenceModel = $this->loadModel('referenceModel');
+		$referenceModel = $this->loadModel('reference');
 		
 		// Get troop info
 		$troopInfo = $referenceModel->getTroop($troopid);

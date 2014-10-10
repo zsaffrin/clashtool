@@ -1,7 +1,6 @@
-<div class="section">
-	<div class="container">
+<div class="size-1-1">
 		
-		<?php $this->showMessage(); ?>
+		<?php $this->showMessages(); ?>
 
 		<div class="size-1-1">
 			<h2>Delete user</h2>
@@ -29,9 +28,9 @@
 		</div>
 
 		<div class="size-1-1">
-			<a href="<?php echo URL.'admin/deleteUser_action/'.$user->user_id; ?>" class="button">Delete User</a>
+			<input type="hidden" name="confirm_delete" value="1" />
+			<a href="<?php echo URL.'admin/deleteUser/'.$user->user_id.'/1'; ?>" class="button">Delete User</a>
 			<a href="<?php echo URL.'admin/users'; ?>" class="button">Cancel</a>
 		</div>
 
-	</div>
 </div>
